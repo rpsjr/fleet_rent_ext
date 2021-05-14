@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!--Contract Form View-->
+    <record id="contract_contract_form_view" model="ir.ui.view">
+        <field name="name">contract.contract form view (in contract)</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view" />
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='tag_ids']" position="after">
+            <field name="origin_doc_fleet"/>
+          </xpath>
+        </field>
+    </record>
+
+
+    <!--Rent Type Form View-->
+    <record id="rent_type_form" model="ir.ui.view">
+        <field name="name">rent.type.form</field>
+        <field name="model">rent.type</field>
+        <field name="inherit_id" ref="fleet_rent.rent_type_form" />
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='renttype']" position="after">
+            <field name="payment_term" required="1"/>
+          </xpath>
+        </field>
+    </record>
+
+    <!-- Inherited vehicle registration form view added extra fields on fleet vehicle -->
+    <record id='view_fleet_rent_form_ext' model='ir.ui.view'>
+        <field name="name">view.fleet.rent.form</field>
+        <field name="model">fleet.rent</field>
+        <field name="inherit_id" ref="fleet_rent.view_fleet_rent_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tenant_id']" position="replace">
+              <field name="tenant_id"
+                  context=""
+                  placeholder="Tenant Name" required="1"
+                  domain="[('is_driver','=',True)]"
+                  options="{'no_create': False, 'no_open': False}"/>
+            </xpath>
+            <xpath expr="//field[@name='rent_amt']" position="before">
+              <field name="rent_product" required="1"/>
+            </xpath>
+            <xpath expr="//field[@name='date_start']" position="before">
+              <field name="rent_contract" required="0"
+                      readonly="1"
+                      placeholder="Rental Contract"
+                      domain="[('state','!=','write-off'),
+                      ('state','!=','in_progress')]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherited product.product form view -->
+    <record id="inherit_product_normal_form_views" model="ir.ui.view">
+        <field name="name">inherit.product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <label for="purchase_ok" position="after">
+                <br/><field name="is_rental_prod"/>
+                <label for="is_rental_prod"/>
+            </label>
+            <xpath expr="//notebook" position="inside">
+                <page string="Rent Vehicle" name="rental_vehicle" attrs="{'invisible': [('is_rental_prod','=',False)]}">
+                  <group>
+                      <group name="group_general">
+                          <field name="mileage_control" string="Controle de KMs"/>
+                          <field name="mileage_allowance" string="Franquia de KMs"/>
+                      </group>
+                      <group name="group_standard_price">
+                          <field name="vehicle_type_id" string="Categoria de Veículo"/>
+                      </group>
+                  </group>
+               </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherited product.template form view -->
+    <record id="inherit_product_template_only_form_views" model="ir.ui.view">
+        <field name="name">inherit.product.template.product.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <label for="purchase_ok" position="after">
+                <br/><field name="is_rental_prod"/>
+                <label for="is_rental_prod"/>
+            </label>
+            <xpath expr="//notebook" position="inside">
+                <page string="Rent Vehicle" name="rental_vehicle" attrs="{'invisible': [('is_rental_prod','=',False)]}">
+                  <group>
+                      <group name="group_general">
+                          <field name="mileage_control" string="Controle de KMs"/>
+                          <field name="mileage_allowance" string="Franquia de KMs"/>
+
+                      </group>
+                      <group name="group_standard_price">
+                          <field name="vehicle_type_id" string="Categoria de Veículo"/>
+                      </group>
+                  </group>
+               </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action view for Vehicles Rent -->
+    <record id="action_fleet_rent_product" model="ir.actions.act_window">
+        <field name="name">Rent Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Main Menuitem for Vehicles Rent Products -->
+      <menuitem id="sub_menu_vehicles_rent_products"
+                name="Plans"
+                parent="fleet_rent.menu_vehicle_rent"
+                action="action_fleet_rent_product"
+                sequence="4"/>
+
+
+    <menuitem name="Fleet" id="fleet.menu_root"
+        sequence="115" groups="fleet.fleet_group_user,fleet_rent.group_vehicle_rent_user"
+        web_icon="fleet,static/description/icon.png"/>
+
+  </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Fleet Rent Reports -->
+    <report
+        id="report_fleet_rent_proposal"
+        model="fleet.rent"
+        string="Proposal/Contract"
+        report_type="qweb-pdf"
+        name="fleet_rent_ext.rent_proposal_pdf"
+        file="fleet_rent_ext.rent_proposal_pdf"
+        paperformat="fleet_rent_ext.paperformat_lowmargin"
+        />
+
+</odoo>
