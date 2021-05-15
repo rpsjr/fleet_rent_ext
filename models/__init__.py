@@ -10,3 +10,4 @@ from . import product_template
 from . import fleet_mallowance
 from . import res_user
 from . import contract
+from . import fleet_extended

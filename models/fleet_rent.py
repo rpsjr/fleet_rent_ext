@@ -44,7 +44,7 @@ class FleetRent(models.Model):
                                    compute='_write_rent_amt')
     rent_amt_extenso = fields.Text(string="Rent amout value words",
                                    compute='_write_rent_amt')
-    car_value_extenso = fields.Text(string="Car value words",
+    resale_value_extenso = fields.Text(string="Car value words",
                                    compute='_write_car_value')
     mileage_allowance_extenso = fields.Text(string="Mileage allowance words",
                                     compute='_write_mileage_allowance_value')
@@ -69,7 +69,7 @@ class FleetRent(models.Model):
         """Method to write car_value price in words."""
         for rent in self:
             if rent.vehicle_id:
-                rent.car_value_extenso = num2words(rent.vehicle_id.car_value, lang='pt_BR', to='currency')
+                rent.resale_value_extenso = num2words(rent.vehicle_id.car_value, lang='pt_BR', to='currency')
 
     @api.depends('deposit_amt')
     def _write_deposit_amt(self):

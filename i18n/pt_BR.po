@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #. module: fleet_rent_ext
-#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__car_value_extenso
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__resale_value_extenso
 msgid "Car value words"
 msgstr "Valor do veículo por extenso"
 

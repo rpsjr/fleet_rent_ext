@@ -23,7 +23,8 @@
     'data': [
             'security/ir.model.access.csv',
             'views/extended_views.xml',
-            'report/rent_proposal_pdf.xml',
+            'views/fleet_extended_view.xml',
+            'report/rent_proposal_pdf.xml'
     ],
     # Technical
     'auto_install': False,
