@@ -146,7 +146,7 @@ class FleetRent(models.Model):
                          'fiscal_position_id': False,
                          'invoice_partner_id': tenent.id or False,
                          'is_terminated': False,
-                         'journal_id': 1,
+                         #'journal_id': 1,
                          'last_date_invoiced': False,
                          'line_recurrence': False,
                          'manual_currency_id': False,
