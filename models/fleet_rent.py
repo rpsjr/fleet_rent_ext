@@ -20,7 +20,7 @@ class FleetRent(models.Model):
     _name = "fleet.rent"
     _inherit = "fleet.rent"
 
-    tenant_id = fields.Many2one('res.partner',
+    tenant_id = fields.Many2one('res.partner', ondelete='set default',
                                 string='Tenant',
                                 help="Tenant Name of Rental Vehicle.")
 
