@@ -18,7 +18,8 @@
     'website': 'http://www..com',
 
     # Dependencies
-    'depends': ['analytic', 'fleet_rent', 'contract','uom','contract_variable_quantity'],
+    'depends': ['analytic', 'fleet_rent', 'contract','uom','contract_variable_quantity', 'partner_contact_marital_status' ],
+
     # Data
     'data': [
             'security/ir.model.access.csv',
