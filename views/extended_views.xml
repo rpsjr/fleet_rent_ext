@@ -37,9 +37,9 @@
               <field name="tenant_id"
                   context=""
                   placeholder="Tenant Name" required="1"
-                  domain="[('is_driver','=',True)]"
                   options="{'no_create': False, 'no_open': False}"/>
             </xpath>
+            <!-- domain="[('is_driver','=',True)]" -->
             <xpath expr="//field[@name='rent_amt']" position="before">
               <field name="rent_product" required="1"/>
             </xpath>
@@ -79,11 +79,11 @@
         </field>
     </record>
 
-    <!-- Inherited product.template form view -->
-    <record id="inherit_product_template_only_form_views" model="ir.ui.view">
-        <field name="name">inherit.product.template.product.form</field>
-        <field name="model">product.template</field>
-        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <!-- Inherited product.product form view -->
+    <record id="inherit_product_product_only_form_views" model="ir.ui.view">
+        <field name="name">inherit.product.product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_only_form_view"/>
         <field name="arch" type="xml">
             <label for="purchase_ok" position="after">
                 <br/><field name="is_rental_prod"/>
@@ -110,7 +110,7 @@
     <record id="action_fleet_rent_product" model="ir.actions.act_window">
         <field name="name">Rent Products</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">product.template</field>
+        <field name="res_model">product.product</field>
         <field name="view_mode">tree,form</field>
     </record>
 

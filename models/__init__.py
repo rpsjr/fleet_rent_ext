@@ -4,6 +4,7 @@
 #from . import fleet_rent_account
 #from . import fleet_res_partner
 from . import fleet_rent
+from . import res_config_settings
 #from . import fleet
 from . import product_product
 from . import product_template

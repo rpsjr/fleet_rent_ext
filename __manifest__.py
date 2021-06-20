@@ -22,9 +22,11 @@
 
     # Data
     'data': [
+            'data/rent_sequence.xml',
             'security/ir.model.access.csv',
             'views/extended_views.xml',
             'views/fleet_extended_view.xml',
+            'views/res_config_settings_views.xml',
             'report/rent_proposal_pdf.xml'
     ],
     # Technical

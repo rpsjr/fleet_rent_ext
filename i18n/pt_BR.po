@@ -18,9 +18,361 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "&amp;nbsp;"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "&amp;nbsp;CPF:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "&amp;nbsp;Locadora:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "&amp;nbsp;Proponente/Locatário:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "&amp;nbsp;Testemunha 1:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "&amp;nbsp;Testemunha 2:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "), transferido à conta bancária da LOCADORA."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", CEP"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", CPF n.º"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", ano modelo"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", carteira nacional de habilitação (CNH) n.º"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", com ar condicionado, com placa"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", cor"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", e com o valor de mercado aproximado em"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", endereço de correio eletrônico"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", inscrita no CNPJ nº"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", nacionalidade: brasileiro(a), profissão:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ", residente em:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2011
+msgid "2011"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2012
+msgid "2012"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2013
+msgid "2013"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2014
+msgid "2014"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2015
+msgid "2015"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2016
+msgid "2016"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2017
+msgid "2017"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2018
+msgid "2018"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2019
+msgid "2019"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2020
+msgid "2020"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__model_year__2021
+msgid "2021"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "<b>CLÁUSULA 1ª - DO OBJETO</b>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "<b>CLÁUSULA 2ª - DO VALOR DO ALUGUEL</b>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "<b>CLÁUSULA 3ª - DA FRANQUIA DE QUILOMETRGEM</b>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "<b>CLÁUSULA 4ª - DA GARANTIA E DO PAGAMENTO</b>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "<b>CLÁUSULA 5ª - DO LOCAL DE DEVOLUÇÃO</b>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ""
+"<b>Declara, sob as penas da lei, que as informações constantes deste "
+"documento são verdadeiras</b>."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "<b>Locador:</b><sup> </sup>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "<b>Proponente/Locatário:</b><sup> </sup>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Vehicle Rental</span>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.res_config_settings_view_form
+msgid "<span>Deposit product </span>"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "A locação é livre de controle de quilometragem."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "A quilometragem é controlada e o limite de de circulação semanal é de"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_ir_attachment
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_ir_attachment__attachment_id
+msgid "Attachment"
+msgstr "Anexo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_ir_attachment__attachment_id_2
+msgid "Attachment Id 2"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__avaliable
+msgid "Avaliable"
+msgstr "Disponível"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_battery_history
+msgid "Battery History for Vehicle"
+msgstr "Histórico da bateria do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_vehicle_model_brand
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle_model__brand_id
+msgid "Brand of the vehicle"
+msgstr "Marca do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__user_id
+msgid "By"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__cancel_note
+msgid "Cancel Note"
+msgstr "Cancelar Nota"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_wittenoff__state__cancel
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__cancel_by_id
+msgid "Cancelled By"
+msgstr "Cancelado por"
+
+#. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__resale_value_extenso
 msgid "Car value words"
 msgstr "Valor do veículo por extenso"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_normal_form_views
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_template_only_form_views
+msgid "Categoria de Veículo"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__categ_id
+msgid "Category"
+msgstr "Categoria"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__changed_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__changed_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__changed_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__changed_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__changed_date
+msgid "Change Date"
+msgstr "Data de Mudança"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__code
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__code
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__code
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__code
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__code
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__code
+msgid "Code"
+msgstr "Código"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__vehical_color_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__color_id
+msgid "Color"
+msgstr "Cor"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_color_history
+msgid "Color History for Vehicle"
+msgstr "Histórico de cores para veículos"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_color_color
+msgid "Colors"
+msgstr "Cores"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_company__name
+msgid "Company Name"
+msgstr "Nome da Empresa"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__pending_repair_type__state__complete
+msgid "Complete"
+msgstr "Completo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__complete
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle_advance_search__state__complete
+msgid "Completed"
+msgstr "Concluído"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajuste de configurações"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_wittenoff__state__confirm
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_res_partner
+msgid "Contact"
+msgstr "Contato"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_contract_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_contract_contract__origin_doc_fleet
+msgid "Contract Proposal"
+msgstr "Proposta de Contrato"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_normal_form_views
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_template_only_form_views
+msgid "Controle de KMs"
+msgstr ""
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_product_product__mileage_control
@@ -29,29 +381,173 @@ msgid "Controle de quilometragem"
 msgstr ""
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__cost_esitmation
+msgid "Cost Estimation"
+msgstr "Estimativa de custo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_vehicle_cost
+msgid "Cost related to a vehicle"
+msgstr "Custos relacionados ao veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__create_uid
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__create_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__create_uid
 msgid "Created by"
 msgstr "Criado por"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__create_date
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__create_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__create_date
 msgid "Created on"
 msgstr "Criado em"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__note_for_cause_damage
+msgid "Cuause of Damage"
+msgstr "Causa de dano"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_log_fuel__current_fuel
+msgid "Current Fuel"
+msgstr "Combustível Atual"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__resale_value
+msgid "Current value"
+msgstr "Valor atual"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__fipe_id
+msgid "Código Tabela FIPE"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__damage_type_ids
+msgid "Damage Type"
+msgstr "Tipo de Dano"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_damage_types
+msgid "Damage Types"
+msgstr "Tipos de Danos"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_odometer__date
+msgid "Date"
+msgstr "Data"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__date_cancel
+msgid "Date Cancelled"
+msgstr "Data de Cancelamento"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__days
 #: model:ir.model.fields.selection,name:fleet_rent_ext.selection__rent_type__renttype__days
 msgid "Days"
 msgstr "Dias"
 
 #. module: fleet_rent_ext
-#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__deposit_amt_extenso
-msgid "Deposit value"
-msgstr "Valor do depósito"
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_config_settings__deposit_product
+msgid "Deposit product"
+msgstr "Produto do deposito calção"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__deposit_amt_extenso
+msgid "Deposit value"
+msgstr "Valor do deposito calção"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__display_name
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__display_name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__display_name
 msgid "Display Name"
 msgstr "Nome de Exibição"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__division_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__division_id
+msgid "Division"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__document_no
+msgid "Document No."
+msgstr "Nº do documento."
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_wittenoff__state__draft
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__driver_id
+msgid "Driver"
+msgstr "Motorista"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__contact_no
+msgid "Driver Contact Number"
+msgstr "Número de contato do motorista"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__driver_identification_no
+msgid "Driver ID"
+msgstr "CNH"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_rent_type__duration
@@ -59,9 +555,69 @@ msgid "Duration"
 msgstr "Duração"
 
 #. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_engine_history
+msgid "Engine History for Vehicle"
+msgstr "Histórico de motor para veículos"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__engine_no
+msgid "Engine No"
+msgstr "Número de Motor"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ""
+"Este contrato é pactuado sem depósito de garantia e portanto os valores de "
+"locação são devidos antecimpadamente."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__fleet_id
+msgid "Fleet ID"
+msgstr "ID da frota"
+
+#. module: fleet_rent_ext
 #: model:ir.model,name:fleet_rent_ext.model_fleet_rent
 msgid "Fleet Rent"
 msgstr "Aluguel de Frota"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__fleet_tenant_id
+msgid "Fleet Tenant"
+msgstr "Locatário de Veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__fuel_type__flex
+msgid "Flex"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_normal_form_views
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_template_only_form_views
+msgid "Franquia de KMs"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__fuel_type
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_log_fuel__fuel_type
+msgid "Fuel Type"
+msgstr "Tipo de combustível"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle__fuel_type
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle_log_fuel__fuel_type
+msgid "Fuel Used by the vehicle"
+msgstr "Combustivel usado pelo veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_vehicle_log_fuel
+msgid "Fuel log for vehicles"
+msgstr "Registro de combustível dos veículos"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_wittenoff__write_off_type__general_accident
+msgid "General Accident"
+msgstr "Acidente Geral"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields.selection,name:fleet_rent_ext.selection__rent_type__renttype__hours
@@ -69,29 +625,229 @@ msgid "Hours"
 msgstr "Horas"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__id
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__id
 msgid "ID"
 msgstr ""
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_partner__d_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_users__d_id
+msgid "ID-Card"
+msgstr "CNH"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_model__image_128
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__image
+msgid "Image"
+msgstr "Imagem"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle_advance_search__state__in_progress
+msgid "In Progress"
+msgstr "Em andamento"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__in_progress
+msgid "In Service"
+msgstr "Em serviço"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__inspection
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle_advance_search__state__inspection
+msgid "Inspection"
+msgstr "Inspeção"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_partner__insurance
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_users__insurance
+msgid "Insurance"
+msgstr "Seguro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_wittenoff__write_off_type__insurgent_attack
+msgid "Insurgent Attack"
+msgstr "Ataque Insurgente"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_partner__is_driver
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_users__is_driver
+msgid "Is Driver"
+msgstr "É motorista"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__issue_date
+msgid "Issue Date"
+msgstr "Data de registro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_wittenoff__odometer_unit__kilometers
+msgid "Kilometers"
+msgstr "Quilometros"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history____last_update
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence____last_update
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history____last_update
 msgid "Last Modified on"
 msgstr "Última modificação em"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_log_fuel__odometer
+msgid "Last Odometer"
+msgstr "Último Odômetro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__last_service_date
+msgid "Last Service From"
+msgstr "Último serviço de"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__last_service_date_to
+msgid "Last Service To"
+msgstr "Último serviço para"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__write_uid
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__write_uid
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__write_uid
 msgid "Last Updated by"
 msgstr "Última atualização por"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__write_date
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__write_date
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__write_date
 msgid "Last Updated on"
 msgstr "Última atualização em"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "Local e data"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__location_id
+msgid "Location"
+msgstr "Localização"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__vehicle_location_id
+msgid "Location "
+msgstr "Localização"
+
+#. module: fleet_rent_ext
+#: model:ir.model.constraint,message:fleet_rent_ext.constraint_vehicle_unique_sequence_location_make_name_uniq
+msgid ""
+"Location, Make and Sequence all should be                 uniqe for unique "
+"sequence!"
+msgstr ""
+"Localização, marca e sequência, todos devem ser únicos para seqüênciais "
+"únicos!"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_product_product__is_rental_prod
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_product_template__is_rental_prod
 msgid "Locação de Veículo"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "Logo"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__make_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_log_fuel__make
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_model__brand_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_model_brand__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_odometer__make
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__make_id
+msgid "Make"
+msgstr "Fabricante"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__image_medium
+msgid "Medium-sized image"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_report_heading__image_medium
+msgid ""
+"Medium-sized image of the Report.                                  It is "
+"automatically resized as a 128x128px                                 image, "
+"with aspect ratio preserved, only when the image exceeds one of "
+"those                                  sizes. Use this field in form views "
+"or                                  some kanban views."
 msgstr ""
 
 #. module: fleet_rent_ext
@@ -127,14 +883,214 @@ msgid "Mileage allowance words"
 msgstr "Plano de quilometragem por extenso"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_wittenoff__odometer_unit__miles
+msgid "Miles"
+msgstr "Milhas"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__model_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_log_fuel__model
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_odometer__model
+msgid "Model"
+msgstr "Modelo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__model_year
+msgid "Model Year"
+msgstr "Ano Modelo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_model__name
+msgid "Model name"
+msgstr "Nome do modelo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_vehicle_model
+msgid "Model of a vehicle"
+msgstr "Modelo do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle_log_fuel__model
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle_odometer__model
+msgid "Model of the vehicle"
+msgstr "Modelo do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.constraint,message:fleet_rent_ext.constraint_fleet_vehicle_model_model_brand_name_uniq
+msgid "Model with this brand Name and Make is already exist!"
+msgstr "Já existe um modelo com esta marca e fabricante"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__fipe_model
+msgid "Modelo Tabela FIPE"
+msgstr ""
+
+#. module: fleet_rent_ext
 #: model:ir.model.fields.selection,name:fleet_rent_ext.selection__rent_type__renttype__months
 msgid "Months"
 msgstr "Meses"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__multi_images
+msgid "Multi Images"
+msgstr "Multi Imagens"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_color__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_damage_types__name
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_odometer__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_insurance_type__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_department__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_divison__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_location__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_type__name
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__name
 msgid "Name"
 msgstr "Nome"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__new_battery_issue_date
+msgid "New Battery Issuance Date"
+msgstr "Nova data de fabricação da bateria"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__new_battery_sn
+msgid "New Battery Serial"
+msgstr "Novo nº serial da bateria "
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__new_battery_size
+msgid "New Battery Size"
+msgstr "Novo tamanho da bateria"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__current_color_id
+msgid "New Color"
+msgstr "Nova cor"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__new_engine_no
+msgid "New Engine No"
+msgstr "Novo nº do motor"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__new_tire_issue_date
+msgid "New Tire Issuance Date"
+msgstr "Data de Fabricação do Novo Pneu"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__new_tire_sn
+msgid "New Tire Serial"
+msgstr "Novo pneu de série"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__new_tire_size
+msgid "New Tire Size"
+msgstr "Novo tamanho de pneu"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__new_vin_no
+msgid "New Vin No"
+msgstr "Novo número de CHASSI"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_next_increment_number
+msgid "Next Increment Number"
+msgstr "Número do próximo incremento"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__next_service_date
+msgid "Next Service From"
+msgstr "Próximo serviço de"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__next_service_date_to
+msgid "Next Service To"
+msgstr "Próximo serviço para"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_next_service_days
+msgid "Next Service days"
+msgstr "Próximos dias de serviço"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__note
+msgid "Note"
+msgstr "Nota"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__note
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__note
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__note
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__note
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__note
+msgid "Notes"
+msgstr "Notas"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ""
+"O Proponente/Locatário declara-se ciente e de pleno acordo com as "
+"disposições contidas nas <b>Cláusulas Gerais do Contrato de Locação de "
+"Veículo</b>, que integram este contrato, cuja cópia recebeu antes do ato da "
+"assinatura deste instrumento e também, com as informações do <b>Laudo de "
+"Vistoria</b>, que descreve o veículo e o seu estado de conservação no "
+"momento em que o mesmo foi entregue ao Proponente/Locatário, formando todos "
+"um documento único e indivisível."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ""
+"O Veículo será devolvido ao LOCADOR pelo LOCATÁRIO na Rua Padre Feijó, 369 "
+"- Canela, Salvador – BA."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ""
+"O acolhimento desta Proposta/Contrato não implica em aceitação da proposta "
+"por parte do Locador estando tal aceitação condicionada à assinatura do "
+"Locador e à entrega do veículo locado."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ""
+"O cumprimento das obrigações previstas neste contrato, inclusive o "
+"pagamento pontual do aluguel, estará garantido através de caução dada em "
+"dinheiro, perfazendo o montante de"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__odometer
+msgid "Odometer"
+msgstr "Odômetro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__number
+msgid "Odometer Increment"
+msgstr "Incremento do odômetro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_log_fuel__odometer_unit
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__odometer_unit
+msgid "Odometer Unit"
+msgstr "Unidade do odômetro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_odometer__value
+msgid "Odometer Value"
+msgstr "Valor Odômetro"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_vehicle_odometer
+msgid "Odometer log for a vehicle"
+msgstr "Registros de odômetro do veículo"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,help:fleet_rent_ext.field_fleet_mallowance__mileage_allowance_km
@@ -144,6 +1100,104 @@ msgid ""
 msgstr ""
 "Medição do odômetro do veículo em                             no momento de "
 "deste log`"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle_log_fuel__odometer
+msgid "Odometer measure of the vehicle at the moment of this log"
+msgstr "Valor do odometro no momento deste registro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__contract
+msgid "On Contract"
+msgstr "No contrato"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__rent
+msgid "On Rent"
+msgstr "Alugado"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_rent_type__payment_term
+msgid "Payment term"
+msgstr "Termo de pagamento"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "Pela presente locação, obriga o LOCATÁRIO a pagar o valor semanal de"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__pending_repair_type__state__in-complete
+msgid "Pending"
+msgstr "Pendente"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_pending_repair_type
+msgid "Pending Repait Type"
+msgstr "Tipo de Repait Pendente"
+
+#. module: fleet_rent_ext
+#: model:ir.ui.menu,name:fleet_rent_ext.sub_menu_vehicles_rent_products
+msgid "Plans"
+msgstr "Planos"
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid "Please, check USD Currency is not in your list!"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid ""
+"Por meio deste contrato, que firmam entre si o LOCADOR e o LOCATÁRIO, "
+"regula-se a locação do VEÍCULO:"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__previous_battery_issue_date
+msgid "Previous Battery Issuance Date"
+msgstr "Data de Emissão da Bateria Anterior"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__previous_battery_sn
+msgid "Previous Battery Serial"
+msgstr "Nº Série de bateria anterior"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__previous_battery_size
+msgid "Previous Battery Size"
+msgstr "Tamanho anterior da bateria"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__previous_color_id
+msgid "Previous Color"
+msgstr "Cor Anterior"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__previous_engine_no
+msgid "Previous Engine No"
+msgstr "Nº do Motor"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__previous_tire_issue_date
+msgid "Previous Tire Issuance Date"
+msgstr "Data de Fabricação de Pneu Anterior"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__previous_tire_sn
+msgid "Previous Tire Serial"
+msgstr "Série de pneu anterior"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__previous_tire_size
+msgid "Previous Tire Size"
+msgstr "Tamanho de pneu anterior"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__previous_vin_no
+msgid "Previous Vin No"
+msgstr "Nº do CHASSI anterior"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__extra_km_price
@@ -166,9 +1220,71 @@ msgid "Product Template"
 msgstr "Modelo de Produto"
 
 #. module: fleet_rent_ext
+#: model:ir.actions.report,name:fleet_rent_ext.report_fleet_rent_proposal
+msgid "Proposal/Contract"
+msgstr "Proposta/Contrato de Locação"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "Proposta/Contrato de Locação"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__vehicle_location_id
+msgid "Province"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__acquisition_date
+msgid "Registration From"
+msgstr "Registro de"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__province_id
+msgid "Registration State"
+msgstr "Estado de registro"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__acquisition_date_to
+msgid "Registration To"
+msgstr "Registro para"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__released
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle_advance_search__state__released
+msgid "Released"
+msgstr "Liberado"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__release_date_from
+msgid "Released From"
+msgstr "Liberado de"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__release_date_to
+msgid "Released To"
+msgstr "Liberado para"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__tax_id
+msgid "Renavam"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.actions.act_window,name:fleet_rent_ext.action_fleet_rent_product
+msgid "Rent Products"
+msgstr "Produtos de aluguel"
+
+#. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_rent_type__renttype
 msgid "Rent Type"
 msgstr "Tipo de Locação"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_normal_form_views
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.inherit_product_template_only_form_views
+msgid "Rent Vehicle"
+msgstr "Alugar veículo"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__rent_amt_extenso
@@ -177,8 +1293,14 @@ msgstr "Valor da locação por extenso"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__rent_contract
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.view_fleet_rent_form_ext
 msgid "Rental Contract"
 msgstr "Contrato de Locação"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_rent_type__payment_term
+msgid "Rental contract payment term."
+msgstr "Prazo de pagamento do contrato de locação."
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,help:fleet_rent_ext.field_fleet_rent__rent_contract
@@ -191,6 +1313,126 @@ msgid "Rental mileage allowance."
 msgstr "Plano de quilometragem da locação."
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__repair_type_ids
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__repair_type_id
+msgid "Repair Type"
+msgstr "Tipo de Reparo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__report_date
+msgid "Report Date"
+msgstr "Data do relatório"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_report_heading
+msgid "Report Heading"
+msgstr "Título do relatório"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__image_small
+msgid "Report image"
+msgstr "Imagem do relatório""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__result_apifipe
+msgid "Resultado consulta FIPE"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__revision_no
+msgid "Rev. No."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vehicle_unique_sequence__sequence_id
+msgid "Sequence"
+msgstr "Seqüência"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_report_heading__image_small
+msgid ""
+"Small-sized image of the Report.                                 It is "
+"automatically resized as a 64x64px image,                                 "
+"with aspect ratio preserved. Use this field anywhere a "
+"small                                 image is required."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_res_config_settings__deposit_product
+msgid "Standard deposit product usend in accounting"
+msgstr "Produto de calção padrão usado na contabilidade"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__state
+msgid "State"
+msgstr "UF"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__state
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__state
+msgid "Status"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_wittenoff__fleet_id
+msgid "Take this field for data migration"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_rent__tenant_id
+msgid "Tenant"
+msgstr "Locatário"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.view_fleet_rent_form_ext
+msgid "Tenant Name"
+msgstr "Nome do locatário"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_rent__fleet_tenant_id
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_rent__tenant_id
+msgid "Tenant Name of Rental Vehicle."
+msgstr "Nome do locatário do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.constraint,message:fleet_rent_ext.constraint_fleet_vehicle_model_brand_brandname_uniq
+msgid "This brand Name is already exist you can't duplicate it!"
+msgstr "Este nome de marca já existe, você não pode duplicá-lo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.constraint,message:fleet_rent_ext.constraint_vehicle_divison_vehicle.divison_uniq
+msgid "This divison is already exist!"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_report_heading__image
+msgid ""
+"This field holds the image used as image                             for "
+"the Report , limited to 1024x1024px."
+msgstr ""
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid "This vehicle is already in write-off state!"
+msgstr "Este veículo já está em estado de baixa"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_tire_history
+msgid "Tire History for Vehicle"
+msgstr "História do pneu para veículos"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__name
+msgid "Title"
+msgstr "Título"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_odometer__unit
+msgid "Unit"
+msgstr "Unidade"
+
+#. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_mallowance__uom_id
 msgid "Unit of measurement"
 msgstr "Unidade de medida"
@@ -201,15 +1443,116 @@ msgid "Unit of measurement."
 msgstr "Unidade de medida."
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle_log_fuel__odometer_unit
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle_odometer__unit
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_wittenoff__odometer_unit
+msgid "Unit of the odometer "
+msgstr "Unidade de medida do odometro "
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__vechical_type_id
+msgid "Vechical Type"
+msgstr "Tipo de veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__vehicle_plate
+msgid "Vechicle Plate No."
+msgstr "Placa"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_vehicle
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__vehicle_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__vehicle_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__vehicle_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_odometer__vehicle_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__vehicle_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__vehicle_rep_type_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__vehicle_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__vehicle_id
+msgid "Vehicle"
+msgstr "Veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_vehicle_advance_search
+msgid "Vehicle Advance Search"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_vehicle_department
+msgid "Vehicle Department"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_vehicle_divison
+msgid "Vehicle Division"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__fmp_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__vehicle_fmp_id
+msgid "Vehicle ID"
+msgstr "Id do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_increment_number__vehicle_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_next_service_days__vehicle_id
+msgid "Vehicle Id"
+msgstr "Id do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_insurance_type
+msgid "Vehicle Insurence Type"
+msgstr "Tipo de seguro de veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_vehicle_location
+msgid "Vehicle Location"
+msgstr "Localização do Veículo"
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid "Vehicle Registration"
+msgstr "Registro de Veículo"
+
+#. module: fleet_rent_ext
 #: model:ir.model,name:fleet_rent_ext.model_rent_type
 msgid "Vehicle Rent Type"
 msgstr "Categoria de locação"
 
 #. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__state
+msgid "Vehicle State"
+msgstr "UF de registro"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_vehicle_type
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__vechical_type_id
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_product_product__vehicle_type_id
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_product_template__vehicle_type_id
 msgid "Vehicle Type"
 msgstr "Categoria do veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_vehicle_unique_sequence
+msgid "Vehicle Unique Sequence"
+msgstr "Sequência Única do Veículo"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,help:fleet_rent_ext.field_fleet_vehicle__model_year
+msgid "Vehicle year."
+msgstr "Ano modelo"
+
+#. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_vin_history
+msgid "Vin History"
+msgstr "Histórico de CHASSI"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle_advance_search__vin_no
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__vin_no
+msgid "Vin No"
+msgstr "CHASSI"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields.selection,name:fleet_rent_ext.selection__rent_type__renttype__weeks
@@ -217,6 +1560,82 @@ msgid "Weeks"
 msgstr "Semanas"
 
 #. module: fleet_rent_ext
+#: model:ir.model,name:fleet_rent_ext.model_fleet_wittenoff
+msgid "Wittenoff Vehicles"
+msgstr "Veículos baixados"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_battery_history__workorder_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_color_history__workorder_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_engine_history__workorder_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_tire_history__workorder_id
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_vin_history__workorder_id
+msgid "Work Order"
+msgstr "Ordem de Serviço"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_pending_repair_type__name
+msgid "Work Order #"
+msgstr "Ordem de Serviço nº"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle__state__write-off
+#: model:ir.model.fields.selection,name:fleet_rent_ext.selection__fleet_vehicle_advance_search__state__write-off
+msgid "Write-Off"
+msgstr "Baixa"
+
+#. module: fleet_rent_ext
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_wittenoff__write_off_type
+msgid "Write-off Type"
+msgstr "Tipo de baixa"
+
+#. module: fleet_rent_ext
 #: model:ir.model.fields.selection,name:fleet_rent_ext.selection__rent_type__renttype__years
 msgid "Years"
 msgstr "Anos"
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid "You can't duplicate record!"
+msgstr "Você não pode duplicar o registro!"
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid "You can't enter odometer less than previous odometer %s !"
+msgstr "Você não pode inserir o hodômetro menos do que o hodômetro anterior"
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid "You can't write-off this vehicle which is On Rent."
+msgstr "Você não pode dar baixa neste veículo que está sob aluguel."
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid "You can't write-off this vehicle which is in Inspection"
+msgstr "Você não pode cancelar este veículo que está em Inspeção"
+
+#. module: fleet_rent_ext
+#: code:addons/fleet_rent_ext/models/fleet_extended.py:0
+#, python-format
+msgid ""
+"You can't write-off this vehicle which is in Progress or Complete state!"
+msgstr "Você não pode cancelar este veículo que está em andamento ou estado Concluído!"
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "com sede em"
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "kms ("
+msgstr ""
+
+#. module: fleet_rent_ext
+#: model_terms:ir.ui.view,arch_db:fleet_rent_ext.rent_proposal_pdf
+msgid "quilômetros)."
+msgstr ""
