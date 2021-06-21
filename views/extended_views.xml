@@ -8,7 +8,7 @@
         <field name="model">contract.contract</field>
         <field name="inherit_id" ref="contract.contract_contract_form_view" />
         <field name="arch" type="xml">
-          <xpath expr="//field[@name='tag_ids']" position="after">
+          <xpath expr="//group[@name='main']" position="inside">
             <field name="origin_doc_fleet"/>
           </xpath>
         </field>
@@ -80,8 +80,8 @@
     </record>
 
     <!-- Inherited product.product form view -->
-    <record id="inherit_product_product_only_form_views" model="ir.ui.view">
-        <field name="name">inherit.product.product.product.form</field>
+    <record id="inherit_product_template_only_form_views" model="ir.ui.view">
+        <field name="name">inherit.product.template.product.form</field>
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
