@@ -15,7 +15,11 @@
                                 <span class="o_form_label">Vehicle Rental</span>
                                 <div class="text-muted content-group mt16">
                                     <span>Deposit product </span>
-                                    <field name="deposit_product" class="text-center oe_inline" />
+                                    <field name="deposit_product_id" class="text-center oe_inline" />
+                                </div>
+                                <div class="text-muted content-group mt16">
+                                    <span>Fiscal position </span>
+                                    <field name="fleet_rent_fiscal_postion_id" class="text-center oe_inline" />
                                 </div>
                             </div>
                         </div>

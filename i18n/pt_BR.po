@@ -1331,7 +1331,7 @@ msgstr "Título do relatório"
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_report_heading__image_small
 msgid "Report image"
-msgstr "Imagem do relatório""
+msgstr "Imagem do relatório"
 
 #. module: fleet_rent_ext
 #: model:ir.model.fields,field_description:fleet_rent_ext.field_fleet_vehicle__result_apifipe

@@ -221,6 +221,10 @@ class FleetRent(models.Model):
                 date_st = rent.date_start
                 if not rent.rent_type_id.duration:
                     rent_number = re.findall("\d+", rent.name)[0]
+                    params = self.env["ir.config_parameter"].sudo()
+                    fiscal_postion_id = int(
+                        params.get_param("fleet_rent.fiscal_postion_id")
+                    )
                     rent.rent_contract = (
                         self.env["contract.contract"]
                         .create(
@@ -235,7 +239,7 @@ class FleetRent(models.Model):
                                 "date_end": False,
                                 "date_start": rent.contract_dt or False,
                                 "display_name": f"Locação {rent.id}",
-                                "fiscal_position_id": False,
+                                "fiscal_position_id": fiscal_postion_id,
                                 "invoice_partner_id": tenent.id or False,
                                 "is_terminated": False,
                                 #'journal_id': 1,
@@ -392,7 +396,8 @@ class FleetRent(models.Model):
                 )
 
             params = self.env["ir.config_parameter"].sudo()
-            deposit_product_id = int(params.get_param("fleet_rent.deposit_product"))
+            deposit_product_id = int(params.get_param("fleet_rent.deposit_product_id"))
+            fiscal_postion_id = int(params.get_param("fleet_rent.fiscal_postion_id"))
             inv_line_values = {
                 "product_id": deposit_product_id or False,
                 #'name': 'Deposit Receive' or "",
@@ -451,8 +456,8 @@ class FleetRent(models.Model):
                 )
 
             params = self.env["ir.config_parameter"].sudo()
-            deposit_product_id = int(params.get_param("fleet_rent.deposit_product"))
-            # deposit_product = self.env['product.product'].search([('id', '=', deposit_product_id)], limit=1)
+            deposit_product_id = int(params.get_param("fleet_rent.deposit_product_id"))
+            fiscal_postion_id = int(params.get_param("fleet_rent.fiscal_postion_id"))
             inv_line_values = {
                 "product_id": deposit_product_id,
                 "name": "Devolução" or "",
