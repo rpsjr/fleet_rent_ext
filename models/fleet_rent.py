@@ -1,15 +1,17 @@
 # See LICENSE file for full copyright and licensing details.
 """Fleet Rent Model."""
 
+import logging
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, Warning
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
-from odoo.tools import date_utils, ustr
+from odoo.exceptions import ValidationError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF, ustr
+
+_logger = logging.getLogger(__name__)
 
 try:
     from num2words import num2words
@@ -51,19 +53,20 @@ class FleetRent(models.Model):
     )
 
     deposit_amt_extenso = fields.Text(
-        string="Deposit value", compute="_write_deposit_amt"
+        string="Deposit value", compute="_compute_write_deposit_amt"
     )
     rent_amt_extenso = fields.Text(
-        string="Deposit value words", compute="_write_rent_amt"
+        string="Deposit value words", compute="_compute_write_rent_amt"
     )
     rent_amt_extenso = fields.Text(
-        string="Rent amout value words", compute="_write_rent_amt"
+        string="Rent amout value words", compute="_compute_write_rent_amt"
     )
     resale_value_extenso = fields.Text(
-        string="Car value words", compute="_write_car_value"
+        string="Car value words", compute="_compute_write_car_value"
     )
     mileage_allowance_extenso = fields.Text(
-        string="Mileage allowance words", compute="_write_mileage_allowance_value"
+        string="Mileage allowance words",
+        compute="_compute_write_mileage_allowance_value",
     )
 
     @api.onchange("tenant_id")
@@ -79,18 +82,19 @@ class FleetRent(models.Model):
         for rent in self:
             if rent.tenant_id:
                 if (
-                    rent.tenant_id.d_id == False
-                    or rent.tenant_id.marital_status == False
+                    rent.tenant_id.d_id is False
+                    or rent.tenant_id.marital_status is False
                     or rent.tenant_id.function
                 ):
                     Warning(
                         _(
-                            f"Please inform {rent.tenant_id.name} driver ID, function and marital status"
+                            f"Please inform {rent.tenant_id.name} driver ID, \n"
+                            "function and marital status!"
                         )
                     )
 
     @api.depends("vehicle_id")
-    def _write_car_value(self):
+    def _compute_write_car_value(self):
         """Method to write car_value price in words."""
         for rent in self:
             if rent.vehicle_id:
@@ -99,7 +103,7 @@ class FleetRent(models.Model):
                 )
 
     @api.depends("deposit_amt")
-    def _write_deposit_amt(self):
+    def _compute_write_deposit_amt(self):
         """Method to write rent_amt price in words."""
         for rent in self:
             if rent.deposit_amt:
@@ -108,7 +112,7 @@ class FleetRent(models.Model):
                 )
 
     @api.depends("rent_amt")
-    def _write_rent_amt(self):
+    def _compute_write_rent_amt(self):
         """Method to write rent_amt_extenso price in words."""
         for rent in self:
             if rent.rent_amt:
@@ -117,7 +121,7 @@ class FleetRent(models.Model):
                 )
 
     @api.depends("rent_product.mileage_allowance.mileage_allowance_km")
-    def _write_mileage_allowance_value(self):
+    def _compute_write_mileage_allowance_value(self):
         """Method to write rent_amt_extenso price in words."""
         for rent in self:
             if rent.rent_product.mileage_allowance.mileage_allowance_km:
@@ -152,7 +156,6 @@ class FleetRent(models.Model):
                         )
                     ]
                 }
-                # res['domain']={'rent_product':[('vehicle_type_id', '=', rent.vehicle_id.sudo().vechical_type_id.id), ('is_rental_prod', '=', True)]}
                 return res
 
     @api.constrains("vehicle_id")
@@ -220,7 +223,7 @@ class FleetRent(models.Model):
                 interval = int(rent.rent_type_id.duration)
                 date_st = rent.date_start
                 if not rent.rent_type_id.duration:
-                    rent_number = re.findall("\d+", rent.name)[0]
+                    rent_number = re.findall(r"\d+", rent.name)[0]
                     params = self.env["ir.config_parameter"].sudo()
                     fiscal_postion_id = int(
                         params.get_param("fleet_rent.fiscal_postion_id")
@@ -229,9 +232,9 @@ class FleetRent(models.Model):
                         self.env["contract.contract"]
                         .create(
                             {
-                                "code": rent.name or false,
+                                "code": rent.name or False,
                                 "commercial_partner_id": tenent.id or False,
-                                "company_id": company.id or rent.company_id.id or false,
+                                "company_id": company.id or rent.company_id.id or False,
                                 "contract_type": "sale",
                                 "create_date": rent.contract_dt or False,
                                 "create_invoice_visibility": True,
@@ -242,7 +245,7 @@ class FleetRent(models.Model):
                                 "fiscal_position_id": fiscal_postion_id,
                                 "invoice_partner_id": tenent.id or False,
                                 # "is_terminated": False,
-                                #'journal_id': 1,
+                                # 'journal_id': 1,
                                 # "last_date_invoiced": False,
                                 # "line_recurrence": False,
                                 # "manual_currency_id": False,
@@ -260,13 +263,13 @@ class FleetRent(models.Model):
                         )
                         .id
                     )
-                    line = self.env["contract.line"].create(
+                    self.env["contract.line"].create(
                         {
                             # "active": True,
                             "auto_renew_interval": 1,
                             "auto_renew_rule_type": "yearly",
                             # "automatic_price": False,
-                            "company_id": company.id or rent.company_id.id or false,
+                            "company_id": company.id or rent.company_id.id or False,
                             "contract_id": rent.rent_contract.id,
                             "create_invoice_visibility": True,
                             # "date_end": False,
@@ -295,7 +298,7 @@ class FleetRent(models.Model):
                             "recurring_invoicing_offset": 0,
                             "recurring_invoicing_type": "pre-paid",
                             "recurring_rule_type": "weekly",
-                            #'specific_price': 54.2857142857,
+                            # 'specific_price': 54.2857142857,
                             "state": "in-progress",
                             # "successor_contract_line_id": False,
                             # "termination_notice_date": False,
@@ -305,7 +308,7 @@ class FleetRent(models.Model):
                         }
                     )
                 elif rent.rent_type_id.renttype == "Months":
-                    for i in range(0, interval):
+                    for _i in range(0, interval):
                         date_st = date_st + relativedelta(months=int(1))
                         rent_obj.create(
                             {
@@ -318,7 +321,7 @@ class FleetRent(models.Model):
                             }
                         )
                 elif rent.rent_type_id.renttype == "Years":
-                    for i in range(0, interval):
+                    for _i in range(0, interval):
                         date_st = date_st + relativedelta(years=int(1))
                         rent_obj.create(
                             {
@@ -331,7 +334,7 @@ class FleetRent(models.Model):
                             }
                         )
                 elif rent.rent_type_id.renttype == "Weeks":
-                    for i in range(0, interval):
+                    for _i in range(0, interval):
                         date_st = date_st + relativedelta(weeks=int(1))
                         rent_obj.create(
                             {
@@ -398,11 +401,11 @@ class FleetRent(models.Model):
 
             params = self.env["ir.config_parameter"].sudo()
             deposit_product_id = int(params.get_param("fleet_rent.deposit_product_id"))
-            fiscal_postion_id = int(params.get_param("fleet_rent.fiscal_postion_id"))
+            int(params.get_param("fleet_rent.fiscal_postion_id"))
             inv_line_values = {
                 "product_id": deposit_product_id or False,
-                #'name': 'Deposit Receive' or "",
-                #'origin': rent.name or "",
+                # 'name': 'Deposit Receive' or "",
+                # 'origin': rent.name or "",
                 "quantity": 1,
                 # 'account_id': rent.vehicle_id and rent.vehicle_id.expence_acc_id and
                 # rent.vehicle_id.expence_acc_id.id or False,
@@ -458,12 +461,12 @@ class FleetRent(models.Model):
 
             params = self.env["ir.config_parameter"].sudo()
             deposit_product_id = int(params.get_param("fleet_rent.deposit_product_id"))
-            fiscal_postion_id = int(params.get_param("fleet_rent.fiscal_postion_id"))
+            int(params.get_param("fleet_rent.fiscal_postion_id"))
             inv_line_values = {
                 "product_id": deposit_product_id,
                 "name": "Devolução" or "",
                 "quantity": 1,
-                #'account_id': vehicle and vehicle.expence_acc_id and
+                # 'account_id': vehicle and vehicle.expence_acc_id and
                 #              vehicle.expence_acc_id.id or False,
                 "price_unit": rent.deposit_amt or 0.00,
                 "fleet_rent_id": rent.id,
@@ -495,8 +498,10 @@ class FleetRent(models.Model):
             rent_vals = {"state": "open"}
             if rent.rent_amt < 1:
                 raise ValidationError(
-                    "Rental Vehicle Rent amount should be greater than zero !! "
-                    "Please add 'Rental Vehicle Rent' amount !!"
+                    _(
+                        "Rental Vehicle Rent amount should be greater than zero !! "
+                        "Please add 'Rental Vehicle Rent' amount !!"
+                    )
                 )
             if not rent.name or rent.name == "New":
                 seq = self.env["ir.sequence"].next_by_code("fleet.rent")
@@ -510,8 +515,10 @@ class FleetRent(models.Model):
         for rent in self:
             if not rent.rent_schedule_ids:
                 raise ValidationError(
-                    "Without Rent schedule you can not done the rent."
-                    "\nplease first create the rent schedule."
+                    _(
+                        "Without Rent schedule you can not done the rent."
+                        "\nplease first create the rent schedule."
+                    )
                 )
             if rent.rent_schedule_ids:
                 rent_schedule = rent_sched_obj.search(
@@ -519,8 +526,10 @@ class FleetRent(models.Model):
                 )
                 if rent_schedule:
                     raise ValidationError(
-                        "Scheduled Rents is remaining."
-                        "\nplease first pay scheduled rents.!!"
+                        _(
+                            "Scheduled Rents is remaining."
+                            "\nplease first pay scheduled rents.!!"
+                        )
                     )
                 rent.state = "done"
                 rent.vehicle_id.state = "released"
@@ -550,7 +559,7 @@ class RentType(models.Model):
         """Overridden Method."""
         if vals.get("duration") == 0 and vals.get("renttype") == "Hours":
             raise ValidationError(
-                "You Can't Enter Duration Less " "Than One(1)e for Hours rent type."
+                _("You Can't Enter Duration Less " "Than One(1)e for Hours rent type.")
             )
         return models.Model.create(self, vals)
 
@@ -591,8 +600,9 @@ class RentType(models.Model):
         return res
 
     @api.model
-    def name_search(self, name="", args=[], operator="ilike", limit=100):
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
         """Name Search Method."""
+        args = args or []
         args += [
             "|",
             ("duration", operator, name),

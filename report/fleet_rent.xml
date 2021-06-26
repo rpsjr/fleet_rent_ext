@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- Fleet Rent Reports -->
@@ -10,6 +10,6 @@
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
         paperformat="fleet_rent_ext.paperformat_lowmargin"
-        />
+    />
 
 </odoo>
