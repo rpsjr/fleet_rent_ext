@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Inherited vehicle registration form view added extra fields on fleet vehicle -->
+    <record model='ir.ui.view' id='fleet_vehicle_model_form_extended'>
+        <field name="name">fleet.vehicle.model.form.extended</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="arch" type="xml">
+            <!--
+            <xpath expr="//form/sheet/group/group/field[@name='car_value']" position="after">
+                <field name="income_acc_id" string="Income Account" required="1"/>
+                <field name="expence_acc_id" string="Expense Account" required="1" />
+            </xpath>
+            -->
+            <xpath expr="//field[@name='name']" position="after" >
+                    <field name="model_year" class="oe_inline"
+                        attrs="{'readonly':[('state','in',('write-off'))]}" />
+                    <field name="vehical_color_id" class="oe_inline"
+                        attrs="{'readonly':[('is_color_set','=',True)]}"
+                        options="{'no_open': True, 'create': false, 'create_edit': false}"  />
+                    <field name="tax_id" class="oe_inline"
+                        attrs="{'readonly':[('state','in',('write-off'))]}" />
+                     <field name="fipe_id" class="oe_inline"
+                        attrs="{'readonly':[('state','in',('write-off'))]}"/>
+                    <field name="fipe_model" class="oe_inline"
+                        attrs="{'readonly':[('state','in',('write-off'))]}"/>
+                    <field name="result_apifipe" invisible="1" class="oe_inline"
+                        attrs="{'readonly':[('state','in',('write-off'))]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='car_value']" position="replace">
+                <field name="resale_value" invisible="0" />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="paperformat_lowmargin_contract" model="report.paperformat">
+    <record id="paperformat_lowmargin" model="report.paperformat">
         <field name="name">A4 low margin</field>
-        <field name="default" eval="False" />
+        <field name="default" eval="True" />
         <field name="format">A4</field>
         <field name="page_height">0</field>
         <field name="page_width">0</field>
@@ -388,7 +388,7 @@
         report_type="qweb-pdf"
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
-        paperformat="paperformat_lowmargin_contract"
+        paperformat="paperformat_lowmargin"
     />
 
 </odoo>

@@ -9,6 +9,10 @@
     "license": "LGPL-3",
     "summary": """Rental Vehicle Management System
         This module provides fleet rent features.""",
+    "description": """
+        Rental Vehicle Management System
+        This module extend fleet rent features..
+     """,
     # Website
     "author": "RPSJR",
     "website": "http://www..com",

@@ -6,9 +6,9 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = ["res.config.settings"]
 
-    deposit_product = fields.Many2one(
+    fleet_rental_deposit_product_id = fields.Many2one(
         "product.product",
         string="Deposit product",
         help="Standard deposit product usend in accounting",
-        config_parameter="fleet_rent.deposit_product",
+        config_parameter="fleet_rent.fleet_rental_deposit_product_id",
     )

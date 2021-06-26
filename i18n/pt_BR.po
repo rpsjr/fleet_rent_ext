@@ -485,7 +485,7 @@ msgid "Days"
 msgstr "Dias"
 
 #. module: fleet_rent_ext
-#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_config_settings__deposit_product
+#: model:ir.model.fields,field_description:fleet_rent_ext.field_res_config_settings__fleet_rental_deposit_product_id
 msgid "Deposit product"
 msgstr "Produto do deposito calção"
 
@@ -1358,7 +1358,7 @@ msgid ""
 msgstr ""
 
 #. module: fleet_rent_ext
-#: model:ir.model.fields,help:fleet_rent_ext.field_res_config_settings__deposit_product
+#: model:ir.model.fields,help:fleet_rent_ext.field_res_config_settings__fleet_rental_deposit_product_id
 msgid "Standard deposit product usend in accounting"
 msgstr "Produto de calção padrão usado na contabilidade"
 

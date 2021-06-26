@@ -14,6 +14,7 @@
         </field>
     </record>
 
+
     <!--Rent Type Form View-->
     <record id="rent_type_form" model="ir.ui.view">
         <field name="name">rent.type.form</field>
@@ -31,7 +32,6 @@
         <field name="name">view.fleet.rent.form</field>
         <field name="model">fleet.rent</field>
         <field name="inherit_id" ref="fleet_rent.view_fleet_rent_form" />
-        <field name="priority">100</field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tenant_id']" position="replace">
               <field
@@ -129,7 +129,7 @@
     </record>
 
     <!-- Main Menuitem for Vehicles Rent Products -->
-    <menuitem
+      <menuitem
             id="sub_menu_vehicles_rent_products"
             name="Plans"
             parent="fleet_rent.menu_vehicle_rent"
