@@ -27,6 +27,8 @@
     # Data
     "data": [
         "data/rent_sequence.xml",
+        "data/mail_data.xml",
+        "data/mail_invoice_cron.xml",
         "security/ir.model.access.csv",
         "views/extended_views.xml",
         "views/fleet_extended_view.xml",

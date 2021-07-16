@@ -5,10 +5,10 @@ import re
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
-
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, Warning
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF, ustr
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
+from odoo.tools import ustr
 
 try:
     from num2words import num2words
@@ -247,6 +247,7 @@ class FleetRent(models.Model):
                                 # "manual_currency_id": False,
                                 "name": f"Locação {rent_number}",
                                 "partner_id": tenent and tenent.id or False,
+                                "payment_mode_id": 1,
                                 "payment_term_id": rent.rent_type_id.payment_term.id,
                                 "pricelist_id": 1,
                                 # "recurring_interval": 1,

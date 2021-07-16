@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_rent_invoice_template" model="mail.template">
+        <field name="name">Fatura de Locação Recorrente: Enviar por Email</field>
+        <field name="subject">Boleto ${object.invoice_date_due.strftime("%d/%m/%Y")} - ${object.invoice_origin}</field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="email_from">${(object.invoice_user_id.email_formatted or user.email_formatted) |safe}</field>
+        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="False"/>
+        <field name="report_template" ref="account.account_invoices"/>
+        <field name="report_name">Fatura_${(object.name or '').replace('/','_')}${object.state == 'draft' and '_draft' or ''}</field>
+        <field name="body_html"><![CDATA[
+          <div style="background:#F0F0F0;color:#515166;padding:10px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;">
+                          <table style="width:600px;margin:5px auto;">
+                              <tbody>
+                                  <tr><td>
+                                      <a href="/"><img src="/web/binary/company_logo" style="vertical-align: baseline; max-width: 100px; width: auto; height: auto;"></a>
+                                  </td><td style="text-align:right;vertical-align:middle;">
+                                          Fatura de Locação
+                                  </td></tr>
+                              </tbody>
+                          </table>
+                          <table style="width:600px;margin:0px auto;background:white;border:1px solid #e1e1e1;">
+                              <tbody>
+                                  <tr><td style="padding:15px 20px 10px 20px;">
+                                      <p>Caro(a) ${object.partner_id.name}&nbsp;</p>
+                                      <p>
+                                          <br></p><p style="margin-left:1.5em;">Aqui está a
+                                          % if object.name:
+                                              fatura <strong>${object.name}</strong>
+                                          % else:
+                                              fatura
+                                          %endif
+                                          % if object.invoice_origin:
+                                              (${object.invoice_origin})
+                                          % endif
+                                          &nbsp;no valor de <strong>${format_amount(object.amount_total, object.currency_id)}</strong>.
+                                          % if object.invoice_payment_state == 'paid':
+                                              Esta fatura já se encontra paga.
+                                          % else:
+                                              <br><br><strong>Evite multas e juros pagando o seu boleto até o vencimento.</strong>
+                                          % endif
+                                      </p>
+                                      <p style="margin-left:1.5em;"><br></p><p style="margin-left:1.5em;">Se tiver alguma dúvida, não hesite em contactar-me.</p>
+                                  </td></tr>
+                              </tbody>
+                          </table>
+                      </div>
+
+        ]]></field>
+    </record>
+</odoo>
