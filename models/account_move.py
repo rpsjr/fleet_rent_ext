@@ -1,10 +1,16 @@
 import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import (AccessError, RedirectWarning, UserError,
-                             ValidationError)
-from odoo.tools import (date_utils, email_escape_char, email_re, email_split,
-                        float_compare, float_is_zero, safe_eval)
+from odoo.exceptions import AccessError, RedirectWarning, UserError, ValidationError
+from odoo.tools import (
+    date_utils,
+    email_escape_char,
+    email_re,
+    email_split,
+    float_compare,
+    float_is_zero,
+    safe_eval,
+)
 from odoo.tools.misc import format_date, formatLang, get_lang
 
 _logger = logging.getLogger(__name__)
@@ -32,7 +38,7 @@ class AccountMove(models.Model):
             [
                 ("payment_journal_id", "=", 18),
                 ("state", "=", "posted"),
-                ("invoice_date", "=", fields.Datetime.now()),
+                ("invoice_date", "=", fields.Datetime.now().date()),
             ]
         )
 
@@ -44,7 +50,11 @@ class AccountMove(models.Model):
                     for payment_transction in posted_invoice.transaction_ids:
                         payment_transction.generate_pdf_boleto()
                         if payment_transction.pdf_boleto_id:
-                            boleto_id = payment_transction.pdf_boleto_id and payment_transction.pdf_boleto_id.id or False
+                            boleto_id = (
+                                payment_transction.pdf_boleto_id
+                                and payment_transction.pdf_boleto_id.id
+                                or False
+                            )
                             attachment_ids.append(
                                 (
                                     4,
