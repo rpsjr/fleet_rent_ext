@@ -398,9 +398,8 @@ class FleetRent(models.Model):
 
             params = self.env["ir.config_parameter"].sudo()
             fleet_rental_deposit_product_id_id = int(
-                params.get_param("fleet_rent.fleet_rental_deposit_product_id_id")
+                params.get_param("fleet_rent.fleet_rental_deposit_product_id")
             )
-            int(params.get_param("fleet_rent.fiscal_postion_id"))
             inv_line_values = {
                 "product_id": fleet_rental_deposit_product_id_id or False,
                 #'name': 'Deposit Receive' or "",
@@ -420,6 +419,7 @@ class FleetRent(models.Model):
                     "invoice_date": datetime.now().strftime(DTF) or False,
                     "fleet_rent_id": rent.id,
                     "is_deposit_inv": True,
+                    "invoice_origin": rent.name,
                     "l10n_br_edoc_policy": "",
                 }
             )
@@ -460,11 +460,11 @@ class FleetRent(models.Model):
 
             params = self.env["ir.config_parameter"].sudo()
             fleet_rental_deposit_product_id_id = int(
-                params.get_param("fleet_rent.fleet_rental_deposit_product_id_id")
+                params.get_param("fleet_rent.fleet_rental_deposit_product_id")
             )
-            int(params.get_param("fleet_rent.fiscal_postion_id"))
+
             inv_line_values = {
-                "product_id": fleet_rental_deposit_product_id_id,
+                "product_id": fleet_rental_deposit_product_id_id or False,
                 "name": "Devolução" or "",
                 "quantity": 1,
                 #'account_id': vehicle and vehicle.expence_acc_id and
@@ -486,6 +486,7 @@ class FleetRent(models.Model):
                     "fleet_rent_id": rent.id,
                     "is_deposit_return_inv": True,
                     "journal_id": purch_journal and purch_journal.id or False,
+                    "invoice_origin": rent.name,
                     "l10n_br_edoc_policy": "",
                 }
             )
