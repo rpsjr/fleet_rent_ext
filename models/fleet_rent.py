@@ -5,10 +5,10 @@ import re
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, Warning
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
-from odoo.tools import ustr
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF, ustr
 
 try:
     from num2words import num2words

@@ -38,7 +38,7 @@ class AccountMove(models.Model):
             [
                 ("payment_journal_id", "=", 18),
                 ("state", "=", "posted"),
-                ("invoice_date", "=", fields.Datetime.now().date()),
+                ("invoice_sent", "!=", True),
             ]
         )
 
@@ -67,4 +67,5 @@ class AccountMove(models.Model):
                 if boleto_id:
                     template.attachment_ids = attachment_ids
                 template.send_mail(posted_invoice.id, force_send=True)
+                posted_invoice.write({"invoice_sent": True})
                 template.attachment_ids = [(5,)]
