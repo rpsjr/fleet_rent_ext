@@ -7,6 +7,7 @@ from datetime import date, datetime
 
 import requests
 from dateutil.relativedelta import relativedelta
+
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError, Warning
 from odoo.tools import misc
@@ -28,11 +29,13 @@ class FleetOperations(models.Model):
     def _compute_result_apifipe(self):
         """Method to retrive vehicle FIPE information using API."""
         for record in self:
+            result_apifipe = {}
             if record.model_year and record.fipe_id:
                 result_apifipe = apifipecons.apiFIPE().getCodigoMarca(
                     record.model_year, record.fipe_id
                 )
                 record.result_apifipe = result_apifipe
+            if "Valor" in result_apifipe:
                 record.resale_value = float(
                     result_apifipe["Valor"][3:].replace(".", "").replace(",", ".")
                 )
@@ -46,7 +49,7 @@ class FleetOperations(models.Model):
     def _compute_fipe_model(self):
         """Method to retrive vehicle FIPE model using API."""
         for record in self:
-            if record.result_apifipe:
+            if record.result_apifipe and "Modelo" in record.result_apifipe:
                 record.fipe_model = eval(record.result_apifipe)["Modelo"]
             else:
                 record.fipe_model = record.fipe_model
@@ -55,7 +58,7 @@ class FleetOperations(models.Model):
     def _compute_resale_value(self):
         """Method to retrive vehicle FIPE value using API."""
         for record in self:
-            if record.result_apifipe:
+            if record.result_apifipe and "Valor" in record.result_apifipe:
                 record.resale_value = float(
                     eval(record.result_apifipe)["Valor"][3:]
                     .replace(".", "")
