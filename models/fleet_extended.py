@@ -389,12 +389,12 @@ class IrAttachment(models.Model):
     attachment_id = fields.Many2one("fleet.vehicle")
     attachment_id_2 = fields.Many2one("fleet.vehicle")
 
-    def copy(self, default=None):
-        """Copy method cannot duplicate record and override method."""
-        if not default:
-            default = {}
-        raise Warning(_("You can't duplicate record!"))
-        return super(IrAttachment, self).copy(default=default)
+    #def copy(self, default=None):
+    #    """Copy method cannot duplicate record and override method."""
+    #    if not default:
+    #        default = {}
+    #    raise Warning(_("You can't duplicate record!"))
+    #    return super(IrAttachment, self).copy(default=default)
 
 
 class FleetWittenOff(models.Model):
