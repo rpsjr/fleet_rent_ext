@@ -28,81 +28,45 @@ class FleetOperations(models.Model):
     @api.depends("fipe_id", "model_year")
     def _compute_result_apifipe(self):
         """Method to retrieve vehicle FIPE information using the new, robust API."""
-        # Instantiate the API client once for all records in the set for efficiency
         try:
             fipe_api = apifipecons.apiFIPE()
         except FipeApiError as e:
             _logger.error("Could not initialize FIPE API: %s", e)
-            # If API can't even start, do nothing for all records
             for record in self:
                 record.result_apifipe = "{}"
-                record.resale_value = record.resale_value
-                record.fipe_model = record.fipe_model
+                record.resale_value = 0.0
+                record.fipe_model = ""
             return
 
         for record in self:
-            # Ensure we have the necessary data to make a call
             if record.model_year and record.fipe_id:
                 try:
-                    # Call the new, specific method from our refactored API class
                     result_apifipe = fipe_api.get_valor_por_codigo_fipe(
                         record.model_year, record.fipe_id
                     )
                     
-                    # Store the result as a JSON string for safety (avoids using eval)
                     record.result_apifipe = json.dumps(result_apifipe)
 
-                    # Process the successful response
                     if "Valor" in result_apifipe:
-                        # Clean and convert the currency string to a float
                         valor_str = result_apifipe["Valor"].replace("R$ ", "").replace(".", "").replace(",", ".")
                         record.resale_value = float(valor_str)
+                    else:
+                        record.resale_value = 0.0
+                        
                     if "Modelo" in result_apifipe:
                         record.fipe_model = result_apifipe["Modelo"]
+                    else:
+                        record.fipe_model = ""
 
                 except FipeApiError as e:
-                    _logger.warning("FIPE API call failed for vehicle %s (FIPE Code: %s): %s", record.name, record.fipe_id, e)
-                    # On failure, keep existing values and clear the raw result
+                    _logger.warning("FIPE API call failed for vehicle %s (FIPE Code: %s): %s", record.name or 'N/A', record.fipe_id, e)
                     record.result_apifipe = "{}"
-                    record.resale_value = record.resale_value
-                    record.fipe_model = record.fipe_model
+                    record.resale_value = 0.0
+                    record.fipe_model = ""
             else:
-                # If required fields are missing, clear the results
                 record.result_apifipe = "{}"
                 record.resale_value = 0.0
                 record.fipe_model = ""
-
-    @api.depends("result_apifipe")
-    def _compute_fipe_model(self):
-        """Method to retrieve vehicle FIPE model from the stored JSON result."""
-        for record in self:
-            # Use safe json.loads instead of eval()
-            if record.result_apifipe:
-                try:
-                    data = json.loads(record.result_apifipe)
-                    record.fipe_model = data.get("Modelo", record.fipe_model)
-                except (json.JSONDecodeError, TypeError):
-                    record.fipe_model = record.fipe_model
-            else:
-                record.fipe_model = record.fipe_model
-
-    @api.depends("result_apifipe")
-    def _compute_resale_value(self):
-        """Method to retrieve vehicle FIPE value from the stored JSON result."""
-        for record in self:
-            # Use safe json.loads instead of eval()
-            if record.result_apifipe:
-                try:
-                    data = json.loads(record.result_apifipe)
-                    if "Valor" in data:
-                        valor_str = data["Valor"].replace("R$ ", "").replace(".", "").replace(",", ".")
-                        record.resale_value = float(valor_str)
-                    else:
-                        record.resale_value = record.resale_value
-                except (json.JSONDecodeError, TypeError, ValueError):
-                    record.resale_value = record.resale_value
-            else:
-                record.resale_value = record.resale_value
 
     fuel_type = fields.Selection(
         selection_add=[("flex", "Flex")],
@@ -115,15 +79,22 @@ class FleetOperations(models.Model):
         [
             (str(num), str(num))
             for num in range(
-                (int(datetime.now().year) - 25), (int(datetime.now().year) + 2) # Increased range
+                (int(datetime.now().year) - 30), (int(datetime.now().year) + 2)
             )
         ],
         help="Vehicle year.",
     )
-    resale_value = fields.Float(string="Current value", compute="_compute_result_apifipe", store=True)
-    vechical_type_id = fields.Many2one("vehicle.type", string="Vehicle Type")
-    tax_id = fields.Char(string="Renavam", size=11)
+    
+    # --- FIPE RELATED FIELDS ---
+    # These fields are now all computed by the same method for consistency and stored.
     fipe_id = fields.Char(string="Código Tabela FIPE", size=8)
+    
+    resale_value = fields.Float(
+        string="Current value (FIPE)", 
+        compute="_compute_result_apifipe", 
+        store=True
+    )
+    
     fipe_model = fields.Char(
         string="Modelo Tabela FIPE",
         compute="_compute_result_apifipe",
@@ -131,11 +102,18 @@ class FleetOperations(models.Model):
     )
 
     result_apifipe = fields.Char(
-        string="Resultado consulta FIPE", compute="_compute_result_apifipe"
+        string="Resultado consulta FIPE", 
+        compute="_compute_result_apifipe",
+        store=True,
     )
+    
+    # --- OTHER FIELDS ---
+    vechical_type_id = fields.Many2one("vehicle.type", string="Vehicle Type")
+    tax_id = fields.Char(string="Renavam", size=11)
 
+    # Corrected state field to use selection_add
     state = fields.Selection(
-        [
+        selection_add=[
             ("avaliable", "Avaliable"),
             ("inspection", "Inspection"),
             ("in_progress", "In Service"),
@@ -143,12 +121,15 @@ class FleetOperations(models.Model):
             ("rent", "On Rent"),
             ("complete", "Completed"),
             ("released", "Released"),
-            ("write-off", "Write-Off"),
         ],
         string="Vehicle State",
         default="avaliable",
     )
 
+
+# ==============================================================================
+# The rest of your original file remains below this line.
+# ==============================================================================
 
 class ColorHistory(models.Model):
     """Model color history."""
@@ -318,16 +299,6 @@ class VehicleType(models.Model):
     _name = "vehicle.type"
     _description = "Vehicle Type"
 
-    # @api.constrains('name')
-    # def _check_unique_insesitive(self):
-    #    vehicle_type_ids = self.search([])
-    #    lst = [x.name.lower().strip()
-    #           for x in vehicle_type_ids if x.name and x.id not in self._ids]
-    #    for self_obj in self:
-    #        if self_obj.name and self_obj.name.lower().strip() in lst:
-    #            return Warning('Vehicle Type is already Exist in system.!')
-    #    return True
-
     @api.constrains("name")
     def _check_unique_insesitive(self):
         """Method to check duplicate value."""
@@ -395,9 +366,6 @@ class ColorColor(models.Model):
     code = fields.Char(string="Code", size=12, translate=True)
     name = fields.Char(string="Name", size=32, required=True, translate=True)
 
-    # _sql_constraints = [('color_uniq', 'unique(name)',
-    #                      'This color is already exist!')]
-
     def copy(self, default=None):
         """Copy method cannot duplicate record and overide method."""
         if not default:
@@ -426,13 +394,6 @@ class IrAttachment(models.Model):
 
     attachment_id = fields.Many2one("fleet.vehicle")
     attachment_id_2 = fields.Many2one("fleet.vehicle")
-
-    #def copy(self, default=None):
-    #    """Copy method cannot duplicate record and override method."""
-    #    if not default:
-    #        default = {}
-    #    raise Warning(_("You can't duplicate record!"))
-    #    return super(IrAttachment, self).copy(default=default)
 
 
 class FleetWittenOff(models.Model):
@@ -1123,9 +1084,7 @@ class FleetVehicleOdometer(models.Model):
     def default_get(self, fields):
         """Method default get."""
         res = super(FleetVehicleOdometer, self).default_get(fields)
-        # cr, uid, context = self.env.args
         context = self.env.context
-        # context = dict(context)
         fleet_obj = self.env["fleet.vehicle"]
         if self._context.get("active_id"):
             vehicle_id = fleet_obj.browse(context["active_id"])
