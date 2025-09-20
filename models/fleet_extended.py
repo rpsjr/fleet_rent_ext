@@ -6,13 +6,14 @@ import logging
 from datetime import date, datetime
 
 import requests
-from dateutil.relativedelta import relativedelta
+from dateutil.relatavivedelta import relativedelta
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError, Warning
 from odoo.tools import misc
 
-# import apifipecons
+# Import the new API class and its custom exception
 from . import apifipe as apifipecons
+from .apifipe import FipeApiError
 
 _logger = logging.getLogger(__name__)
 
@@ -26,43 +27,80 @@ class FleetOperations(models.Model):
 
     @api.depends("fipe_id", "model_year")
     def _compute_result_apifipe(self):
-        """Method to retrive vehicle FIPE information using API."""
-        for record in self:
-            result_apifipe = {}
-            if record.model_year and record.fipe_id:
-                result_apifipe = apifipecons.apiFIPE().getCodigoMarca(
-                    record.model_year, record.fipe_id
-                )
-                record.result_apifipe = result_apifipe
-            if "Valor" in result_apifipe:
-                record.resale_value = float(
-                    result_apifipe["Valor"][3:].replace(".", "").replace(",", ".")
-                )
-                record.fipe_model = result_apifipe["Modelo"]
-            else:
-                record.result_apifipe = record.result_apifipe
+        """Method to retrieve vehicle FIPE information using the new, robust API."""
+        # Instantiate the API client once for all records in the set for efficiency
+        try:
+            fipe_api = apifipecons.apiFIPE()
+        except FipeApiError as e:
+            _logger.error("Could not initialize FIPE API: %s", e)
+            # If API can't even start, do nothing for all records
+            for record in self:
+                record.result_apifipe = "{}"
                 record.resale_value = record.resale_value
                 record.fipe_model = record.fipe_model
+            return
+
+        for record in self:
+            # Ensure we have the necessary data to make a call
+            if record.model_year and record.fipe_id:
+                try:
+                    # Call the new, specific method from our refactored API class
+                    result_apifipe = fipe_api.get_valor_por_codigo_fipe(
+                        record.model_year, record.fipe_id
+                    )
+                    
+                    # Store the result as a JSON string for safety (avoids using eval)
+                    record.result_apifipe = json.dumps(result_apifipe)
+
+                    # Process the successful response
+                    if "Valor" in result_apifipe:
+                        # Clean and convert the currency string to a float
+                        valor_str = result_apifipe["Valor"].replace("R$ ", "").replace(".", "").replace(",", ".")
+                        record.resale_value = float(valor_str)
+                    if "Modelo" in result_apifipe:
+                        record.fipe_model = result_apifipe["Modelo"]
+
+                except FipeApiError as e:
+                    _logger.warning("FIPE API call failed for vehicle %s (FIPE Code: %s): %s", record.name, record.fipe_id, e)
+                    # On failure, keep existing values and clear the raw result
+                    record.result_apifipe = "{}"
+                    record.resale_value = record.resale_value
+                    record.fipe_model = record.fipe_model
+            else:
+                # If required fields are missing, clear the results
+                record.result_apifipe = "{}"
+                record.resale_value = 0.0
+                record.fipe_model = ""
 
     @api.depends("result_apifipe")
     def _compute_fipe_model(self):
-        """Method to retrive vehicle FIPE model using API."""
+        """Method to retrieve vehicle FIPE model from the stored JSON result."""
         for record in self:
-            if record.result_apifipe and "Modelo" in record.result_apifipe:
-                record.fipe_model = eval(record.result_apifipe)["Modelo"]
+            # Use safe json.loads instead of eval()
+            if record.result_apifipe:
+                try:
+                    data = json.loads(record.result_apifipe)
+                    record.fipe_model = data.get("Modelo", record.fipe_model)
+                except (json.JSONDecodeError, TypeError):
+                    record.fipe_model = record.fipe_model
             else:
                 record.fipe_model = record.fipe_model
 
     @api.depends("result_apifipe")
     def _compute_resale_value(self):
-        """Method to retrive vehicle FIPE value using API."""
+        """Method to retrieve vehicle FIPE value from the stored JSON result."""
         for record in self:
-            if record.result_apifipe and "Valor" in record.result_apifipe:
-                record.resale_value = float(
-                    eval(record.result_apifipe)["Valor"][3:]
-                    .replace(".", "")
-                    .replace(",", ".")
-                )
+            # Use safe json.loads instead of eval()
+            if record.result_apifipe:
+                try:
+                    data = json.loads(record.result_apifipe)
+                    if "Valor" in data:
+                        valor_str = data["Valor"].replace("R$ ", "").replace(".", "").replace(",", ".")
+                        record.resale_value = float(valor_str)
+                    else:
+                        record.resale_value = record.resale_value
+                except (json.JSONDecodeError, TypeError, ValueError):
+                    record.resale_value = record.resale_value
             else:
                 record.resale_value = record.resale_value
 
@@ -77,19 +115,19 @@ class FleetOperations(models.Model):
         [
             (str(num), str(num))
             for num in range(
-                (int(datetime.now().year) - 10), (int(datetime.now().year) + 1)
+                (int(datetime.now().year) - 25), (int(datetime.now().year) + 2) # Increased range
             )
         ],
         help="Vehicle year.",
     )
-    resale_value = fields.Float(string="Current value")
+    resale_value = fields.Float(string="Current value", compute="_compute_result_apifipe", store=True)
     vechical_type_id = fields.Many2one("vehicle.type", string="Vehicle Type")
     tax_id = fields.Char(string="Renavam", size=11)
     fipe_id = fields.Char(string="Código Tabela FIPE", size=8)
     fipe_model = fields.Char(
         string="Modelo Tabela FIPE",
-        # compute='_compute_fipe_model'
         compute="_compute_result_apifipe",
+        store=True,
     )
 
     result_apifipe = fields.Char(
