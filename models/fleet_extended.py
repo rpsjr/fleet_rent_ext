@@ -6,7 +6,7 @@ import logging
 from datetime import date, datetime
 
 import requests
-from dateutil.relatavivedelta import relativedelta
+from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError, Warning
 from odoo.tools import misc
