@@ -133,23 +133,36 @@ class FleetRent(models.Model):
     @api.onchange("vehicle_id")
     def change_rent_product(self):
         #\"\"\"Method to display mileage allowance.#\"\"\"
-        # for rent in self:
-        #    if rent.rent_product:
-        #        rent.rent_product = None
+        # It will warn if vehicle has an ongoing rental contract.
         for rent in self:
-            if rent.vehicle_id:
-                res = {}
-                # res['domain']={'rent_product':[('is_rental_prod', '=', True)]}
-                res["domain"] = {
-                    "rent_product": [
-                        (
-                            "vehicle_type_id.id",
-                            "=",
-                            rent.vehicle_id.sudo().vechical_type_id.id,
-                        )
+            if not rent.vehicle_id:
+                continue
+
+            res = {
+                "domain": {
+                    "rent_product" : [
+                        [("vehicle_id", "=", rent.vehicle_id.sudo().vechical_type_id.id)]
                     ]
+                },
+            }
+
+            duplicate_rent = self.env["fleet.rent"].search(
+                [
+                    ("state", "=", ["draft", "open", "pending"]),
+                    ("id", "!=", rent.id),
+                    ("vehicle_id", "=", rent.vehicle_id.id),
+                ],
+                limit=1,
+            )
+            if duplicate_rent:
+                res["warning"] = {
+                    "title": _("Vehicle already in active rent."),
+                    "message": _(
+                        "This vehicle already has an active proposal/rent (%s)."
+                        "You can still create a new rent proposal for this vehicle."
+                    ) % (duplicate_rent.name or duplicate_rent.id),
                 }
-                # res['domain']={'rent_product':[('vehicle_type_id', '=', rent.vehicle_id.sudo().vechical_type_id.id), ('is_rental_prod', '=', True)]}
+
                 return res
 
     @api.constrains("vehicle_id")
