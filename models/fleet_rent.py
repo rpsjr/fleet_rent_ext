@@ -141,7 +141,7 @@ class FleetRent(models.Model):
             res = {
                 "domain": {
                     "rent_product" : [
-                        [("vehicle_id", "=", rent.vehicle_id.sudo().vechical_type_id.id)]
+                        ("vehicle_type_id.id", "=", rent.vehicle_id.sudo().vechical_type_id.id)
                     ]
                 },
             }
@@ -166,7 +166,7 @@ class FleetRent(models.Model):
                     ) % (duplicate_rent.name or duplicate_rent.id),
                 }
 
-                return res
+            return res
 
     @api.constrains("vehicle_id")
     def _check_vehicle_id(self):
