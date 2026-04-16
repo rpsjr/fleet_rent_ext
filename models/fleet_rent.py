@@ -146,12 +146,15 @@ class FleetRent(models.Model):
                 },
             }
 
+            domain = [
+                ("state", "in", ["draft", "open", "pending"]),
+                ("vehicle_id", "=", rent.vehicle_id.id),
+            ]
+            if rent._origin.id:
+                domain.append(("id", "!=", rent._origin.id))
+
             duplicate_rent = self.env["fleet.rent"].search(
-                [
-                    ("state", "=", ["draft", "open", "pending"]),
-                    ("id", "!=", rent.id),
-                    ("vehicle_id", "=", rent.vehicle_id.id),
-                ],
+                domain,
                 limit=1,
             )
             if duplicate_rent:
@@ -170,7 +173,7 @@ class FleetRent(models.Model):
         for rec in self:
             duplicate_rent = self.env["fleet.rent"].search(
                 [
-                    ("state", "=", ["draft", "open", "pending"]),
+                    ("state", "in", ["draft", "open", "pending"]),
                     ("id", "!=", rec.id),
                     ("vehicle_id", "=", rec.vehicle_id.id),
                 ]
