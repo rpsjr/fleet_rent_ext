@@ -168,24 +168,11 @@ class FleetRent(models.Model):
 
             return res
 
-    # @api.constrains("vehicle_id")
-    # def _check_vehicle_id(self):
-    #     for rec in self:
-    #         duplicate_rent = self.env["fleet.rent"].search(
-    #             [
-    #                 ("state", "in", ["draft", "open", "pending"]),
-    #                 ("id", "!=", rec.id),
-    #                 ("vehicle_id", "=", rec.vehicle_id.id),
-    #             ]
-    #         )
-    #         if duplicate_rent:
-    #             raise ValidationError(
-    #                 _(
-    #                     "Vehicle Rent Order is already "
-    #                     "available for this vehicle !! \n Choose other"
-    #                     " vehicle and Prepare new rent order !!"
-    #                 )
-    #             )
+    @api.constrains("vehicle_id")
+    def _check_vehicle_id(self):
+        # Override and disable the base module's duplicate check constraint
+        # as we now allow multiple rent proposals for the same vehicle
+        pass
 
     @api.depends("rent_type_id", "date_start")
     def _compute_create_date(self):
