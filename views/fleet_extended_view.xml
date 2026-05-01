@@ -13,6 +13,10 @@
                 <field name="expence_acc_id" string="Expense Account" required="1" />
             </xpath>
             -->
+            <xpath expr="//field[@name='model_id']" position="attributes">
+                <attribute name="options">{'no_open': False}</attribute>
+            </xpath>
+
             <xpath expr="//field[@name='name']" position="after" >
                     <field name="model_year" class="oe_inline"
                         attrs="{'readonly':[('state','in',('write-off'))]}" />
