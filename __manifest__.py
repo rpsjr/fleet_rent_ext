@@ -5,7 +5,7 @@
     "name": "Fleet Rental Vehicle l10n_br",
     "category": "Fleet Rent",
     "sequence": 1,
-    "version": "13.0.1.0.0",
+    "version": "13.0.1.0.1",
     "license": "LGPL-3",
     "summary": """Rental Vehicle Management System
         This module provides fleet rent features.""",
@@ -33,6 +33,7 @@
         "views/extended_views.xml",
         "views/fleet_extended_view.xml",
         "views/res_config_settings_views.xml",
+        "views/res_partner_views.xml",
         "report/rent_proposal_pdf.xml",
     ],
     # Technical

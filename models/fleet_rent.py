@@ -85,13 +85,13 @@ class FleetRent(models.Model):
                         )
                     )
 
-    @api.depends("vehicle_id")
+    @api.depends("vehicle_id", "vehicle_id.resale_value")
     def _write_car_value(self):
         #\"\"\"Method to write car_value price in words.#\"\"\"
         for rent in self:
             if rent.vehicle_id:
                 rent.resale_value_extenso = num2words(
-                    rent.vehicle_id.car_value, lang="pt_BR", to="currency"
+                    rent.vehicle_id.resale_value, lang="pt_BR", to="currency"
                 )
 
     @api.depends("deposit_amt")
