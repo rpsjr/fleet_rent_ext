@@ -255,12 +255,16 @@
 
                                   <t t-set="agr" t-value="o if o._name == 'agreement' else (rent.agreement_id if rent and rent.agreement_id else False)"/>
                                   <t t-set="template_agr" t-value="env.ref('fleet_rent_ext.agreement_template_fleet_rent', raise_if_not_found=False)"/>
-                                  <t t-set="target_agr" t-value="agr if (agr and agr.sections) else template_agr"/>
+                                  <t t-set="agr_to_use" t-value="agr if agr else template_agr"/>
+                                  <t t-set="sec_list" t-value="getattr(agr_to_use, 'sections_ids', False) or getattr(agr_to_use, 'section_ids', False) or getattr(agr_to_use, 'sections', False) or getattr(agr_to_use, 'clauses_ids', False) or getattr(agr_to_use, 'clauses', False) if agr_to_use else False"/>
+                                  <t t-if="not sec_list and template_agr">
+                                      <t t-set="sec_list" t-value="getattr(template_agr, 'sections_ids', False) or getattr(template_agr, 'section_ids', False) or getattr(template_agr, 'sections', False) or getattr(template_agr, 'clauses_ids', False) or getattr(template_agr, 'clauses', False)"/>
+                                  </t>
 
                                   <div
                                          class="termos_gerais"
                                          style="text-align: justify; font-size: 10pt; line-height: 13pt;"
-                                         t-if="target_agr and target_agr.sections"
+                                         t-if="sec_list"
                                      >
                                       <h3
                                              style="text-align: center; font-weight: bold;"
@@ -269,16 +273,24 @@
                                              style="text-align: center; font-style: italic;"
                                          >(versão vinculada ao contrato)</p>
 
-                                      <t t-foreach="target_agr.sections" t-as="sec">
+                                      <t t-foreach="sec_list" t-as="sec">
                                           <h4 style="margin-top: 12px; margin-bottom: 4px; font-weight: bold;">
                                               <t t-esc="sec_index + 1"/>. <t t-esc="sec.title or sec.name"/>
                                           </h4>
-                                          <t t-foreach="sec.clauses" t-as="claus">
+                                          <t t-set="claus_list" t-value="getattr(sec, 'clause_ids', False) or getattr(sec, 'clauses_ids', False) or getattr(sec, 'clauses', False)"/>
+                                          <t t-if="claus_list">
+                                              <t t-foreach="claus_list" t-as="claus">
+                                                  <p style="margin-bottom: 6px; text-align: justify;">
+                                                      <t t-if="len(claus_list) &gt; 1">
+                                                          <b><t t-esc="sec_index + 1"/>.<t t-esc="claus_index + 1"/>.</b> 
+                                                      </t>
+                                                      <span t-raw="claus.content"/>
+                                                  </p>
+                                              </t>
+                                          </t>
+                                          <t t-if="not claus_list and hasattr(sec, 'content') and sec.content">
                                               <p style="margin-bottom: 6px; text-align: justify;">
-                                                  <t t-if="len(sec.clauses) &gt; 1">
-                                                      <b><t t-esc="sec_index + 1"/>.<t t-esc="claus_index + 1"/>.</b> 
-                                                  </t>
-                                                  <span t-raw="claus.content"/>
+                                                  <span t-raw="sec.content"/>
                                               </p>
                                           </t>
                                       </t>
