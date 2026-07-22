@@ -58,8 +58,11 @@ class FleetRent(models.Model):
     def action_create_agreement(self):
         """Method to automatically create and link an Agreement document."""
         for rent in self:
-            if rent.agreement_id and rent.agreement_id.exists():
-                continue
+            if rent.agreement_id:
+                if not rent.agreement_id.exists():
+                    rent.agreement_id = False
+                else:
+                    continue
             agr_type = self.env.ref(
                 "fleet_rent_ext.fleet_rent_agreement_type", raise_if_not_found=False
             )
@@ -624,7 +627,7 @@ class FleetRent(models.Model):
                 rent_vals.update({"name": seq})
             rent.write(rent_vals)
             rent.vehicle_id.state = "rent"
-            if not rent.agreement_id:
+            if not rent.agreement_id or not rent.agreement_id.exists():
                 rent.action_create_agreement()
 
     def action_rent_done(self):
