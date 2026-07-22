@@ -98,6 +98,7 @@ class FleetRent(models.Model):
             else:
                 agr = self.env["agreement"].create(vals)
 
+            agr.write({"rent_id": rent.id})
             rent.agreement_id = agr.id
         return True
 
