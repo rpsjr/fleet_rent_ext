@@ -61,10 +61,10 @@ class FleetRent(models.Model):
             if rent.agreement_id:
                 continue
             agr_type = self.env.ref(
-                "fleet_rent_ext.agreement_type_fleet_rent", raise_if_not_found=False
+                "fleet_rent_ext.fleet_rent_agreement_type", raise_if_not_found=False
             )
             template = self.env.ref(
-                "fleet_rent_ext.agreement_template_fleet_rent", raise_if_not_found=False
+                "fleet_rent_ext.fleet_rent_agreement_template", raise_if_not_found=False
             )
 
             if not template:

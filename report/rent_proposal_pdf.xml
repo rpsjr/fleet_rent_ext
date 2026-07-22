@@ -254,7 +254,7 @@
                                     />
 
                                   <t t-set="agr" t-value="o if o._name == 'agreement' else (rent.agreement_id if rent and rent.agreement_id else False)"/>
-                                  <t t-set="template_agr" t-value="env.ref('fleet_rent_ext.agreement_template_fleet_rent', raise_if_not_found=False)"/>
+                                  <t t-set="template_agr" t-value="env.ref('fleet_rent_ext.fleet_rent_agreement_template', raise_if_not_found=False)"/>
                                   <t t-set="agr_to_use" t-value="agr if agr else template_agr"/>
                                   <t t-set="sec_list" t-value="getattr(agr_to_use, 'sections_ids', False) or getattr(agr_to_use, 'section_ids', False) or getattr(agr_to_use, 'sections', False) or getattr(agr_to_use, 'clauses_ids', False) or getattr(agr_to_use, 'clauses', False) if agr_to_use else False"/>
                                   <t t-if="not sec_list and template_agr">

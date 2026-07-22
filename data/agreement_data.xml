@@ -3,626 +3,626 @@
     <data>
 
         <!-- Agreement Type for Fleet Rent -->
-        <record id="agreement_type_fleet_rent" model="agreement.type">
+        <record id="fleet_rent_agreement_type" model="agreement.type">
             <field name="name">Contrato de Locação de Veículo</field>
             <field name="domain">sale</field>
         </record>
 
         <!-- Agreement Template for Fleet Rent -->
-        <record id="agreement_template_fleet_rent" model="agreement">
+        <record id="fleet_rent_agreement_template" model="agreement">
             <field name="name">Modelo de Contrato de Locação de Veículo - Babur</field>
             <field name="code">TMPL-LOC-BABUR</field>
             <field name="is_template" eval="True" />
-            <field name="agreement_type_id" ref="agreement_type_fleet_rent" />
+            <field name="agreement_type_id" ref="fleet_rent_agreement_type" />
             <field name="description">Termos Gerais e Proposta de Locação de Veículos Babur (67 Cláusulas)</field>
         </record>
 
         <!-- ==================== SEÇÃO 1: PREÂMBULO ==================== -->
-        <record id="section_1_preambulo" model="agreement.section">
+        <record id="fleet_rent_sec_1_preambulo" model="agreement.section">
             <field name="name">PREÂMBULO</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_1" model="agreement.clause">
+        <record id="fleet_rent_cl_1" model="agreement.clause">
             <field name="name">Identificação da Locadora e Regência</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_1_preambulo" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_1_preambulo" />
             <field name="content">O termo de locação firmado por &lt;b&gt;Babur&lt;/b&gt;, com sede em Salvador, Bahia (BR), inscrita no CNPJ nº 40.772.248/0001-95 (“Locadora”), será regido por estas Condições Gerais (“Termos Gerais”), em conjunto com as condições comerciais específicas da Proposta/Contrato de Locação (“Contrato”).</field>
         </record>
-        <record id="clause_2" model="agreement.clause">
+        <record id="fleet_rent_cl_2" model="agreement.clause">
             <field name="name">Identificação do Locatário</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_1_preambulo" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_1_preambulo" />
             <field name="content">O Locatário é a pessoa física identificada no Contrato de Locação a quem se destina o veículo automotor (“Veículo”) locado, sendo o único responsável pelo integral cumprimento do Contrato.</field>
         </record>
-        <record id="clause_3" model="agreement.clause">
+        <record id="fleet_rent_cl_3" model="agreement.clause">
             <field name="name">Natureza Empresarial da Locação</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_1_preambulo" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_1_preambulo" />
             <field name="content">As partes reconhecem que o Veículo é locado como &lt;b&gt;insumo da atividade econômica&lt;/b&gt; do Locatário — transporte remunerado privado individual de passageiros por aplicativo (Lei nº 12.587/2012) —, tratando-se de locação de natureza empresarial, e não de relação de consumo. As cláusulas destes Termos Gerais são interpretadas à luz do Código Civil, em especial dos princípios da boa-fé objetiva e da função social do contrato (arts. 421 e 422) e da disciplina dos contratos de adesão (art. 424).</field>
         </record>
-        <record id="clause_4" model="agreement.clause">
+        <record id="fleet_rent_cl_4" model="agreement.clause">
             <field name="name">Objeto do Contrato</field>
             <field name="sequence">4</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_1_preambulo" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_1_preambulo" />
             <field name="content">O objeto do Contrato é a locação de veículo de propriedade, posse, uso ou gozo da Locadora, por prazo determinado, para uso exclusivo em território nacional e dentro da área de circulação definida pela Locadora. O Veículo será entregue com todos os equipamentos exigidos pelo Código de Trânsito Brasileiro (“CTB”), conforme confirmado e aceito pelo Locatário no ato da retirada e registrado no Termo de Vistoria.</field>
         </record>
-        <record id="clause_5" model="agreement.clause">
+        <record id="fleet_rent_cl_5" model="agreement.clause">
             <field name="name">Requisitos para Contratação</field>
             <field name="sequence">5</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_1_preambulo" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_1_preambulo" />
             <field name="content">A Locadora se reserva o direito de estabelecer relação jurídica somente com pessoa física que, concomitantemente:&lt;br/&gt;(i) possua habilitação válida na categoria “B” e esteja apta a conduzir o veículo em conformidade com a legislação de trânsito;&lt;br/&gt;(ii) esteja previamente cadastrada em um dos aplicativos de serviço de transporte remunerado privado individual de passageiros (Lei nº 12.587/2012);&lt;br/&gt;(iii) possua capacidade financeira compatível com as obrigações que assumir;&lt;br/&gt;(iv) possua todos os documentos exigidos pela legislação vigente para operar como motorista desses aplicativos e utilize o veículo com essa finalidade exclusiva;&lt;br/&gt;(v) concorde com os termos de bloqueio previstos na Seção 18.</field>
         </record>
-        <record id="clause_6" model="agreement.clause">
+        <record id="fleet_rent_cl_6" model="agreement.clause">
             <field name="name">Análise Cadastral e de Crédito</field>
             <field name="sequence">6</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_1_preambulo" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_1_preambulo" />
             <field name="content">A Locadora terá a faculdade de realizar a análise cadastral e do histórico de crédito do Locatário e, a seu critério, poderá não fazê-la.</field>
         </record>
-        <record id="clause_7" model="agreement.clause">
+        <record id="fleet_rent_cl_7" model="agreement.clause">
             <field name="name">Condição para Celebração</field>
             <field name="sequence">7</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_1_preambulo" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_1_preambulo" />
             <field name="content">Como condição para a celebração da locação, o Locatário concorda com a prestação de caução para ressarcimento de eventuais despesas com o veículo e multas de trânsito, ou com a realização dos pagamentos do aluguel antecipadamente, a critério da Locadora.</field>
         </record>
 
         <!-- ==================== SEÇÃO 2: PREÇO, PAGAMENTO E COBRANÇA ==================== -->
-        <record id="section_2_pagamento" model="agreement.section">
+        <record id="fleet_rent_sec_2_pagamento" model="agreement.section">
             <field name="name">PREÇO, PAGAMENTO E COBRANÇA</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_8" model="agreement.clause">
+        <record id="fleet_rent_cl_8" model="agreement.clause">
             <field name="name">Composição da Semanalidade</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">O valor total devido pelo Locatário a título de semanalidade corresponderá ao valor de 7 (sete) dias de locação (contados a partir da disponibilização do veículo para retirada do pátio), acrescido das obrigações devidas e/ou inadimplidas na semana, ou em qualquer período anterior, incluindo despesas e indenizações.</field>
         </record>
-        <record id="clause_9" model="agreement.clause">
+        <record id="fleet_rent_cl_9" model="agreement.clause">
             <field name="name">Obrigatoriedade de Pagamento e Não Presunção de Quitação</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">O Locatário obriga-se a efetuar o pagamento no prazo e na forma ajustados neste Contrato, ainda que as obrigações tenham sido apuradas após o seu encerramento. O envio da cobrança de uma obrigação e a sua quitação não presumem quitadas as anteriores ou quaisquer outros débitos não descritos na cobrança remetida.</field>
         </record>
-        <record id="clause_10" model="agreement.clause">
+        <record id="fleet_rent_cl_10" model="agreement.clause">
             <field name="name">Momento do Pagamento e Renovação</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">O Locatário obriga-se a efetuar o pagamento da caução ou da semanalidade até antes da retirada do veículo. Na hipótese de renovação, o pagamento será feito à vista, devendo ser quitado até o sétimo dia do novo período.</field>
         </record>
-        <record id="clause_11" model="agreement.clause">
+        <record id="fleet_rent_cl_11" model="agreement.clause">
             <field name="name">Responsabilidade pelas Despesas até a Devolução</field>
             <field name="sequence">4</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">O Locatário é o único responsável pelo pagamento do aluguel e das despesas de uso até a efetiva devolução do veículo.</field>
         </record>
-        <record id="clause_12" model="agreement.clause">
+        <record id="fleet_rent_cl_12" model="agreement.clause">
             <field name="name">Formas de Pagamento (Pix)</field>
             <field name="sequence">5</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">&lt;b&gt;Formas de pagamento.&lt;/b&gt; Os valores devidos poderão ser pagos pelos meios indicados pela Locadora, especialmente por &lt;b&gt;Pix&lt;/b&gt;, mediante leitura de &lt;b&gt;QR Code&lt;/b&gt; ou &lt;b&gt;código “copia e cola”&lt;/b&gt; enviado pelos canais oficiais da Locadora. O pagamento por Pix reputa-se realizado apenas com a &lt;b&gt;confirmação da liquidação&lt;/b&gt; na conta da Locadora, respondendo o Locatário por pagamentos feitos a chaves, contas ou QR Codes que não os oficialmente informados.</field>
         </record>
-        <record id="clause_13" model="agreement.clause">
+        <record id="fleet_rent_cl_13" model="agreement.clause">
             <field name="name">Liquidez e Certeza das Dívidas</field>
             <field name="sequence">6</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">Todos os valores devidos pelo Locatário em decorrência da locação constituem dívidas líquidas e certas, para pagamento à vista, passíveis de cobrança executiva.</field>
         </record>
-        <record id="clause_14" model="agreement.clause">
+        <record id="fleet_rent_cl_14" model="agreement.clause">
             <field name="name">Encargos de Mora e Honorários Advocatícios</field>
             <field name="sequence">7</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">O atraso no pagamento de qualquer obrigação ensejará multa moratória de 10% (dez por cento) sobre o valor devido, além de juros de 1% (um por cento) ao mês e atualização monetária pela variação positiva do IGP-M/FGV, calculados &lt;i&gt;pro rata dies&lt;/i&gt; desde o vencimento até o efetivo pagamento, constituindo-se o Locatário automaticamente em mora, independentemente de prévia notificação.&lt;br/&gt;&lt;br/&gt;Dando causa a procedimento de cobrança, o Locatário pagará ao procurador da Locadora honorários de 10% (dez por cento) nos procedimentos extrajudiciais e de 20% (vinte por cento) nos judiciais.</field>
         </record>
-        <record id="clause_15" model="agreement.clause">
+        <record id="fleet_rent_cl_15" model="agreement.clause">
             <field name="name">Protesto de Títulos e Inscrição nos Órgãos de Proteção ao Crédito</field>
             <field name="sequence">8</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">Fica assegurado à Locadora o direito de protestar os títulos em aberto e de incluir o nome do Locatário nos órgãos de proteção ao crédito (como SERASA e SPC), caso verificado atraso no pagamento. O pagamento de fatura em atraso não implicará sua quitação enquanto perdurar a pendência dos encargos previstos.</field>
         </record>
-        <record id="clause_16" model="agreement.clause">
+        <record id="fleet_rent_cl_16" model="agreement.clause">
             <field name="name">Reajuste do Valor da Locação</field>
             <field name="sequence">9</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_2_pagamento" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_2_pagamento" />
             <field name="content">A locação semanal poderá ser reajustada a qualquer tempo; contudo, o novo valor somente poderá ser exigido se comunicado com pelo menos 7 (sete) dias de antecedência.</field>
         </record>
 
         <!-- ==================== SEÇÃO 3: INÍCIO DA LOCAÇÃO ==================== -->
-        <record id="section_3_inicio" model="agreement.section">
+        <record id="fleet_rent_sec_3_inicio" model="agreement.section">
             <field name="name">INÍCIO DA LOCAÇÃO</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_17" model="agreement.clause">
+        <record id="fleet_rent_cl_17" model="agreement.clause">
             <field name="name">Vigência Inicial e Não Retirada do Veículo</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_3_inicio" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_3_inicio" />
             <field name="content">A locação terá vigência de 7 (sete) dias corridos, com início na data agendada para retirada do veículo, servindo a data de efetiva retirada como referência para contagem do período.&lt;br/&gt;&lt;br/&gt;A Locadora poderá considerar o contrato não iniciado caso o Locatário não retire o veículo em até 7 (sete) dias corridos da data por ele agendada, devendo o Locatário ressarcir as despesas em que a Locadora incorrer, incluindo o valor &lt;i&gt;pro rata&lt;/i&gt; dos dias em que o veículo permaneceu reservado e indisponível para locação, custos de estacionamento e de preparação do veículo, os quais poderão ser abatidos de pagamentos antecipados e da caução.</field>
         </record>
 
         <!-- ==================== SEÇÃO 4: PRORROGAÇÃO DA LOCAÇÃO ==================== -->
-        <record id="section_4_prorrogacao" model="agreement.section">
+        <record id="fleet_rent_sec_4_prorrogacao" model="agreement.section">
             <field name="name">PRORROGAÇÃO DA LOCAÇÃO</field>
             <field name="sequence">4</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_18" model="agreement.clause">
+        <record id="fleet_rent_cl_18" model="agreement.clause">
             <field name="name">Prorrogação Automática e Aviso de Não Renovação</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_4_prorrogacao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_4_prorrogacao" />
             <field name="content">A locação será prorrogada automática e sucessivamente por igual período, até que sobrevenha comunicação do Locatário informando a intenção de não renovar, o que deverá fazer com antecedência de 2 (dois) dias úteis ao término da vigência.</field>
         </record>
-        <record id="clause_19" model="agreement.clause">
+        <record id="fleet_rent_cl_19" model="agreement.clause">
             <field name="name">Prorrogação na Troca de Veículo</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_4_prorrogacao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_4_prorrogacao" />
             <field name="content">A locação também será prorrogada quando as partes ajustarem a troca de veículo sem alteração das condições comerciais.</field>
         </record>
-        <record id="clause_20" model="agreement.clause">
+        <record id="fleet_rent_cl_20" model="agreement.clause">
             <field name="name">Manutenção das Disposições Contratuais na Prorrogação</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_4_prorrogacao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_4_prorrogacao" />
             <field name="content">Ocorrendo a prorrogação, permanecerão em vigor as disposições deste Contrato, aplicadas as atualizações e as novas condições comerciais, conforme o caso, sem que a prorrogação obrigue a manutenção de descontos e promoções.</field>
         </record>
 
         <!-- ==================== SEÇÃO 5: FIM DA LOCAÇÃO ==================== -->
-        <record id="section_5_fim" model="agreement.section">
+        <record id="fleet_rent_sec_5_fim" model="agreement.section">
             <field name="name">FIM DA LOCAÇÃO</field>
             <field name="sequence">5</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_21" model="agreement.clause">
+        <record id="fleet_rent_cl_21" model="agreement.clause">
             <field name="name">Hipóteses de Encerramento Automático do Contrato</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_5_fim" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_5_fim" />
             <field name="content">O contrato poderá ser terminado por qualquer das partes mediante comunicação prévia com antecedência mínima de 2 (dois) dias úteis, ou automaticamente pela Locadora, a seu critério, independentemente de notificação e sem maiores formalidades, procedendo-se à retomada do veículo — sem que isso enseje ao Locatário direito de retenção ou ação indenizatória, reparatória ou compensatória —, quando:&lt;br/&gt;(i) o veículo não for devolvido na data, hora e local indicados no Contrato;&lt;br/&gt;(ii) ocorrer furto, roubo, perda total de qualquer natureza, colisão ou avaria do ou no veículo, inclusive por causas naturais ou incêndio (“Evento Indenizável”), independentemente da data e hora da ocorrência;&lt;br/&gt;(iii) ocorrer uso inadequado do veículo, conforme a Seção 12;&lt;br/&gt;(iv) ocorrer retenção e/ou apreensão do veículo por autoridades competentes;&lt;br/&gt;(v) o Locatário atingir 20 (vinte) pontos em sua CNH, ou reincidir em infrações que totalizem 20 (vinte) pontos nos últimos 12 (doze) meses;&lt;br/&gt;(vi) o Locatário estiver com a CNH vencida, ou com o direito de dirigir suspenso ou cassado;&lt;br/&gt;(vii) o Locatário for notificado por infração de trânsito com penalidade de suspensão do direito de dirigir, ou que, mediante avaliação técnica razoável da Locadora, coloque em risco pessoas ou o veículo locado;&lt;br/&gt;(viii) o Locatário não quitar seus débitos nos respectivos vencimentos, ou descumprir as obrigações contratuais;&lt;br/&gt;(ix) o Locatário não apresentar o veículo para substituição, manutenção preventiva ou corretiva ou inspeção de rotina, conforme convocação da Locadora;&lt;br/&gt;(x) verificada a insuficiência de caução, se não reposta em até 7 (sete) dias corridos da comunicação;&lt;br/&gt;(xi) constatada, por qualquer meio, modificação não autorizada no veículo;&lt;br/&gt;(xii) o Locatário prestar informação falsa ou incompleta;&lt;br/&gt;(xiii) o Locatário não possuir todos os documentos exigidos pela legislação para operar como motorista de aplicativos de transporte remunerado privado individual de passageiros.</field>
         </record>
-        <record id="clause_22" model="agreement.clause">
+        <record id="fleet_rent_cl_22" model="agreement.clause">
             <field name="name">Efeitos da Devolução do Veículo e Devolução Antecipada</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_5_fim" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_5_fim" />
             <field name="content">A devolução do veículo encerra apenas a locação, sem prejuízo dos direitos da Locadora de haver despesas, aluguéis e indenizações.&lt;br/&gt;&lt;br/&gt;A devolução antecipada não gera desconto, devendo o valor do período de aluguel ser pago integralmente, assim como os demais encargos, despesas, aluguéis e indenizações, vencidos ou não.&lt;br/&gt;&lt;br/&gt;Caso o veículo seja devolvido ou recolhido com combustível remanescente, não haverá ressarcimento nem indenização, reparatória ou compensatória, a esse título.</field>
         </record>
 
         <!-- ==================== SEÇÃO 6: PROCEDIMENTOS DE RETIRADA DO VEÍCULO ==================== -->
-        <record id="section_6_retirada" model="agreement.section">
+        <record id="fleet_rent_sec_6_retirada" model="agreement.section">
             <field name="name">PROCEDIMENTOS DE RETIRADA DO VEÍCULO</field>
             <field name="sequence">6</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_23" model="agreement.clause">
+        <record id="fleet_rent_cl_23" model="agreement.clause">
             <field name="name">Vistoria Completa na Retirada</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_6_retirada" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_6_retirada" />
             <field name="content">&lt;b&gt;O Locatário vistoriará completamente o veículo, interna e externamente, no momento da retirada, certificando-se da presença do documento do veículo e de seus acessórios (estepe, triângulo, macaco, chave de roda, rádio etc.) e verificando a existência de defeito mecânico ou estrutural, dano ou sujeira excessiva.&lt;/b&gt;</field>
         </record>
-        <record id="clause_24" model="agreement.clause">
+        <record id="fleet_rent_cl_24" model="agreement.clause">
             <field name="name">Procedimentos Obrigatórios na Retirada</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_6_retirada" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_6_retirada" />
             <field name="content">Na retirada, o Locatário deverá observar os procedimentos determinados pela Locadora e também: garantir o prévio pagamento da caução ou do aluguel; apresentar a via original da CNH; e assinar o Contrato de Locação e o documento de conferência do veículo (“Termo de Vistoria”).</field>
         </record>
 
         <!-- ==================== SEÇÃO 7: FALHA MECÂNICA OU DO SISTEMA OPERACIONAL DO VEÍCULO ==================== -->
-        <record id="section_7_falha" model="agreement.section">
+        <record id="fleet_rent_sec_7_falha" model="agreement.section">
             <field name="name">FALHA MECÂNICA OU DO SISTEMA OPERACIONAL DO VEÍCULO</field>
             <field name="sequence">7</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_25" model="agreement.clause">
+        <record id="fleet_rent_cl_25" model="agreement.clause">
             <field name="name">Comunicação Imediata de Falhas</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_7_falha" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_7_falha" />
             <field name="content">&lt;b&gt;O Locatário comunicará imediatamente à Locadora, por correio eletrônico ou aplicativo de mensagens, a ocorrência de qualquer falha mecânica ou do sistema operacional que impossibilite ou limite o uso regular do veículo, ou que comprometa a segurança do condutor, passageiro(s) e/ou terceiro(s).&lt;/b&gt;</field>
         </record>
-        <record id="clause_26" model="agreement.clause">
+        <record id="fleet_rent_cl_26" model="agreement.clause">
             <field name="name">Atendimento de Assistência no Local</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_7_falha" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_7_falha" />
             <field name="content">Conforme o caso, um profissional de assistência poderá ser enviado ao local do veículo para tentar solucionar a falha, devendo o Locatário aguardar sua chegada.</field>
         </record>
-        <record id="clause_27" model="agreement.clause">
+        <record id="fleet_rent_cl_27" model="agreement.clause">
             <field name="name">Proibição de Reparar ou Fazer Ligações Diretas</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_7_falha" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_7_falha" />
             <field name="content">&lt;b&gt;É proibido ao Locatário realizar consertos ou ligações diretas de fios ou conexões para recarga da bateria ou reparo do sistema operacional.&lt;/b&gt;</field>
         </record>
-        <record id="clause_28" model="agreement.clause">
+        <record id="fleet_rent_cl_28" model="agreement.clause">
             <field name="name">Limitação de Responsabilidade por Falhas</field>
             <field name="sequence">4</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_7_falha" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_7_falha" />
             <field name="content">A Locadora não responderá por perdas, danos ou lesões decorrentes de falhas mecânicas ou do sistema operacional, &lt;b&gt;salvo nos casos de dolo ou culpa grave da Locadora, ou de descumprimento da Disponibilidade Mínima prevista na Seção 9&lt;/b&gt;. A responsabilidade da Locadora, quando existente, observará o disposto no item 61.</field>
         </record>
 
         <!-- ==================== SEÇÃO 8: PROCEDIMENTOS DE DEVOLUÇÃO DO VEÍCULO ==================== -->
-        <record id="section_8_devolucao" model="agreement.section">
+        <record id="fleet_rent_sec_8_devolucao" model="agreement.section">
             <field name="name">PROCEDIMENTOS DE DEVOLUÇÃO DO VEÍCULO</field>
             <field name="sequence">8</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_29" model="agreement.clause">
+        <record id="fleet_rent_cl_29" model="agreement.clause">
             <field name="name">Condições de Devolução e Vistoria</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_8_devolucao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_8_devolucao" />
             <field name="content">Ao final da locação, o Locatário devolverá o veículo em local a ser informado pela Locadora ou, na falta de indicação, no pátio da Locadora, observando os períodos e horários comunicados, sob pena de prorrogação da locação, ciente de que deverá:&lt;br/&gt;(i) entregar o veículo nas mesmas condições em que o recebeu, ressalvado o desgaste natural de uso, cujos parâmetros de apuração constam do manual de avarias e inspeção do veículo; caso devolvido em desconformidade, serão cobrados os valores de manutenção e/ou de eventuais itens faltantes, além da taxa de administração do serviço;&lt;br/&gt;(ii) assinar o documento de conferência do veículo; caso o veículo seja recolhido em razão de inadimplemento, o Termo de Vistoria será considerado feito no momento da chegada do veículo ao pátio, independentemente da anuência do motorista, assegurado a este o direito de contestar a vistoria mediante evidências;&lt;br/&gt;(iii) ressarcir a Locadora de despesas e indenizações, identificadas ou não no Termo de Vistoria, valores que poderão ser exigidos à vista ou compensados com a garantia ofertada, a critério da Locadora;&lt;br/&gt;(iv) indicar, para recebimento do saldo de caução, conta corrente própria ou de terceiro; caso não forneça informações corretas e precisas sobre a conta, a Locadora depositará o valor da caução em juízo ou o manterá à disposição do Locatário, sem incidência de encargos moratórios em desfavor da Locadora.</field>
         </record>
-        <record id="clause_30" model="agreement.clause">
+        <record id="fleet_rent_cl_30" model="agreement.clause">
             <field name="name">Objetos Esquecidos no Veículo</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_8_devolucao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_8_devolucao" />
             <field name="content">A Locadora não se responsabilizará por objetos ou valores deixados ou esquecidos no veículo, ou em suas dependências.</field>
         </record>
-        <record id="clause_31" model="agreement.clause">
+        <record id="fleet_rent_cl_31" model="agreement.clause">
             <field name="name">Retenção Indevida e Apropriação Indébita</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_8_devolucao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_8_devolucao" />
             <field name="content">A retenção do veículo pelo Locatário após o término da locação, ou sua utilização sem os pagamentos devidos, caracteriza uso indevido e enseja a imediata reintegração de posse, respondendo o Locatário por todos os aluguéis, encargos, despesas e perdas daí decorrentes.&lt;br/&gt;&lt;br/&gt;A recusa injustificada em restituir o veículo, após regular notificação da Locadora, &lt;b&gt;poderá configurar apropriação indébita (art. 168 do Código Penal)&lt;/b&gt;, sujeitando o Locatário às sanções civis e penais cabíveis, e ao ressarcimento das despesas judiciais e extrajudiciais da Locadora com a retomada, busca, apreensão e reintegração de posse do veículo.</field>
         </record>
 
         <!-- ==================== SEÇÃO 9: DA DISPONIBILIDADE MÍNIMA DO VEÍCULO ==================== -->
-        <record id="section_9_disponibilidade" model="agreement.section">
+        <record id="fleet_rent_sec_9_disponibilidade" model="agreement.section">
             <field name="name">DA DISPONIBILIDADE MÍNIMA DO VEÍCULO</field>
             <field name="sequence">9</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_32" model="agreement.clause">
+        <record id="fleet_rent_cl_32" model="agreement.clause">
             <field name="name">Garantia e Parâmetros de Disponibilidade Mínima (95%)</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_9_disponibilidade" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_9_disponibilidade" />
             <field name="content">A Locadora envidará os melhores esforços para manter o Veículo em pleno funcionamento e disponível para uso pelo Locatário durante, no mínimo, 95% do período de locação (“Disponibilidade Mínima”).&lt;br/&gt;&lt;br/&gt;Para fins de cálculo da Disponibilidade Mínima, será considerado o tempo em que o Veículo estiver impossibilitado de uso em razão de: (a) manutenção preventiva programada pela Locadora; ou (b) reparos decorrentes de falhas mecânicas ou elétricas não causadas por mau uso, negligência ou culpa do Locatário, conforme avaliação técnica da Locadora.&lt;br/&gt;&lt;br/&gt;O tempo de indisponibilidade será computado desde a notificação formal do Locatário à Locadora, acompanhada de evidências razoáveis, até a nova disponibilização do Veículo em condições adequadas de uso ou a entrega de veículo substituto equivalente.&lt;br/&gt;&lt;br/&gt;Caso a Disponibilidade Mínima não seja atingida, a Locadora oferecerá ao Locatário, a seu critério, uma das seguintes opções: (a) crédito proporcional ao tempo de indisponibilidade, para uso com a Locadora; (b) prorrogação da locação por período equivalente ao da indisponibilidade, sem custo adicional; ou (c) veículo similar ou superior até que o veículo original esteja apto para uso.&lt;br/&gt;&lt;br/&gt;As opções acima constituem a compensação única e exclusiva devida ao Locatário pela indisponibilidade do Veículo. Ressalvadas essas opções e as hipóteses de dolo ou culpa grave da Locadora, esta não responderá por perdas, danos ou lucros cessantes alegados pelo Locatário em decorrência da indisponibilidade do Veículo.</field>
         </record>
 
         <!-- ==================== SEÇÃO 10: PROCEDIMENTOS DE SUBSTITUIÇÃO DO VEÍCULO ==================== -->
-        <record id="section_10_substituicao" model="agreement.section">
+        <record id="fleet_rent_sec_10_substituicao" model="agreement.section">
             <field name="name">PROCEDIMENTOS DE SUBSTITUIÇÃO DO VEÍCULO</field>
             <field name="sequence">10</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_33" model="agreement.clause">
+        <record id="fleet_rent_cl_33" model="agreement.clause">
             <field name="name">Devolução para Substituição</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_10_substituicao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_10_substituicao" />
             <field name="content">A Locadora poderá determinar a devolução do veículo para substituição, devendo o Locatário comparecer no local, data e hora indicados em comunicação específica, ciente de que a substituição ocorrerá por outro veículo de mesma categoria, ainda que de modelo ou fabricante distintos, aplicando-se todos os procedimentos de devolução, facultado à Locadora estabelecer condições especiais, abatimentos ou abonos.&lt;br/&gt;&lt;br/&gt;A Locadora não se obriga a fornecer veículo reserva ou a efetuar substituição, podendo encerrar a locação na ocorrência de Evento Indenizável, apreensão pelas autoridades, perda, furto ou roubo de chaves, documentos ou placas, ou pane provocada por uso inadequado.&lt;br/&gt;&lt;br/&gt;A Locadora poderá alugar ao Locatário veículo de categoria distinta, hipótese em que se realizará nova contratação, sem que isso caracterize novação ou renúncia a direito do contrato anterior.</field>
         </record>
-        <record id="clause_34" model="agreement.clause">
+        <record id="fleet_rent_cl_34" model="agreement.clause">
             <field name="name">Substituição por Modelo ou Preço Divergente</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_10_substituicao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_10_substituicao" />
             <field name="content">Caso a Locadora disponibilize veículo de modelo e/ou preço diferentes do contratado, o Locatário poderá, por livre escolha, seguir com a contratação — arcando com a diferença de valor e firmando, no ato da retirada, todos os documentos do veículo recebido — ou recusar o modelo disponibilizado e terminar o Contrato ora firmado.</field>
         </record>
 
         <!-- ==================== SEÇÃO 11: OBRIGAÇÕES DA LOCADORA ==================== -->
-        <record id="section_11_obrigacoes_locadora" model="agreement.section">
+        <record id="fleet_rent_sec_11_obrigacoes_locadora" model="agreement.section">
             <field name="name">OBRIGAÇÕES DA LOCADORA</field>
             <field name="sequence">11</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_35" model="agreement.clause">
+        <record id="fleet_rent_cl_35" model="agreement.clause">
             <field name="name">Entrega, Limpeza e Remoção do Veículo</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_11_obrigacoes_locadora" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_11_obrigacoes_locadora" />
             <field name="content">É responsabilidade da Locadora disponibilizar veículo limpo, em perfeitas condições de funcionamento e segurança, com todos os equipamentos e documentos exigidos pelo CTB, garantindo também: atendimento com veículo na categoria contratada ou, na sua falta, disponibilização de modelo diverso; informação ao Locatário quanto às infrações de trânsito de que tiver conhecimento; e remoção de veículo cujo funcionamento não seja possível em razão de dano, avaria ou falha não atribuível ao Locatário.</field>
         </record>
-        <record id="clause_36" model="agreement.clause">
+        <record id="fleet_rent_cl_36" model="agreement.clause">
             <field name="name">Cobrança de Remoção Desnecessária ou Decorrente de Mau Uso</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_11_obrigacoes_locadora" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_11_obrigacoes_locadora" />
             <field name="content">Caso, após a remoção e a devida conferência, se apure que o defeito foi causado por acidente ou uso inadequado do veículo pelo Locatário, ou que a remoção foi desnecessária (por exemplo, falta de combustível), o Locatário pagará à Locadora o valor das despesas incorridas.</field>
         </record>
 
         <!-- ==================== SEÇÃO 12: RESPONSABILIDADES DO LOCATÁRIO ==================== -->
-        <record id="section_12_responsabilidades_locatario" model="agreement.section">
+        <record id="fleet_rent_sec_12_responsabilidades_locatario" model="agreement.section">
             <field name="name">RESPONSABILIDADES DO LOCATÁRIO</field>
             <field name="sequence">12</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_37" model="agreement.clause">
+        <record id="fleet_rent_cl_37" model="agreement.clause">
             <field name="name">Deveres de Guarda, Uso Correto e Notificações</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_12_responsabilidades_locatario" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_12_responsabilidades_locatario" />
             <field name="content">É responsabilidade do Locatário zelar pelo veículo, guardando-o e protegendo-o, e realizar uso correto no período da locação, em conformidade com estes Termos Gerais, obrigando-se ainda a:&lt;br/&gt;(i) responsabilizar-se pelos ônus de todos os eventos e obrigações decorrentes do uso do veículo, inclusive de atos de terceiros e de qualquer dano decorrente de comportamento negligente ou imprudente do Locatário ou de terceiros, salvo disposição diversa neste Contrato;&lt;br/&gt;(ii) utilizar o veículo somente em território nacional e dentro da área de circulação definida pela Locadora, sendo vedado ultrapassar fronteiras;&lt;br/&gt;(iii) manter atualizados os dados de contato (telefone e e-mail) e instalar e manter ativos, durante toda a vigência, os aplicativos e sistemas da Locadora, para receber comunicações e acessar informações;&lt;br/&gt;(iv) devolver o veículo na data, hora e local indicados pela Locadora;&lt;br/&gt;(v) não remover, trocar ou alterar a originalidade dos dispositivos de segurança, adesivos (ainda que publicitários), marcas ou identificadores visuais da Locadora;&lt;br/&gt;(vi) &lt;b&gt;não efetuar reparo nem autorizar serviço no veículo sem a prévia e expressa anuência da Locadora;&lt;/b&gt;&lt;br/&gt;(vii) responsabilizar-se pelas cargas que transportar, adotando as medidas de segurança necessárias e arcando com os tributos devidos em função da atividade;&lt;br/&gt;(viii) não forçar, danificar, desligar ou alterar o funcionamento do odômetro ou de seus lacres, verificando permanentemente sua operacionalidade e comunicando à Locadora qualquer avaria detectada;&lt;br/&gt;(ix) responsabilizar-se pelo veículo bloqueado — ainda que em via pública ou propriedade de terceiro — quando o bloqueio decorrer de descumprimento contratual, ato ilícito ou irregular, respondendo pelos danos, despesas e prejuízos daí decorrentes, observado o disposto na Seção 18;&lt;br/&gt;(x) notificar prontamente a Locadora em caso de Evento Indenizável, prestando todas as informações sobre o ocorrido e as demais que forem solicitadas, bem como tomar posse dos documentos entregues pelas autoridades (auto de apreensão, auto de infração e outros);&lt;br/&gt;(xi) enviar aos aplicativos o CRLV e demais documentos obrigatórios para os respectivos cadastros nas prefeituras, mantendo seu cadastro atualizado em todos os aplicativos que utiliza;&lt;br/&gt;(xii) obter licenças, registros e documentações exigidas para a circulação do veículo e para a atividade econômica desenvolvida, arcando com as providências e custos de agendamento e execução de inspeção veicular, testes de opacidade e vistorias, quando exigidos por lei ou em razão de equipamentos especiais instalados;&lt;br/&gt;(xiii) adotar as medidas necessárias, com apoio de procuração a ser fornecida pela Locadora quando for o caso, para a retirada do veículo apreendido com a maior brevidade possível.</field>
         </record>
-        <record id="clause_38" model="agreement.clause">
+        <record id="fleet_rent_cl_38" model="agreement.clause">
             <field name="name">Hipóteses de Uso Inadequado Vedadas</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_12_responsabilidades_locatario" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_12_responsabilidades_locatario" />
             <field name="content">&lt;b&gt;O Locatário não deverá fazer uso inadequado do veículo, assim considerado, entre outros:&lt;/b&gt;&lt;br/&gt;(i) utilizá-lo para fins diversos do transporte por aplicativos de transporte remunerado privado individual de passageiros (Lei nº 12.587/2012);&lt;br/&gt;(ii) transportar pessoas e/ou bens além da capacidade informada pelo fabricante;&lt;br/&gt;(iii) guinchar e/ou rebocar outro veículo;&lt;br/&gt;(iv) participar de corridas, testes, competições, rally, reconhecimento de trecho, gincanas, “rachas” ou “pegas”;&lt;br/&gt;(v) instruir pessoas não habilitadas e/ou treinar motoristas;&lt;br/&gt;(vi) transportar explosivos, combustíveis ou materiais químicos ou inflamáveis;&lt;br/&gt;(vii) trafegar em dunas e praias;&lt;br/&gt;(viii) circular com as luzes de advertência de óleo ou de temperatura acesas no painel; persistindo o funcionamento nessas circunstâncias, os danos ao motor serão apurados por parecer técnico de oficina, facultado ao Locatário acompanhar a apuração;&lt;br/&gt;(ix) destinar o veículo a quaisquer finalidades ilegais;&lt;br/&gt;(x) sublocar, ceder ou emprestar o bem ou o contrato a terceiros, verbalmente ou por escrito, sob pena de rescisão do Contrato, reintegração do veículo e responsabilização integral do Locatário por perdas e danos, patrimoniais e morais, causados à Locadora e/ou a terceiros;&lt;br/&gt;(xi) exceder a quilometragem de manutenção preventiva definida pela Locadora, apurável por sistema de rastreamento e GPS, hodômetro ou estimativa pelo estado e período de uso do veículo;&lt;br/&gt;(xii) ultrapassar os limites de circulação informados pela Locadora, afastando-se do raio ou área determinada;&lt;br/&gt;(xiii) negligenciar a guarda do veículo, incluindo estacioná-lo com a chave na ignição, não acionar todas as travas, não utilizar dispositivos antifurto, pernoitar fora de garagem segura ou estacionar em local ermo.</field>
         </record>
-        <record id="clause_39" model="agreement.clause">
+        <record id="fleet_rent_cl_39" model="agreement.clause">
             <field name="name">Reconhecimentos e Assunções do Locatário</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_12_responsabilidades_locatario" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_12_responsabilidades_locatario" />
             <field name="content">O Locatário reconhece e assume que:&lt;br/&gt;(i) a Locadora não reembolsará modificações, inclusões ou despesas realizadas sem sua prévia e formal autorização, sendo devida taxa de serviço para desfazê-las; reparos feitos sem anuência e em desconformidade com os padrões da Locadora e do fabricante serão refeitos, correndo os custos por conta do Locatário;&lt;br/&gt;(ii) com a locação e o efetivo recebimento do veículo, assume a posse legítima e autônoma do bem para todos os fins de direito, nos termos do art. 265 do Código Civil;&lt;br/&gt;(iii) as manutenções e inspeções de rotina serão realizadas no endereço e cidade indicados pela Locadora, não podendo alegar desconhecimento ou impossibilidade de cumprimento; no caso de não comunicação de Evento Indenizável, e caso a análise não conclua pela sua configuração, o Locatário ressarcirá integralmente os danos causados.</field>
         </record>
 
         <!-- ==================== SEÇÃO 13: INDENIZAÇÕES ==================== -->
-        <record id="section_13_indenizacoes" model="agreement.section">
+        <record id="fleet_rent_sec_13_indenizacoes" model="agreement.section">
             <field name="name">INDENIZAÇÕES</field>
             <field name="sequence">13</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_40" model="agreement.clause">
+        <record id="fleet_rent_cl_40" model="agreement.clause">
             <field name="name">Classificação dos Prejuízos Ressarcíveis</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_13_indenizacoes" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_13_indenizacoes" />
             <field name="content">O Locatário é o único responsável por indenizar a Locadora e terceiros pelos prejuízos que causar no uso do veículo, os quais se classificam em: (i) indenizações à Locadora e a terceiros por ocorrência de Evento Indenizável; (ii) multas de trânsito; e (iii) despesas relacionadas aos itens anteriores.</field>
         </record>
-        <record id="clause_41" model="agreement.clause">
+        <record id="fleet_rent_cl_41" model="agreement.clause">
             <field name="name">Indenização por Evento Indenizável e Cláusula Penal (60%)</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_13_indenizacoes" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_13_indenizacoes" />
             <field name="content">Em caso de Evento Indenizável causado por culpa ou dolo do Locatário, este indenizará todos os danos, despesas e prejuízos que causar ou que deles decorrerem, inclusive a terceiros, independentemente da efetiva realização de reparos no veículo.&lt;br/&gt;&lt;br/&gt;A indenização incluirá, sem limitação, os custos de reparo do veículo, despesas operacionais, perda de valor do veículo (se aplicável), despesas com reboque, guincho, remoção e guarda, honorários de advogados e despachantes, e demais prejuízos diretos suportados pela Locadora.&lt;br/&gt;&lt;br/&gt;Adicionalmente, a título de compensação pela indisponibilidade do veículo para locação, o Locatário pagará à Locadora, durante o período necessário ao reparo, indenização correspondente a 60% (sessenta por cento) do valor da diária de locação vigente no momento do Evento Indenizável, limitada a 30 (trinta) dias.&lt;br/&gt;&lt;br/&gt;Os valores acima valem, para todos os fins de direito, como cláusula penal, nos termos do art. 416 do Código Civil.</field>
         </record>
-        <record id="clause_42" model="agreement.clause">
+        <record id="fleet_rent_cl_42" model="agreement.clause">
             <field name="name">Indenização por Perda Total, Furto ou Roubo (Tabela FIPE)</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_13_indenizacoes" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_13_indenizacoes" />
             <field name="content">Na hipótese de não devolução, perda, roubo, extravio, furto ou destruição total do veículo, o Locatário pagará à Locadora, a título de indenização, o valor do veículo, apurado à época pela Tabela FIPE. Será considerado irrecuperável o veículo cujo valor de recuperação supere 75% (setenta e cinco por cento) de seu valor de mercado.</field>
         </record>
-        <record id="clause_43" model="agreement.clause">
+        <record id="fleet_rent_cl_43" model="agreement.clause">
             <field name="name">Procedimentos de Comunicação de Sinistros (Prazos de 1h, 2h e 5 dias)</field>
             <field name="sequence">4</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_13_indenizacoes" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_13_indenizacoes" />
             <field name="content">Ocorrendo Evento Indenizável, o Locatário prestará todas as informações solicitadas e agirá conforme estabelecido neste instrumento, informando à Locadora:&lt;br/&gt;(i) em primeira comunicação, em até 1 (uma) hora do fato: relato da ocorrência descrevendo o movimento de cada envolvido; endereço preciso do local, com pontos de referência; placa dos veículos envolvidos; e informação sobre vítimas, seu estado e providências tomadas;&lt;br/&gt;(ii) em segunda comunicação, em até 2 (duas) horas do fato: imagens nítidas do local com todos os veículos envolvidos, dos danos e do ponto de impacto no veículo locado, e de cada um dos demais veículos (incluindo ao menos uma que registre placa e danos); identificação dos condutores envolvidos; e identificação de pelo menos 1 (uma) testemunha;&lt;br/&gt;(iii) em terceira comunicação, em até 5 (cinco) dias corridos do fato: íntegra do boletim de ocorrência;&lt;br/&gt;(iv) nas demais comunicações, agir com diligência e zelo, fornecendo informações e preservando documentos e dados conforme instruções da Locadora.</field>
         </record>
-        <record id="clause_44" model="agreement.clause">
+        <record id="fleet_rent_cl_44" model="agreement.clause">
             <field name="name">Chamamento ao Processo e Denunciação da Lide</field>
             <field name="sequence">5</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_13_indenizacoes" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_13_indenizacoes" />
             <field name="content">O Locatário aceita o chamamento ao processo, judicial e extrajudicial, nas demandas em que a Locadora for acionada por terceiros, para assunção das responsabilidades cabíveis e/ou para assegurar os direitos regressivos da Locadora (denunciação da lide ou assistência litisconsorcial). A eventual impossibilidade processual desse chamamento não reduz nem dispensa a obrigação de indenizar prevista neste Contrato.</field>
         </record>
 
         <!-- ==================== SEÇÃO 14: MULTAS DE TRÂNSITO ==================== -->
-        <record id="section_14_multas" model="agreement.section">
+        <record id="fleet_rent_sec_14_multas" model="agreement.section">
             <field name="name">MULTAS DE TRÂNSITO</field>
             <field name="sequence">14</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_45" model="agreement.clause">
+        <record id="fleet_rent_cl_45" model="agreement.clause">
             <field name="name">Indicação do Condutor Infrator e Mandato Procuratório</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_14_multas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_14_multas" />
             <field name="content">&lt;b&gt;O Locatário responsabiliza-se por todas as infrações de trânsito cometidas durante o período de sua locação e, desde já, constitui a Locadora sua bastante procuradora e a autoriza a utilizar seus dados e cópia da CNH para indicá-lo e assiná-lo como condutor infrator, perante a autoridade de trânsito, atendendo à Resolução CONTRAN nº 619/2016 (e às que a substituírem ou complementarem) e ao art. 257, §§ 7º, 8º e 13, do CTB, reconhecendo o Locatário a veracidade dessas informações.&lt;/b&gt;</field>
         </record>
-        <record id="clause_46" model="agreement.clause">
+        <record id="fleet_rent_cl_46" model="agreement.clause">
             <field name="name">Infração sob Efeito de Álcool ou Entorpecentes</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_14_multas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_14_multas" />
             <field name="content">Qualquer infração decorrente da condução do veículo pelo Locatário sob efeito de álcool ou substância entorpecente autoriza a Locadora a cancelar imediatamente o Contrato.</field>
         </record>
-        <record id="clause_47" model="agreement.clause">
+        <record id="fleet_rent_cl_47" model="agreement.clause">
             <field name="name">Apresentação de CNH e Reembolso de Multas</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_14_multas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_14_multas" />
             <field name="content">O Locatário obriga-se a apresentar à Locadora, no ato da locação ou quando solicitado, a CNH (vias física original e digital) e comprovante de residência, para identificação, arquivo e indicação em auto de infração. A Locadora, após tomar conhecimento de auto de infração ocorrido no período da locação, exigirá o reembolso, constituindo-se o valor em dívida líquida e certa, ainda que pendente manifestação, julgamento de defesa, recurso ou pagamento, sendo prerrogativa exclusiva da Locadora fazer, ou não, o pagamento antecipado das multas, não sendo obrigada a repassar descontos obtidos.</field>
         </record>
-        <record id="clause_48" model="agreement.clause">
+        <record id="fleet_rent_cl_48" model="agreement.clause">
             <field name="name">Comunicação de Abordagem Policial e Recursos</field>
             <field name="sequence">4</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_14_multas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_14_multas" />
             <field name="content">O Locatário obriga-se a comunicar à Locadora, pelos canais oficiais, as infrações em que o condutor for abordado pelo agente — entregando cópia da notificação e o comprovante de recolhimento/retirada —, a verificar a ocorrência de autos de infração junto aos órgãos de fiscalização das praças por onde transitar, e a ressarcir a Locadora por qualquer valor pago a título de multas ocorridas no período em que o veículo esteve em sua posse, mesmo que a Locadora não seja notificada dentro do prazo legal ou de vigência do contrato.&lt;br/&gt;&lt;br/&gt;Não ocorrendo a notificação no prazo legal, a Locadora poderá interpor Recurso Administrativo contestando a intempestividade, não se responsabilizando pela documentação necessária ao recurso nem pelo seu êxito.&lt;br/&gt;&lt;br/&gt;Caso o Locatário interponha recurso e este seja provido, a Locadora restituirá o valor da multa paga tão logo seja reembolsada pelo órgão autuador.</field>
         </record>
-        <record id="clause_49" model="agreement.clause">
+        <record id="fleet_rent_cl_49" model="agreement.clause">
             <field name="name">Questionamento de Multas perante Órgão Autuador</field>
             <field name="sequence">5</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_14_multas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_14_multas" />
             <field name="content">Qualquer questionamento sobre procedência ou justiça das multas deverá ser feito pelo Locatário perante o órgão autuador, e não perante a Locadora, permanecendo o Locatário responsável pela restituição de todos os valores decorrentes das penalidades cometidas no período da locação.</field>
         </record>
-        <record id="clause_50" model="agreement.clause">
+        <record id="fleet_rent_cl_50" model="agreement.clause">
             <field name="name">Cobrança de Multas e Taxa de Administração (15%)</field>
             <field name="sequence">6</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_14_multas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_14_multas" />
             <field name="content">Será cobrado do Locatário o valor integral da multa de trânsito, imediatamente após o recebimento da autuação pela Locadora, podendo ser acrescido de 15% (quinze por cento) a título de custos operacionais/taxa de administração, independentemente de a Locadora indicar os pontos ao Locatário.</field>
         </record>
 
         <!-- ==================== SEÇÃO 15: DESPESAS ==================== -->
-        <record id="section_15_despesas" model="agreement.section">
+        <record id="fleet_rent_sec_15_despesas" model="agreement.section">
             <field name="name">DESPESAS</field>
             <field name="sequence">15</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_51" model="agreement.clause">
+        <record id="fleet_rent_cl_51" model="agreement.clause">
             <field name="name">Relação de Despesas Ressarcíveis</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_15_despesas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_15_despesas" />
             <field name="content">São despesas a serem ressarcíveis pelo Locatário à Locadora, entre outras:&lt;br/&gt;(i) &lt;b&gt;Quilometragem excedente:&lt;/b&gt; periodicamente, na data do pagamento da locação, a quilometragem que exceder a franquia contratada, ao valor equivalente a 1/100 da diária de locação por quilômetro excedente. A quilometragem excedente será exigida quando totalizar 1.000 km ou na rescisão do contrato. Violado o odômetro, considerar-se-á a média de 300 km por dia;&lt;br/&gt;(ii) &lt;b&gt;Lavagem/higienização:&lt;/b&gt; quando o veículo for devolvido sujo, o custo efetivo e comprovado da lavagem ou higienização necessária;&lt;br/&gt;(iii) &lt;b&gt;Chaves do veículo:&lt;/b&gt; quando não devolvidas, multa de 3 diárias de locação, além do reembolso das despesas de confecção das chaves;&lt;br/&gt;(iv) &lt;b&gt;Despachantes e advogados:&lt;/b&gt; despesas com serviços de advogados e despachantes para desembaraço e Boletim de Ocorrência;&lt;br/&gt;(v) &lt;b&gt;Quilômetro rodado:&lt;/b&gt; 1/40 da diária de locação por quilômetro nos deslocamentos necessários ao desembaraço do veículo;&lt;br/&gt;(vi) &lt;b&gt;Taxas e demais despesas:&lt;/b&gt; valores exigidos por órgãos públicos e particulares;&lt;br/&gt;(vii) &lt;b&gt;Reboque e guincho:&lt;/b&gt; despesa de deslocamento do veículo;&lt;br/&gt;(viii) &lt;b&gt;Retomada do veículo:&lt;/b&gt; custos de retomada por bloqueio decorrente de inadimplemento ou mau uso;&lt;br/&gt;(ix) &lt;b&gt;Acessórios e pneumáticos:&lt;/b&gt; valor integral em caso de furto, roubo ou dano;&lt;br/&gt;(x) &lt;b&gt;Infrações de trânsito&lt;/b&gt;, na forma da Seção 14.</field>
         </record>
-        <record id="clause_52" model="agreement.clause">
+        <record id="fleet_rent_cl_52" model="agreement.clause">
             <field name="name">Incidência da Taxa de Custos Operacionais (15%)</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_15_despesas" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_15_despesas" />
             <field name="content">&lt;b&gt;Custos operacionais:&lt;/b&gt; taxa de 15% (quinze por cento) incidente sobre o valor de qualquer despesa a ser reembolsada pelo Locatário, excetuados os valores pagos a título de quilômetro rodado. A Locadora poderá, a seu critério, não cobrar esta taxa, sem que isso caracterize novação.</field>
         </record>
 
         <!-- ==================== SEÇÃO 16: MULTA POR AUSÊNCIA EM MANUTENÇÃO PROGRAMADA E CONVOCAÇÕES ==================== -->
-        <record id="section_16_multa_manutencao" model="agreement.section">
+        <record id="fleet_rent_sec_16_multa_manutencao" model="agreement.section">
             <field name="name">MULTA POR AUSÊNCIA EM MANUTENÇÃO PROGRAMADA E CONVOCAÇÕES</field>
             <field name="sequence">16</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_53" model="agreement.clause">
+        <record id="fleet_rent_cl_53" model="agreement.clause">
             <field name="name">Obrigação de Comparecimento às Convocações</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_16_multa_manutencao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_16_multa_manutencao" />
             <field name="content">O Locatário obriga-se a comparecer, no local, data e hora indicados em comunicação da Locadora, sempre que convocado para manutenção preventiva ou corretiva programada, substituição, inspeção de rotina, recall, reparos ou prestação de esclarecimentos. A convocação será feita pelos canais oficiais com antecedência mínima de 24 (vinte e quatro) horas.</field>
         </record>
-        <record id="clause_54" model="agreement.clause">
+        <record id="fleet_rent_cl_54" model="agreement.clause">
             <field name="name">Penalidade por Não Comparecimento e Bloqueio</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_16_multa_manutencao" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_16_multa_manutencao" />
             <field name="content">O não comparecimento injustificado à manutenção programada ou à convocação, na data e hora agendadas, sujeitará o Locatário a &lt;b&gt;multa equivalente a 2 (duas) diárias de locação&lt;/b&gt; (com base no valor do veículo contratado) por convocação descumprida, acrescida de &lt;b&gt;1 (uma) diária por dia de atraso&lt;/b&gt; até o efetivo comparecimento, limitada a 10 (dez) diárias por convocação.&lt;br/&gt;&lt;br/&gt;A multa não afasta a responsabilidade do Locatário pelas despesas e danos decorrentes da falta de manutenção, tampouco a continuidade do pagamento normal do aluguel no período.&lt;br/&gt;&lt;br/&gt;Persistindo a ausência por mais de 5 (cinco) dias corridos da data agendada, a Locadora poderá bloquear o veículo, na forma da Seção 18, e/ou terminar a locação, nos termos do item 21.&lt;br/&gt;&lt;br/&gt;Considera-se justificada a ausência apenas quando o Locatário comprovar, pelos canais oficiais e previamente à data agendada sempre que possível, motivo de força maior ou caso fortuito, hipótese em que a Locadora reagendará a manutenção sem incidência de multa.</field>
         </record>
 
         <!-- ==================== SEÇÃO 17: REEMBOLSO ==================== -->
-        <record id="section_17_reembolso" model="agreement.section">
+        <record id="fleet_rent_sec_17_reembolso" model="agreement.section">
             <field name="name">REEMBOLSO</field>
             <field name="sequence">17</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_55" model="agreement.clause">
+        <record id="fleet_rent_cl_55" model="agreement.clause">
             <field name="name">Apuração de Saldos e Devolução da Caução em 30 Dias</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_17_reembolso" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_17_reembolso" />
             <field name="content">Terminado o contrato, a Locadora apurará as obrigações do Locatário, procedendo à cobrança dos débitos após a compensação dos créditos de que ele disponha, inclusive aluguéis e caução. O eventual saldo será pago ao Locatário em até 30 (trinta) dias da data de devolução do veículo.</field>
         </record>
 
         <!-- ==================== SEÇÃO 18: DO BLOQUEIO ==================== -->
-        <record id="section_18_bloqueio" model="agreement.section">
+        <record id="fleet_rent_sec_18_bloqueio" model="agreement.section">
             <field name="name">DO BLOQUEIO</field>
             <field name="sequence">18</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_56" model="agreement.clause">
+        <record id="fleet_rent_cl_56" model="agreement.clause">
             <field name="name">Parâmetros de Bloqueio, Desbloqueio e Aviso Prévio</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_18_bloqueio" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_18_bloqueio" />
             <field name="content">O bloqueio e o desbloqueio do veículo seguirão os seguintes parâmetros:&lt;br/&gt;(i) A Locadora procederá ao bloqueio do veículo quando: (a) verificado descumprimento de qualquer disposição deste contrato, inclusive atraso no pagamento; (b) dispuser de informações que permitam concluir por mau uso do veículo pelo Locatário; (c) os indícios permitirm concluir pela ocorrência de furto, roubo ou fraude; (d) o veículo transitar fora da Região Metropolitana de Salvador ou da área de circulação definida; ou (e) configurada a ausência injustificada em manutenção programada, nos termos do item 54.2.&lt;br/&gt;(ii) A Locadora efetuará o desbloqueio do veículo em até 2 (dois) dias da quitação e compensação da obrigação inadimplida, ou quando, a seu critério, as informações recebidas forem suficientes para afastar a situação de inadimplência, furto, roubo, fraude ou trânsito fora da área permitida.&lt;br/&gt;(iii) &lt;b&gt;Forma segura de bloqueio e aviso prévio.&lt;/b&gt; A Locadora buscará sempre implementar o bloqueio por meio do impedimento de nova partida, com o veículo já parado e desligado, sendo vedado o bloqueio destinado a interromper o funcionamento do veículo em movimento. A Locadora notificará o Locatário, com antecedência mínima de 1 (um) dia, sobre a decisão de bloqueio. O Locatário reconhece que limitações tecnológicas podem fazer com que o comando alcance o equipamento após a partida e assume o risco de circular com veículo sujeito a bloqueio.&lt;br/&gt;(iv) A Locadora poderá, a qualquer tempo, alterar os parâmetros de bloqueio, desde que informe previamente o Locatário.</field>
         </record>
 
         <!-- ==================== SEÇÃO 19: TRATAMENTO DE DADOS PESSOAIS ==================== -->
-        <record id="section_19_lgpd" model="agreement.section">
+        <record id="fleet_rent_sec_19_lgpd" model="agreement.section">
             <field name="name">TRATAMENTO DE DADOS PESSOAIS</field>
             <field name="sequence">19</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_57" model="agreement.clause">
+        <record id="fleet_rent_cl_57" model="agreement.clause">
             <field name="name">Conformidade com a LGPD</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_19_lgpd" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_19_lgpd" />
             <field name="content">No contexto deste Contrato, a Locadora trata dados pessoais do Locatário na posição de controladora, podendo compartilhá-los com terceiros na medida necessária à execução do contrato e ao exercício regular de direitos. Todas as atividades de tratamento observam a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 — “LGPD”) e demais normas aplicáveis. Informações sobre os dados tratados, as finalidades, o compartilhamento e os direitos do titular constam da política de privacidade disponível no site oficial da Locadora (babur.com.br/legal).</field>
         </record>
 
         <!-- ==================== SEÇÃO 20: DISPOSIÇÕES GERAIS ==================== -->
-        <record id="section_20_foro" model="agreement.section">
+        <record id="fleet_rent_sec_20_foro" model="agreement.section">
             <field name="name">DISPOSIÇÕES GERAIS</field>
             <field name="sequence">20</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template" />
         </record>
-        <record id="clause_58" model="agreement.clause">
+        <record id="fleet_rent_cl_58" model="agreement.clause">
             <field name="name">Ciência e Consentimento do Locatário</field>
             <field name="sequence">1</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">O Locatário concorda que sua assinatura no Contrato implica ciência e consentimento quanto às cláusulas destas Condições Gerais, às quais teve amplo acesso e conhecimento prévios.</field>
         </record>
-        <record id="clause_59" model="agreement.clause">
+        <record id="fleet_rent_cl_59" model="agreement.clause">
             <field name="name">Validade da Assinatura Eletrônica e Título Executivo</field>
             <field name="sequence">2</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">O Locatário reconhece a forma de contratação por meio eletrônico e digital como válida e plenamente eficaz, constituindo este contrato e os documentos que o integram título executivo extrajudicial para todos os fins, ainda que firmado com assinatura eletrônica ou certificação fora dos padrões ICP-Brasil, conforme a Medida Provisória nº 2.200-2/2001.</field>
         </record>
-        <record id="clause_60" model="agreement.clause">
+        <record id="fleet_rent_cl_60" model="agreement.clause">
             <field name="name">Não Novação e Liberalidade</field>
             <field name="sequence">3</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">Eventual omissão, atraso ou tolerância de qualquer das partes em exigir o cumprimento de condição do Contrato, ou em exercer direito, prerrogativa ou recurso, constitui mera liberalidade, não constituindo novação nem renúncia à possibilidade futura de exigir o cumprimento, permanecendo íntegras as cláusulas e condições contratadas.</field>
         </record>
-        <record id="clause_61" model="agreement.clause">
+        <record id="fleet_rent_cl_61" model="agreement.clause">
             <field name="name">Isenção de Lucros Cessantes e Danos Indiretos</field>
             <field name="sequence">4</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">A Locadora não responderá por lucros cessantes nem por danos indiretos, salvo nos casos de dolo ou culpa grave, ou de descumprimento de obrigação expressamente assumida neste Contrato.</field>
         </record>
-        <record id="clause_62" model="agreement.clause">
+        <record id="fleet_rent_cl_62" model="agreement.clause">
             <field name="name">Inexistência de Solidariedade e Posse Autônoma</field>
             <field name="sequence">5</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">Nos termos do art. 265 do Código Civil, inexiste solidariedade, contratual ou legal, entre a Locadora e o Locatário; com a locação e a efetiva retirada do veículo, o Locatário assume sua posse autônoma para todos os fins, respondendo por eventuais indenizações decorrentes do uso e circulação do veículo até a efetiva devolução.</field>
         </record>
-        <record id="clause_63" model="agreement.clause">
+        <record id="fleet_rent_cl_63" model="agreement.clause">
             <field name="name">Cessão de Direitos e Créditos</field>
             <field name="sequence">6</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">A Locadora poderá, mediante instrumento particular de cessão de crédito, ceder seus direitos de crédito relativos a este Contrato, bem como os direitos e ações conferidos por lei, a parceiros e terceiros, a seu critério, com o que o Locatário concorda. O Locatário, por sua vez, não poderá ceder, parcial ou totalmente, as obrigações deste contrato, salvo autorização expressa da Locadora.</field>
         </record>
-        <record id="clause_64" model="agreement.clause">
+        <record id="fleet_rent_cl_64" model="agreement.clause">
             <field name="name">Independência das Cláusulas e Nulidade Parcial</field>
             <field name="sequence">7</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">Caso algum item deste Contrato seja declarado nulo, os demais permanecerão válidos e em plena aplicação. Cada cláusula é dispositivo independente e distinto dos demais e, sempre que possível, será interpretada de modo a se tornar válida e eficaz à luz da lei aplicável, observadas as intenções originais das partes.</field>
         </record>
-        <record id="clause_65" model="agreement.clause">
+        <record id="fleet_rent_cl_65" model="agreement.clause">
             <field name="name">Integralidade do Acordo</field>
             <field name="sequence">8</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">O Contrato constitui a integralidade do que foi acordado entre as partes, substituindo quaisquer entendimentos ou acordos anteriores à sua assinatura.</field>
         </record>
-        <record id="clause_66" model="agreement.clause">
+        <record id="fleet_rent_cl_66" model="agreement.clause">
             <field name="name">Regras de Interpretação</field>
             <field name="sequence">9</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">&lt;b&gt;Regras de interpretação.&lt;/b&gt; Salvo disposição em contrário: (i) o singular inclui o plural e vice-versa, e cada gênero inclui o outro; (ii) as expressões “inclusive” e “incluindo” significam, respectivamente, “inclusive, sem limitação” e “incluindo, sem limitação”; (iii) aditivos, anexos, cronogramas, comunicações, informes, proposta e demais documentos sobre a locação integram e produzem os mesmos efeitos como se inseridos no corpo destes Termos Gerais e do Contrato de Locação.</field>
         </record>
-        <record id="clause_67" model="agreement.clause">
+        <record id="fleet_rent_cl_67" model="agreement.clause">
             <field name="name">Foro de Eleição</field>
             <field name="sequence">10</field>
-            <field name="agreement_id" ref="agreement_template_fleet_rent"/>
-            <field name="section_id" ref="section_20_foro" />
+            <field name="agreement_id" ref="fleet_rent_agreement_template"/>
+            <field name="section_id" ref="fleet_rent_sec_20_foro" />
             <field name="content">O Foro competente para dirimir quaisquer questões relativas ao Contrato é o da Comarca de Salvador/BA — sede da Locadora e local de execução da locação e disponibilização do veículo.</field>
         </record>
 
