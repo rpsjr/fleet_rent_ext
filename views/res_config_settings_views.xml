@@ -20,6 +20,13 @@
                                         class="text-center oe_inline"
                                     />
                                 </div>
+                                <div class="text-muted content-group mt16">
+                                    <span>Default Rent Type </span>
+                                    <field
+                                        name="fleet_rent_type_id"
+                                        class="text-center oe_inline"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

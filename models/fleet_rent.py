@@ -22,6 +22,24 @@ class FleetRent(models.Model):
     _name = "fleet.rent"
     _inherit = "fleet.rent"
 
+    @api.model
+    def _default_rent_type_id(self):
+        param = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("fleet_rent.fleet_rent_type_id")
+        )
+        if param and str(param).isdigit():
+            rent_type = self.env["rent.type"].browse(int(param))
+            if rent_type.exists():
+                return rent_type.id
+        return False
+
+    rent_type_id = fields.Many2one(
+        "rent.type",
+        default=_default_rent_type_id,
+    )
+
     tenant_id = fields.Many2one(
         "res.partner",
         ondelete="set default",
