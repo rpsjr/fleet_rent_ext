@@ -256,9 +256,9 @@
                                   <t t-set="agr" t-value="o if o._name == 'agreement' else (rent.agreement_id if rent and rent.agreement_id else False)"/>
                                   <t t-set="template_agr" t-value="env.ref('fleet_rent_ext.fleet_rent_agreement_template', raise_if_not_found=False)"/>
                                   <t t-set="agr_to_use" t-value="agr if agr else template_agr"/>
-                                  <t t-set="sec_list" t-value="getattr(agr_to_use, 'sections_ids', False) or getattr(agr_to_use, 'section_ids', False) or getattr(agr_to_use, 'sections', False) or getattr(agr_to_use, 'clauses_ids', False) or getattr(agr_to_use, 'clauses', False) if agr_to_use else False"/>
+                                  <t t-set="sec_list" t-value="(agr_to_use.sections_ids if 'sections_ids' in agr_to_use._fields else (agr_to_use.section_ids if 'section_ids' in agr_to_use._fields else (agr_to_use.sections if 'sections' in agr_to_use._fields else (agr_to_use.clauses_ids if 'clauses_ids' in agr_to_use._fields else (agr_to_use.clauses if 'clauses' in agr_to_use._fields else False))))) if agr_to_use else False"/>
                                   <t t-if="not sec_list and template_agr">
-                                      <t t-set="sec_list" t-value="getattr(template_agr, 'sections_ids', False) or getattr(template_agr, 'section_ids', False) or getattr(template_agr, 'sections', False) or getattr(template_agr, 'clauses_ids', False) or getattr(template_agr, 'clauses', False)"/>
+                                      <t t-set="sec_list" t-value="(template_agr.sections_ids if 'sections_ids' in template_agr._fields else (template_agr.section_ids if 'section_ids' in template_agr._fields else (template_agr.sections if 'sections' in template_agr._fields else (template_agr.clauses_ids if 'clauses_ids' in template_agr._fields else (template_agr.clauses if 'clauses' in template_agr._fields else False))))) if template_agr else False"/>
                                   </t>
 
                                   <div
@@ -277,7 +277,7 @@
                                           <h4 style="margin-top: 12px; margin-bottom: 4px; font-weight: bold;">
                                               <t t-esc="sec_index + 1"/>. <t t-esc="sec.title or sec.name"/>
                                           </h4>
-                                          <t t-set="claus_list" t-value="getattr(sec, 'clause_ids', False) or getattr(sec, 'clauses_ids', False) or getattr(sec, 'clauses', False)"/>
+                                          <t t-set="claus_list" t-value="(sec.clauses_ids if 'clauses_ids' in sec._fields else (sec.clause_ids if 'clause_ids' in sec._fields else (sec.clauses if 'clauses' in sec._fields else False))) if sec else False"/>
                                           <t t-if="claus_list">
                                               <t t-foreach="claus_list" t-as="claus">
                                                   <p style="margin-bottom: 6px; text-align: justify;">
@@ -288,7 +288,7 @@
                                                   </p>
                                               </t>
                                           </t>
-                                          <t t-if="not claus_list and hasattr(sec, 'content') and sec.content">
+                                          <t t-if="not claus_list and 'content' in sec._fields and sec.content">
                                               <p style="margin-bottom: 6px; text-align: justify;">
                                                   <span t-raw="sec.content"/>
                                               </p>
