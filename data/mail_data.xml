@@ -77,10 +77,10 @@
         <tbody>
             <tr>
                 <td>
-                    <a href="/"><img src="/web/binary/company_logo" style="vertical-align: baseline; max-width: 100px; width: auto; height: auto;"></a>
+                    <a href="/"><img src="/web/binary/company_logo" style="vertical-align:baseline;max-width: 100px; width: auto; height: auto;"></a>
                 </td>
-                <td style="text-align:right;vertical-align:middle;font-weight:bold;font-size:16px;">
-                    Proposta / Contrato de Locação
+                <td style="text-align:right;vertical-align:middle;">
+                    Proposta de locação
                 </td>
             </tr>
         </tbody>
@@ -89,16 +89,44 @@
         <tbody>
             <tr>
                 <td style="padding:15px 20px 10px 20px;">
-                    <p>Prezado(a) <strong>${object.tenant_id.name or ''}</strong>,</p>
+                    <p>Olá ${object.tenant_id.name or ''}&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p style="margin-left:1.5em;">Segue proposta de locação,&nbsp;<span style="font-weight:bolder;">leia com atenção!</span></p>
+                    <p style="margin-left:1.5em;"><br></p>
+                    <p style="margin-left:1.5em;">RECOMENDAÇÕES PARA ESTE CONTRATO:</p>
+                    <p style="margin-left:1.5em;"><br></p>
+                    <p style="margin-left:1.5em;">- Este contrato é formado por:<b><br></b></p>
+                    <ol>
+                        <li class="o_indent">
+                            <ol>
+                                <li><p style="margin-left:1.5em;"><b>Proposta/Contrato de Locação com&nbsp;</b><span style="font-weight:bolder;font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; text-align: inherit;">Termos Gerais de Locação</span><b>; e</b></p></li>
+                                <li><p style="margin-left:1.5em;"><b>Laudo de Vistoria</b>.</p></li>
+                            </ol>
+                        </li>
+                    </ol>
+                    <p style="margin-left:1.5em;"><b>- Todos os documentos devem ser lidos com atenção.</b></p>
+                    <p style="margin-left:1.5em;"><br></p>
+                    <p style="margin-left:1.5em;">- Verifique se todos os seus dados estão corretos.</p>
+                    <p style="margin-left:1.5em;"><br></p>
+                    <p style="margin-left:1.5em;">- Qualquer dúvida ou discordância deve ser comunicada ao nosso time antes da assinatura do contrato. Retorne este e-mail ou entre em contato conosco por telefone ou aplicativos de mensagem.</p>
+                    <p style="margin-left:1.5em;"><br></p>
+                    <p style="margin-left:1.5em;">- A Proposta/Contrato de Locação deverá ser assinada por todas as partes envolvidas na negociação.</p>
+                    <p style="margin-left:1.5em;"><b><br></b></p>
+                    <p style="margin-left:1.5em;">- Recomendamos realizar a <b>Assinatura Eletrônica do GOV.BR</b>&nbsp; (<span style="text-align:inherit;"><a href="https://www.gov.br/governodigital/pt-br/assinatura-eletronica">https://www.gov.br/governodigital/pt-br/assinatura-eletronica</a>)</span><span style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit; text-align: inherit;">.</span></p>
                     <p style="margin-left:1.5em;">
-                        Segue em anexo a <strong>Proposta / Contrato de Locação (${object.name or ''})</strong> referente ao veículo <strong>${object.vehicle_id.name or ''}</strong>.
+                        <span style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;">&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</span><br style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;">
+                        <span style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;">______________________________________________________________</span><br style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;"><br style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;">
+                        <span style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;">LAUDO DE VISTORIA</span><br><br style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;">
+                        <span style="font-family:Roboto, &quot;Odoo Unicode Support Noto&quot;, sans-serif;">Será anexado ao contrato um laudo de vistoria do veículo. Este documento descreve as condições gerais do veículo. Com este laudo, no final da locação, junto com a&nbsp;entrega da chave, será procedida vistoria de danos aparentes ao veículo.&nbsp;</span><br>
+                        <span style="text-align:inherit;"><br>Faça uma leitura prévia do modelo de laudo de vistoria para conhecer os itens que serão vistoriados. <br><br>O preenchimento do laudo de vistória será feito de forma eletrônica:</span>
                     </p>
-                    <p style="margin-left:1.5em;">
-                        Por favor, verifique o documento em anexo. Se tiver qualquer dúvida, não hesite em nos contatar.
-                    </p>
-                    <p style="margin-left:1.5em;"><br/>Atenciosamente,</p>
-                    <p style="margin-left:1.5em;"><strong>${user.company_id.name}</strong></p>
+                    <a href="https://vehicle-inspection-app-1005479144456.us-central1.run.app/" class="btn btn-warning btn-sm" target="_blank">clique aqui para realizar a vistoria!</a><br>
+                    <p style="margin-left:1.5em;"><br></p>
+                    <p style="margin-left:1.5em;">Se tiver alguma dúvida, não hesite em contactar-nos.</p>
                 </td>
+            </tr>
+            <tr>
+                <td style="padding:15px 20px 10px 20px;"><p><br></p></td>
             </tr>
         </tbody>
     </table>
