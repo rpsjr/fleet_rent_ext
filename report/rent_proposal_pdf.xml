@@ -53,7 +53,7 @@
                 <t t-foreach="docs.exists()" t-as="o">
                   <t
                         t-set="rent"
-                        t-value="o if o._name == 'fleet.rent' else (o.rent_id if o.rent_id and o.rent_id.exists() else (env['fleet.rent'].search([('agreement_id', '=', o.id)], limit=1) if o._name == 'agreement' and o.exists() else False))"
+                        t-value="o if o._name == 'fleet.rent' else (o.rent_id if o.rent_id and o.rent_id.exists() else (o.env['fleet.rent'].search([('agreement_id', '=', o.id)], limit=1) if o._name == 'agreement' and o.exists() else False))"
                     />
                   <t
                         t-set="tenant"
@@ -87,8 +87,7 @@
                                     >Proposta/Contrato de Locação <a
                                             t-if="rent"
                                             t-field="rent.name"
-                                        /><a t-if="not rent" t-field="o.name" /><p
-                                        /></p>
+                                        /><a t-if="not rent" t-field="o.name" /></p>
 
                                  <br />
                                  <br />
@@ -104,7 +103,7 @@
                                             t-field="o.company_id.state_id"
                                         />, inscrita no CNPJ nº <a
                                             t-field="o.company_id.l10n_br_cnpj_cpf"
-                                        />.<p /></p>
+                                        />.</p>
 
                                  <t t-if="tenant">
                                  <p
@@ -132,7 +131,7 @@
                                                 t-field="tenant.zip"
                                             />, endereço de correio eletrônico <b>  <a
                                                     t-field="tenant.email"
-                                                /></b>.<p /></p>
+                                                /></b>.</p>
                                  </t>
 
                                  <p
@@ -140,14 +139,12 @@
                                         style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 11pt; font-family: Arial, sans-serif;"
                                     >O Proponente/Locatário declara-se ciente e de pleno acordo com as disposições contidas nas <b
                                         >Cláusulas Gerais do Contrato de Locação de Veículo</b>, que integram este contrato, cuja cópia recebeu antes do ato da assinatura deste instrumento e também, com as informações do <b
-                                        >Laudo de Vistoria</b>, que descreve o veículo e o seu estado de conservação no momento em que o mesmo foi entregue ao Proponente/Locatário, forming todos um documento único e indivisível.<p
-                                        /></p>
+                                        >Laudo de Vistoria</b>, que descreve o veículo e o seu estado de conservação no momento em que o mesmo foi entregue ao Proponente/Locatário, forming todos um documento único e indivisível.</p>
 
                                  <p
                                         class="par4"
                                         style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 11pt; font-family: Arial, sans-serif;"
-                                    >O acolhimento desta Proposta/Contrato não implica em aceitação da proposta por parte do Locador estando tal aceitação condicionada à assinatura do Locador e à entrega do veículo locado.<p
-                                        /></p>
+                                    >O acolhimento desta Proposta/Contrato não implica em aceitação da proposta por parte do Locador estando tal aceitação condicionada à assinatura do Locador e à entrega do veículo locado.</p>
 
                                  <t t-if="rent">
                                  <p
@@ -172,7 +169,7 @@
                                                 t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: rent.currency_id}"
                                             /> (<a
                                                 t-field="rent.resale_value_extenso"
-                                            />).<p /></p>
+                                            />).</p>
                                  <p
                                             class="tit_claus"
                                             style="margin-bottom:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
@@ -187,7 +184,7 @@
                                                 t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: rent.currency_id}"
                                             /> (<a
                                                 t-field="rent.rent_amt_extenso"
-                                            />). <p /></p>
+                                            />).</p>
                                  <p
                                             class="tit_claus"
                                             style="margin-bottom:2pt; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
@@ -198,8 +195,7 @@
                                    <p
                                                 class="claus"
                                                 style="text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
-                                            >A locação é livre de controle de quilometragem.<p
-                                                /></p>
+                                            >A locação é livre de controle de quilometragem.</p>
                                  </t>
                                  <t t-if="rent.rent_product.mileage_control">
                                    <p
@@ -209,7 +205,7 @@
                                                     t-field="rent.rent_product.mileage_allowance.mileage_allowance_km"
                                                 /> kms (<a
                                                     t-field="rent.mileage_allowance_extenso"
-                                                /> quilômetros).<p /></p>
+                                                /> quilômetros).</p>
                                  </t>
                                  <p
                                             class="tit_claus"
@@ -226,15 +222,13 @@
                                                     t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: rent.currency_id}"
                                                 /> (<a
                                                     t-field="rent.deposit_amt_extenso"
-                                                />), transferido à conta bancária da LOCADORA.<p
-                                                /></p>
+                                                />), transferido à conta bancária da LOCADORA.</p>
                                  </t>
                                  <t t-if="not rent.deposit_amt">
                                    <p
                                                 class="claus"
                                                 style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
-                                            >Este contrato é pactuado sem depósito de garantia e portanto os valores de locação são devidos antecipadamente.<p
-                                                /></p>
+                                            >Este contrato é pactuado sem depósito de garantia e portanto os valores de locação são devidos antecipadamente.</p>
                                  </t>
                                  <p
                                             class="tit_claus"
@@ -245,8 +239,7 @@
                                  <p
                                             class="claus"
                                             style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
-                                        >O Veículo será devolvido ao LOCADOR pelo LOCATÁRIO na Rua Padre Feijó, 369 - Canela, Salvador – BA.<p
-                                            /></p>
+                                        >O Veículo será devolvido ao LOCADOR pelo LOCATÁRIO na Rua Padre Feijó, 369 - Canela, Salvador – BA.</p>
                                  </t>
 
                                  <hr
@@ -254,7 +247,7 @@
                                     />
 
                                   <t t-set="agr" t-value="o if o._name == 'agreement' and o.exists() else (rent.agreement_id if rent and rent.agreement_id and rent.agreement_id.exists() else False)"/>
-                                  <t t-set="template_agr" t-value="env.ref('fleet_rent_ext.fleet_rent_agreement_template', raise_if_not_found=False)"/>
+                                  <t t-set="template_agr" t-value="o.env.ref('fleet_rent_ext.fleet_rent_agreement_template', raise_if_not_found=False)"/>
                                   <t t-set="template_agr" t-value="template_agr if template_agr and template_agr.exists() else False"/>
                                   <t t-set="agr_to_use" t-value="agr if agr else template_agr"/>
                                   <t t-set="sec_list" t-value="(agr_to_use.sections_ids if 'sections_ids' in agr_to_use._fields else (agr_to_use.section_ids if 'section_ids' in agr_to_use._fields else (agr_to_use.sections if 'sections' in agr_to_use._fields else (agr_to_use.clauses_ids if 'clauses_ids' in agr_to_use._fields else (agr_to_use.clauses if 'clauses' in agr_to_use._fields else False))))) if agr_to_use else False"/>
@@ -396,7 +389,7 @@
         report_type="qweb-pdf"
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
-        paperformat="paperformat_lowmargin"
+        paperformat="fleet_rent_ext.paperformat_lowmargin"
         print_report_name="'Contrato - %s - %s - %s' % (object.name if object and object.exists() else '', (object.vehicle_id.model_id.name if object and object.exists() and object.vehicle_id and object.vehicle_id.model_id else (object.vehicle_id.name if object and object.exists() and object.vehicle_id else '')) or '', (object.tenant_id.name or '').split()[0] if object and object.exists() and object.tenant_id and object.tenant_id.name else '')"
     />
 
@@ -408,7 +401,7 @@
         report_type="qweb-pdf"
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
-        paperformat="paperformat_lowmargin"
+        paperformat="fleet_rent_ext.paperformat_lowmargin"
         print_report_name="'Contrato - %s - %s - %s' % (((object.rent_id if object.rent_id and object.rent_id.exists() else object.env['fleet.rent'].search([('agreement_id', '=', object.id)], limit=1)).name or object.name or '') if object and object.exists() else '', ((object.rent_id if object.rent_id and object.rent_id.exists() else object.env['fleet.rent'].search([('agreement_id', '=', object.id)], limit=1)).vehicle_id.model_id.name or (object.rent_id if object.rent_id and object.rent_id.exists() else object.env['fleet.rent'].search([('agreement_id', '=', object.id)], limit=1)).vehicle_id.name or '') if object and object.exists() else '', (((object.rent_id if object.rent_id and object.rent_id.exists() else object.env['fleet.rent'].search([('agreement_id', '=', object.id)], limit=1)).tenant_id.name or object.partner_id.name or '').split()[0] if object and object.exists() else ''))"
     />
 

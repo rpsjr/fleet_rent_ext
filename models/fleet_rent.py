@@ -248,6 +248,13 @@ class FleetRent(models.Model):
             "context": ctx,
         }
 
+    def action_print_proposal(self):
+        """Generates agreement if needed and returns the print action for the proposal report."""
+        self.ensure_one()
+        if not self.agreement_id or not self.agreement_id.exists():
+            self.action_create_agreement()
+        return self.env.ref("fleet_rent_ext.report_fleet_rent_proposal").report_action(self)
+
     deposit_amt_extenso = fields.Text(
         string="Deposit value", compute="_write_deposit_amt"
     )
@@ -629,6 +636,8 @@ class FleetRent(models.Model):
             payment_journal = rent.env["account.journal"].search(
                 [("name", "ilike", "inter")], limit=1
             )
+            payment_journal_id = payment_journal.id if payment_journal else 18
+
             payment_term = rent.env["account.payment.term"].search(
                 [("name", "=ilike", "D+0 / boleto")], limit=1
             )
