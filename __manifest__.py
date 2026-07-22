@@ -28,6 +28,7 @@
     # Data
     "data": [
         "data/rent_sequence.xml",
+        "report/rent_proposal_pdf.xml",
         "data/mail_data.xml",
         "data/mail_invoice_cron.xml",
         "data/agreement_data.xml",
@@ -36,7 +37,6 @@
         "views/fleet_extended_view.xml",
         "views/res_config_settings_views.xml",
         "views/res_partner_views.xml",
-        "report/rent_proposal_pdf.xml",
     ],
     # Technical
     "auto_install": False,

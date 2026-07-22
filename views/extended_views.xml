@@ -41,6 +41,12 @@
                         attrs="{'invisible': [('agreement_id', '!=', False)]}"
                         class="oe_highlight"
                     />
+              <button
+                        name="action_send_proposal_email"
+                        string="Enviar Proposta por E-mail"
+                        type="object"
+                        class="oe_highlight"
+                    />
             </xpath>
             <xpath expr="//field[@name='tenant_id']" position="replace">
               <field

@@ -58,7 +58,7 @@ class FleetRent(models.Model):
     def action_create_agreement(self):
         """Method to automatically create and link an Agreement document."""
         for rent in self:
-            if rent.agreement_id:
+            if rent.agreement_id and rent.agreement_id.exists():
                 continue
             agr_type = self.env.ref(
                 "fleet_rent_ext.fleet_rent_agreement_type", raise_if_not_found=False
@@ -97,6 +97,43 @@ class FleetRent(models.Model):
 
             rent.agreement_id = agr.id
         return True
+
+    def action_send_proposal_email(self):
+        """Opens mail.compose.message wizard prefilled with rent proposal template."""
+        self.ensure_one()
+        if not self.agreement_id or not self.agreement_id.exists():
+            self.action_create_agreement()
+
+        template = self.env.ref(
+            "fleet_rent_ext.email_rent_proposal_template", raise_if_not_found=False
+        )
+        if not template:
+            template = self.env["mail.template"].search(
+                [("name", "ilike", "Proposta de Loca")], limit=1
+            )
+
+        compose_form = self.env.ref(
+            "mail.email_compose_message_wizard_form", raise_if_not_found=False
+        )
+        ctx = dict(
+            default_model="fleet.rent",
+            default_res_id=self.id,
+            default_use_template=bool(template),
+            default_template_id=template.id if template else False,
+            default_composition_mode="comment",
+            custom_layout="mail.mail_notification_light",
+            force_send=False,
+        )
+        return {
+            "name": _("Enviar Proposta por E-mail"),
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "res_model": "mail.compose.message",
+            "views": [(compose_form.id, "form")] if compose_form else [(False, "form")],
+            "view_id": compose_form.id if compose_form else False,
+            "target": "new",
+            "context": ctx,
+        }
 
     deposit_amt_extenso = fields.Text(
         string="Deposit value", compute="_write_deposit_amt"
