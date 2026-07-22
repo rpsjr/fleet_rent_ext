@@ -18,4 +18,10 @@ class ResConfigSettings(models.TransientModel):
         help="Default rent type for vehicle rentals",
         config_parameter="fleet_rent.fleet_rent_type_id",
     )
+    fleet_rental_deposit_formula = fields.Char(
+        string="Deposit Amount Formula",
+        help="Formula to calculate the default deposit amount (e.g. 'rent_amt * 2'). Available variables: rent, rent_amt, vehicle_id, rent_type_id, rent_product.",
+        config_parameter="fleet_rent.fleet_rental_deposit_formula",
+    )
+
 

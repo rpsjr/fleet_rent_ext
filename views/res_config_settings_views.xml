@@ -27,6 +27,14 @@
                                         class="text-center oe_inline"
                                     />
                                 </div>
+                                <div class="text-muted content-group mt16">
+                                    <span>Deposit Amount Formula </span>
+                                    <field
+                                        name="fleet_rental_deposit_formula"
+                                        class="oe_inline"
+                                        placeholder="e.g. rent_amt * 2"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

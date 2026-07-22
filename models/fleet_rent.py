@@ -1,6 +1,7 @@
 # See LICENSE file for full copyright and licensing details.
 # \"\"\"Fleet Rent Model.#\"\"\"
 
+import logging
 import re
 from datetime import datetime
 
@@ -9,6 +10,9 @@ from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, Warning
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF, ustr
+from odoo.tools.safe_eval import safe_eval
+
+_logger = logging.getLogger(__name__)
 
 try:
     from num2words import num2words
@@ -39,6 +43,93 @@ class FleetRent(models.Model):
         "rent.type",
         default=_default_rent_type_id,
     )
+
+    @api.model
+    def _default_deposit_amt(self):
+        param = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("fleet_rent.fleet_rental_deposit_formula")
+        )
+        if param and str(param).strip():
+            eval_context = {
+                "rent_amt": 0.0,
+                "min": min,
+                "max": max,
+                "round": round,
+                "abs": abs,
+                "int": int,
+                "float": float,
+            }
+            try:
+                val = safe_eval(param.strip(), eval_context)
+                if val is not None:
+                    return float(val)
+            except Exception:
+                pass
+        return 0.0
+
+    deposit_amt = fields.Float(
+        default=_default_deposit_amt,
+    )
+
+    def _get_deposit_amt_from_formula(self):
+        """Calculate deposit_amt using configured formula in settings."""
+        self.ensure_one()
+        param = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("fleet_rent.fleet_rental_deposit_formula")
+        )
+        if not param or not str(param).strip():
+            return None
+
+        eval_context = {
+            "rent": self,
+            "object": self,
+            "rent_amt": self.rent_amt or 0.0,
+            "vehicle_id": self.vehicle_id,
+            "rent_type_id": self.rent_type_id,
+            "rent_product": self.rent_product,
+            "min": min,
+            "max": max,
+            "round": round,
+            "abs": abs,
+            "int": int,
+            "float": float,
+        }
+        try:
+            val = safe_eval(param.strip(), eval_context)
+            if val is not None:
+                return float(val)
+        except Exception as e:
+            _logger.warning("Error evaluating deposit formula '%s': %s", param, e)
+        return None
+
+    @api.onchange("rent_amt", "vehicle_id", "rent_type_id", "rent_product")
+    def _onchange_deposit_amt_formula(self):
+        for rent in self:
+            calc_val = rent._get_deposit_amt_from_formula()
+            if calc_val is not None:
+                rent.deposit_amt = calc_val
+
+    @api.model
+    def create(self, vals):
+        rents = super(FleetRent, self).create(vals)
+        param = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("fleet_rent.fleet_rental_deposit_formula")
+        )
+        if param and str(param).strip():
+            vals_list = vals if isinstance(vals, list) else [vals]
+            for rent, v in zip(rents, vals_list):
+                if "deposit_amt" not in v or not v.get("deposit_amt"):
+                    calc_val = rent._get_deposit_amt_from_formula()
+                    if calc_val is not None and calc_val > 0:
+                        rent.deposit_amt = calc_val
+        return rents
+
 
     tenant_id = fields.Many2one(
         "res.partner",
