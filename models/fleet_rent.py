@@ -506,13 +506,30 @@ class FleetRent(models.Model):
                 "price_unit": rent.deposit_amt or 0.00,
                 "fleet_rent_id": rent.id,
             }
+            payment_mode = (
+                rent.env["account.payment.mode"].search([("name", "ilike", "inter")], limit=1)
+                if "account.payment.mode" in rent.env
+                else False
+            )
+            payment_mode_id = payment_mode.id if payment_mode else 1
+
+            payment_journal = rent.env["account.journal"].search(
+                [("name", "ilike", "inter")], limit=1
+            )
+            payment_journal_id = payment_journal.id if payment_journal else 18
+
+            today_str = datetime.now().strftime(DTF) or False
+
             invoice_id = rent.env["account.move"].create(
                 {
                     "type": "out_invoice",
                     "ref": rent.name,
                     "partner_id": rent.tenant_id and rent.tenant_id.id or False,
                     "invoice_line_ids": [(0, 0, inv_line_values)],
-                    "invoice_date": datetime.now().strftime(DTF) or False,
+                    "invoice_date": today_str,
+                    "invoice_date_due": today_str,
+                    "payment_mode_id": payment_mode_id,
+                    "payment_journal_id": payment_journal_id,
                     "fleet_rent_id": rent.id,
                     "is_deposit_inv": True,
                     "invoice_origin": rent.name,
