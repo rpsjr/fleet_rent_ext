@@ -396,6 +396,7 @@
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
         paperformat="paperformat_lowmargin"
+        print_report_name="'Contrato - %s - %s - %s' % (object.name or '', object.vehicle_id.model_id.name or object.vehicle_id.name or '', (object.tenant_id.name or '').split()[0] if object.tenant_id and object.tenant_id.name else '')"
     />
 
     <!-- Agreement Report integration -->
@@ -407,6 +408,7 @@
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
         paperformat="paperformat_lowmargin"
+        print_report_name="'Contrato - %s - %s - %s' % (object.rent_id.name if object.rent_id else (object.name or ''), (object.rent_id.vehicle_id.model_id.name if object.rent_id and object.rent_id.vehicle_id and object.rent_id.vehicle_id.model_id else '') or '', (object.partner_id.name or (object.rent_id.tenant_id.name if object.rent_id and object.rent_id.tenant_id else '')).split()[0] if (object.partner_id or (object.rent_id and object.rent_id.tenant_id)) else '')"
     />
 
 </odoo>

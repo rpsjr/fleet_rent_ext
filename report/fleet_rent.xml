@@ -10,6 +10,7 @@
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
         paperformat="fleet_rent_ext.paperformat_lowmargin"
+        print_report_name="'Contrato - %s - %s - %s' % (object.name or '', object.vehicle_id.model_id.name or object.vehicle_id.name or '', (object.tenant_id.name or '').split()[0] if object.tenant_id and object.tenant_id.name else '')"
     />
 
 </odoo>
