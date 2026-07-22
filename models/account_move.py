@@ -1,17 +1,6 @@
 import logging
 
-from odoo import _, api, fields, models
-from odoo.exceptions import AccessError, RedirectWarning, UserError, ValidationError
-from odoo.tools import (
-    date_utils,
-    email_escape_char,
-    email_re,
-    email_split,
-    float_compare,
-    float_is_zero,
-    safe_eval,
-)
-from odoo.tools.misc import format_date, formatLang, get_lang
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 

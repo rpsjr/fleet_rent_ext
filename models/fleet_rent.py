@@ -1,5 +1,5 @@
 # See LICENSE file for full copyright and licensing details.
-#\"\"\"Fleet Rent Model.#\"\"\"
+# \"\"\"Fleet Rent Model.#\"\"\"
 
 import re
 from datetime import datetime
@@ -17,7 +17,7 @@ except ImportError as err:
 
 
 class FleetRent(models.Model):
-    #\"\"\"Fleet Rent Model.#\"\"\"
+    # \"\"\"Fleet Rent Model.#\"\"\"
 
     _name = "fleet.rent"
     _inherit = "fleet.rent"
@@ -48,6 +48,55 @@ class FleetRent(models.Model):
         string="Rental Contract",
         help="Rental contract.",
     )
+    agreement_id = fields.Many2one(
+        "agreement",
+        string="Agreement",
+        ondelete="set null",
+        help="Linked Agreement document",
+    )
+
+    def action_create_agreement(self):
+        """Method to automatically create and link an Agreement document."""
+        for rent in self:
+            if rent.agreement_id:
+                continue
+            agr_type = self.env.ref(
+                "fleet_rent_ext.agreement_type_fleet_rent", raise_if_not_found=False
+            )
+            template = self.env.ref(
+                "fleet_rent_ext.agreement_template_fleet_rent", raise_if_not_found=False
+            )
+
+            if not template:
+                template = self.env["agreement"].search(
+                    [("is_template", "=", True)], limit=1
+                )
+
+            vals = {
+                "name": f"Contrato de Locação - {rent.name or rent.tenant_id.name}",
+                "partner_id": rent.tenant_id.id if rent.tenant_id else False,
+                "company_id": rent.company_id.id
+                if rent.company_id
+                else self.env.company.id,
+                "start_date": rent.date_start
+                if hasattr(rent, "date_start") and rent.date_start
+                else fields.Date.today(),
+                "end_date": rent.date_end
+                if hasattr(rent, "date_end") and rent.date_end
+                else False,
+                "agreement_type_id": agr_type.id if agr_type else False,
+                "rent_id": rent.id,
+            }
+
+            if template:
+                agr_res = template.create_new_agreement()
+                agr = self.env["agreement"].browse(agr_res["res_id"])
+                agr.write(vals)
+            else:
+                agr = self.env["agreement"].create(vals)
+
+            rent.agreement_id = agr.id
+        return True
 
     deposit_amt_extenso = fields.Text(
         string="Deposit value", compute="_write_deposit_amt"
@@ -64,14 +113,14 @@ class FleetRent(models.Model):
 
     @api.onchange("tenant_id")
     def sugest_contact_id(self):
-        #\"\"\"Method to sugest product contact.#\"\"\"
+        # \"\"\"Method to sugest product contact.#\"\"\"
         for rent in self:
             if rent.tenant_id:
                 rent.contact_id = rent.tenant_id
 
     @api.onchange("tenant_id")
     def _check_tenant(self):
-        #\"\"\"Method to check driver marital status and driver id.#\"\"\"
+        # \"\"\"Method to check driver marital status and driver id.#\"\"\"
         for rent in self:
             if rent.tenant_id:
                 if (
@@ -87,7 +136,7 @@ class FleetRent(models.Model):
 
     @api.depends("vehicle_id", "vehicle_id.resale_value")
     def _write_car_value(self):
-        #\"\"\"Method to write car_value price in words.#\"\"\"
+        # \"\"\"Method to write car_value price in words.#\"\"\"
         for rent in self:
             if rent.vehicle_id:
                 rent.resale_value_extenso = num2words(
@@ -96,7 +145,7 @@ class FleetRent(models.Model):
 
     @api.depends("deposit_amt")
     def _write_deposit_amt(self):
-        #\"\"\"Method to write rent_amt price in words.#\"\"\"
+        # \"\"\"Method to write rent_amt price in words.#\"\"\"
         for rent in self:
             if rent.deposit_amt:
                 rent.deposit_amt_extenso = num2words(
@@ -105,7 +154,7 @@ class FleetRent(models.Model):
 
     @api.depends("rent_amt")
     def _write_rent_amt(self):
-        #\"\"\"Method to write rent_amt_extenso price in words.#\"\"\"
+        # \"\"\"Method to write rent_amt_extenso price in words.#\"\"\"
         for rent in self:
             if rent.rent_amt:
                 rent.rent_amt_extenso = num2words(
@@ -114,10 +163,14 @@ class FleetRent(models.Model):
 
     @api.depends("rent_product.mileage_allowance.mileage_allowance_km")
     def _write_mileage_allowance_value(self):
-        #\"\"\"Method to write rent_amt_extenso price in words.#\"\"\"
+        # \"\"\"Method to write rent_amt_extenso price in words.#\"\"\"
         for rent in self:
             rent.mileage_allowance_extenso = ""
-            if rent.rent_product and rent.rent_product.mileage_allowance and rent.rent_product.mileage_allowance.mileage_allowance_km:
+            if (
+                rent.rent_product
+                and rent.rent_product.mileage_allowance
+                and rent.rent_product.mileage_allowance.mileage_allowance_km
+            ):
                 rent.mileage_allowance_extenso = num2words(
                     float(rent.rent_product.mileage_allowance.mileage_allowance_km),
                     lang="pt_BR",
@@ -125,14 +178,14 @@ class FleetRent(models.Model):
 
     @api.onchange("rent_product")
     def change_rent_amt(self):
-        #\"\"\"Method to sugest product price as rent_amt.#\"\"\"
+        # \"\"\"Method to sugest product price as rent_amt.#\"\"\"
         for rent in self:
             if rent.vehicle_id:
                 rent.rent_amt = rent.sudo().rent_product.lst_price
 
     @api.onchange("vehicle_id")
     def change_rent_product(self):
-        #\"\"\"Method to display mileage allowance.#\"\"\"
+        # \"\"\"Method to display mileage allowance.#\"\"\"
         # It will warn if vehicle has an ongoing rental contract.
         for rent in self:
             if not rent.vehicle_id:
@@ -140,8 +193,12 @@ class FleetRent(models.Model):
 
             res = {
                 "domain": {
-                    "rent_product" : [
-                        ("vehicle_type_id.id", "=", rent.vehicle_id.sudo().vechical_type_id.id)
+                    "rent_product": [
+                        (
+                            "vehicle_type_id.id",
+                            "=",
+                            rent.vehicle_id.sudo().vechical_type_id.id,
+                        )
                     ]
                 },
             }
@@ -163,7 +220,8 @@ class FleetRent(models.Model):
                     "message": _(
                         "This vehicle already has an active proposal/rent (%s)."
                         "You can still create a new rent proposal for this vehicle."
-                    ) % (duplicate_rent.name or duplicate_rent.id),
+                    )
+                    % (duplicate_rent.name or duplicate_rent.id),
                 }
 
             return res
@@ -200,7 +258,7 @@ class FleetRent(models.Model):
                     )
 
     def create_rent_schedule(self):
-        #\"\"\"Method to create rent schedule Lines.#\"\"\"
+        # \"\"\"Method to create rent schedule Lines.#\"\"\"
         for rent in self:
             for rent_line in rent.rent_schedule_ids:
                 if not rent_line.paid and not rent_line.move_check:
@@ -220,7 +278,7 @@ class FleetRent(models.Model):
                 interval = int(rent.rent_type_id.duration)
                 date_st = rent.date_start
                 if not rent.rent_type_id.duration:
-                    rent_number = re.findall(r'\d+', rent.name)[0]
+                    rent_number = re.findall(r"\d+", rent.name)[0]
                     params = self.env["ir.config_parameter"].sudo()
                     fiscal_postion_id = int(
                         params.get_param("fleet_rent.fiscal_postion_id")
@@ -370,7 +428,7 @@ class FleetRent(models.Model):
                 rent.cr_rent_btn = True
 
     def action_deposite_receive(self):
-        #\"\"\"Method to open the related payment form view.#\"\"\"
+        # \"\"\"Method to open the related payment form view.#\"\"\"
         for rent in self:
 
             if rent.deposit_amt < 1:
@@ -428,7 +486,7 @@ class FleetRent(models.Model):
             return True
 
     def action_deposite_return(self):
-        #\"\"\"Method to return deposite.#\"\"\"
+        # \"\"\"Method to return deposite.#\"\"\"
         for rent in self:
             deposit_inv_ids = self.env["account.move"].search(
                 [
@@ -475,7 +533,6 @@ class FleetRent(models.Model):
             }
             invoice_id = rent.env["account.move"].create(
                 {
-                    "invoice_origin": "Deposit Return For " + rent.name or "",
                     "type": "out_refund",
                     "ref": rent.name,
                     # 'property_id': vehicle and vehicle.id or False,
@@ -496,7 +553,7 @@ class FleetRent(models.Model):
         return True
 
     def action_rent_confirm(self):
-        #\"\"\"Method to confirm rent status.#\"\"\"
+        # \"\"\"Method to confirm rent status.#\"\"\"
         for rent in self:
             rent_vals = {"state": "open"}
             if rent.rent_amt < 1:
@@ -509,9 +566,11 @@ class FleetRent(models.Model):
                 rent_vals.update({"name": seq})
             rent.write(rent_vals)
             rent.vehicle_id.state = "rent"
+            if not rent.agreement_id:
+                rent.action_create_agreement()
 
     def action_rent_done(self):
-        #\"\"\"Method to Change rent state to done.#\"\"\"
+        # \"\"\"Method to Change rent state to done.#\"\"\"
         rent_sched_obj = self.env["tenancy.rent.schedule"]
         for rent in self:
             if not rent.rent_schedule_ids:
@@ -532,7 +591,7 @@ class FleetRent(models.Model):
                 rent.vehicle_id.state = "released"
 
     def action_set_to_draft(self):
-        #\"\"\"Method to Change rent state to close.#\"\"\"
+        # \"\"\"Method to Change rent state to close.#\"\"\"
         for rent in self:
             if rent.state == "open" and rent.rent_schedule_ids:
                 raise Warning(
@@ -546,14 +605,14 @@ class FleetRent(models.Model):
 
 
 class RentType(models.Model):
-    #\"\"\"Rent Type Model.#\"\"\"
+    # \"\"\"Rent Type Model.#\"\"\"
 
     _name = "rent.type"
     _inherit = "rent.type"
 
     @api.model
     def create(self, vals):
-        #\"\"\"Overridden Method.#\"\"\"
+        # \"\"\"Overridden Method.#\"\"\"
         if vals.get("duration") == 0 and vals.get("renttype") == "Hours":
             raise ValidationError(
                 "You Can't Enter Duration Less " "Than One(1)e for Hours rent type."
@@ -581,7 +640,7 @@ class RentType(models.Model):
 
     @api.depends("duration", "renttype")
     def name_get(self):
-        #\"\"\"Name get Method.#\"\"\"
+        # \"\"\"Name get Method.#\"\"\"
         res = []
         for rec in self:
             rec_str = ""
@@ -598,7 +657,7 @@ class RentType(models.Model):
 
     @api.model
     def name_search(self, name="", args=[], operator="ilike", limit=100):
-        #\"\"\"Name Search Method.#\"\"\"
+        # \"\"\"Name Search Method.#\"\"\"
         args += [
             "|",
             ("duration", operator, name),
@@ -610,7 +669,7 @@ class RentType(models.Model):
 
     @api.onchange("duration", "renttype")
     def onchange_renttype_name(self):
-        #\"\"\"Onchange Rent Type Name.#\"\"\"
+        # \"\"\"Onchange Rent Type Name.#\"\"\"
         full_name = ""
         for rec in self:
             if rec.duration:

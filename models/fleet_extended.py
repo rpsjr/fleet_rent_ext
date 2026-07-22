@@ -5,11 +5,8 @@ import json
 import logging
 from datetime import date, datetime
 
-import requests
-from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError, Warning
-from odoo.tools import misc
 
 # Import the new API class and its custom exception
 from . import apifipe as apifipecons
@@ -44,22 +41,32 @@ class FleetOperations(models.Model):
                     result_apifipe = fipe_api.get_valor_por_codigo_fipe(
                         record.model_year, record.fipe_id
                     )
-                    
+
                     record.result_apifipe = json.dumps(result_apifipe)
 
                     if "Valor" in result_apifipe:
-                        valor_str = result_apifipe["Valor"].replace("R$ ", "").replace(".", "").replace(",", ".")
+                        valor_str = (
+                            result_apifipe["Valor"]
+                            .replace("R$ ", "")
+                            .replace(".", "")
+                            .replace(",", ".")
+                        )
                         record.resale_value = float(valor_str)
                     else:
                         record.resale_value = 0.0
-                        
+
                     if "Modelo" in result_apifipe:
                         record.fipe_model = result_apifipe["Modelo"]
                     else:
                         record.fipe_model = ""
 
                 except FipeApiError as e:
-                    _logger.warning("FIPE API call failed for vehicle %s (FIPE Code: %s): %s", record.name or 'N/A', record.fipe_id, e)
+                    _logger.warning(
+                        "FIPE API call failed for vehicle %s (FIPE Code: %s): %s",
+                        record.name or "N/A",
+                        record.fipe_id,
+                        e,
+                    )
                     record.result_apifipe = "{}"
                     record.resale_value = 0.0
                     record.fipe_model = ""
@@ -84,17 +91,15 @@ class FleetOperations(models.Model):
         ],
         help="Vehicle year.",
     )
-    
+
     # --- FIPE RELATED FIELDS ---
     # These fields are now all computed by the same method for consistency and stored.
     fipe_id = fields.Char(string="Código Tabela FIPE", size=8)
-    
+
     resale_value = fields.Float(
-        string="Current value (FIPE)", 
-        compute="_compute_result_apifipe", 
-        store=True
+        string="Current value (FIPE)", compute="_compute_result_apifipe", store=True
     )
-    
+
     fipe_model = fields.Char(
         string="Modelo Tabela FIPE",
         compute="_compute_result_apifipe",
@@ -102,11 +107,11 @@ class FleetOperations(models.Model):
     )
 
     result_apifipe = fields.Char(
-        string="Resultado consulta FIPE", 
+        string="Resultado consulta FIPE",
         compute="_compute_result_apifipe",
         store=True,
     )
-    
+
     # --- OTHER FIELDS ---
     vechical_type_id = fields.Many2one("vehicle.type", string="Vehicle Type")
     tax_id = fields.Char(string="Renavam", size=11)
@@ -130,6 +135,7 @@ class FleetOperations(models.Model):
 # ==============================================================================
 # The rest of your original file remains below this line.
 # ==============================================================================
+
 
 class ColorHistory(models.Model):
     """Model color history."""
@@ -1101,7 +1107,7 @@ class ReportHeading(models.Model):
 
     @api.depends("image")
     def _get_image(self):
-        return dict((p.id, tools.image_get_resized_images(p.image)) for p in self)
+        return {p.id: tools.image_get_resized_images(p.image) for p in self}
 
     def _set_image(self):
         if self.image_small:

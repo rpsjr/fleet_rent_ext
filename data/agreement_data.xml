@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Agreement Type for Fleet Rent -->
+        <record id="agreement_type_fleet_rent" model="agreement.type">
+            <field name="name">Contrato de Locação de Veículo</field>
+            <field name="domain">sale</field>
+        </record>
+
+        <!-- Agreement Template for Fleet Rent -->
+        <record id="agreement_template_fleet_rent" model="agreement">
+            <field name="name">Modelo de Contrato de Locação de Veículo - Babur</field>
+            <field name="code">TMPL-LOC-BABUR</field>
+
+            <field name="is_template" eval="True" />
+            <field name="agreement_type_id" ref="agreement_type_fleet_rent" />
+            <field
+                name="description"
+            >Termos Gerais e Proposta de Locação de Veículos Babur</field>
+        </record>
+
+        <!-- Section 1: Preâmbulo -->
+        <record id="section_1_preambulo" model="agreement.section">
+            <field name="name">1. PREÂMBULO</field>
+            <field name="title">1. PREÂMBULO</field>
+            <field name="sequence">1</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_1_1" model="agreement.clause">
+            <field name="name">1. Disposições Gerais</field>
+            <field name="title">1. Disposições Gerais</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_1_preambulo" />
+            <field
+                name="content"
+            >O termo de locação firmado por Babur ("Locadora") será regido por estas Condições Gerais em conjunto com a Proposta/Contrato de Locação.</field>
+        </record>
+
+        <!-- Section 2: Preço, Pagamento e Cobrança -->
+        <record id="section_2_pagamento" model="agreement.section">
+            <field name="name">2. PREÇO, PAGAMENTO E COBRANÇA</field>
+            <field name="title">2. PREÇO, PAGAMENTO E COBRANÇA</field>
+            <field name="sequence">2</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_2_1" model="agreement.clause">
+            <field name="name">2.1 Semanalidade e Encargos</field>
+            <field name="title">2.1 Semanalidade e Encargos</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_2_pagamento" />
+            <field
+                name="content"
+            >O valor total devido pelo Locatário corresponde a 7 dias de locação acrescido de obrigações, taxas e despesas incorridas no período.</field>
+        </record>
+
+        <!-- Section 3: Início e Prorrogação -->
+        <record id="section_3_vigencia" model="agreement.section">
+            <field name="name">3. VIGÊNCIA E PRORROGAÇÃO</field>
+            <field name="title">3. VIGÊNCIA E PRORROGAÇÃO</field>
+            <field name="sequence">3</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+
+        <!-- Section 4: Procedimentos de Devolução e Manutenção -->
+        <record id="section_4_devolucao" model="agreement.section">
+            <field name="name">4. DEVOLUÇÃO E MANUTENÇÃO</field>
+            <field name="title">4. DEVOLUÇÃO E MANUTENÇÃO</field>
+            <field name="sequence">4</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+
+        <!-- Section 5: Disposições Finais e Foro -->
+        <record id="section_5_disposicoes" model="agreement.section">
+            <field name="name">5. DISPOSIÇÕES FINAIS E FORO</field>
+            <field name="title">5. DISPOSIÇÕES FINAIS E FORO</field>
+            <field name="sequence">5</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+
+    </data>
+</odoo>

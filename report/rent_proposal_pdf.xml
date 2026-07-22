@@ -24,44 +24,51 @@
                 </ul>
             </div>
         </div>
-
     </template>
 
     <template id="custom_layout_header">
-                <div class="header">
-                    <div class="header">
-                    </div>
-                </div>
-              </template>
+        <div class="header">
+            <div class="header">
+            </div>
+        </div>
+    </template>
 
     <template id="jt_report_external_layout">
-                <t t-if="o and 'company_id' in o">
-                    <t t-set="company" t-value="o.company_id" />
-                </t>
-                <t t-if="not o or not 'company_id' in o">
-                    <t t-set="company" t-value="res_company" />
-                </t>
-                <div class="article">
-                    <t t-call="fleet_rent_ext.custom_layout_header" />
-
-                    <t t-raw="0" />
-
-                    <t t-call="fleet_rent_ext.custom_layout_footer" />
-
-                </div>
-
-            </template>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id" />
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company" />
+        </t>
+        <div class="article">
+            <t t-call="fleet_rent_ext.custom_layout_header" />
+            <t t-raw="0" />
+            <t t-call="fleet_rent_ext.custom_layout_footer" />
+        </div>
+    </template>
 
     <template id="rent_proposal_pdf">
       <t t-name="rent_proposal_pdf">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
+                  <t
+                        t-set="rent"
+                        t-value="o if o._name == 'fleet.rent' else o.rent_id"
+                    />
+                  <t
+                        t-set="tenant"
+                        t-value="rent.tenant_id if rent and rent.tenant_id else (o.partner_id if o._name == 'agreement' else False)"
+                    />
                   <t t-call="fleet_rent_ext.jt_report_external_layout">
-                  <!--   <t t-call="web.custom_internal_layout"> -->
-                         <!-- <t t-set="o" t-value="o.with_context(lang=o.tenant_id.lang)"/> -->
-                         <div class="page">
+                         <div
+                            class="page"
+                            style="font-family: Arial, sans-serif; font-size: 11pt; line-height: 14pt;"
+                        >
                              <span>
-                               <ul class="list-inline">
+                               <ul
+                                    class="list-inline"
+                                    style="list-style-type: none; padding: 0;"
+                                >
 
                                  <img
                                         t-if="o.company_id.logo"
@@ -78,16 +85,17 @@
                                         align="right"
                                         style="text-align: right; line-height: 16pt; background: transparent; font-size: 16pt; font-family: Arial, sans-serif; font-weight: bold;"
                                     >Proposta/Contrato de Locação <a
-                                            t-field="o.name"
-                                        /><p /></p>
-
+                                            t-if="rent"
+                                            t-field="rent.name"
+                                        /><a t-if="not rent" t-field="o.name" /><p
+                                        /></p>
 
                                  <br />
                                  <br />
 
                                  <p
                                         class="locador"
-                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
+                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 11pt; font-family: Arial, sans-serif;"
                                     ><b>Locador:</b><sup> </sup><b><a
                                                 t-field="o.company_id"
                                             /></b> com sede em <a
@@ -98,225 +106,328 @@
                                             t-field="o.company_id.l10n_br_cnpj_cpf"
                                         />.<p /></p>
 
+                                 <t t-if="tenant">
                                  <p
-                                        class="proponente"
-                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    ><b>Proponente/Locatário:</b><sup> </sup><b><a
-                                                t-field="o.tenant_id"
-                                            />, </b><a
-                                            t-field="o.tenant_id.marital_status"
-                                        />, nacionalidade: brasileiro(a), profissão:  <a
-                                            t-field="o.tenant_id.function"
-                                        />, carteira nacional de habilitação (CNH) n.º <a
-                                            t-field="o.tenant_id.d_id"
-                                        />, CPF n.º <a
-                                            t-field="o.tenant_id.l10n_br_cnpj_cpf"
-                                        />, residente em: <a
-                                            t-field="o.tenant_id.street"
-                                        />, <a
-                                            t-field="o.tenant_id.l10n_br_number"
-                                        /> - <a
-                                            t-field="o.tenant_id.l10n_br_district"
-                                        />, <a t-field="o.tenant_id.city_id" /> -   <a
-                                            t-field="o.tenant_id.state_id"
-                                        />, CEP   <a
-                                            t-field="o.tenant_id.zip"
-                                        />, endereço de correio eletrônico <b>  <a
-                                                t-field="o.tenant_id.email"
-                                            /></b>.<p /></p>
+                                            class="proponente"
+                                            style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        ><b>Proponente/Locatário:</b><sup> </sup><b><a
+                                                    t-field="tenant.name"
+                                                />, </b><a
+                                                t-field="tenant.marital_status"
+                                            />, nacionalidade: brasileiro(a), profissão:  <a
+                                                t-field="tenant.function"
+                                            />, carteira nacional de habilitação (CNH) n.º <a
+                                                t-field="tenant.d_id"
+                                            />, CPF n.º <a
+                                                t-field="tenant.l10n_br_cnpj_cpf"
+                                            />, residente em: <a
+                                                t-field="tenant.street"
+                                            />, <a
+                                                t-field="tenant.l10n_br_number"
+                                            /> - <a
+                                                t-field="tenant.l10n_br_district"
+                                            />, <a t-field="tenant.city_id" /> -   <a
+                                                t-field="tenant.state_id"
+                                            />, CEP   <a
+                                                t-field="tenant.zip"
+                                            />, endereço de correio eletrônico <b>  <a
+                                                    t-field="tenant.email"
+                                                /></b>.<p /></p>
+                                 </t>
 
                                  <p
                                         class="par3"
-                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
+                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 11pt; font-family: Arial, sans-serif;"
                                     >O Proponente/Locatário declara-se ciente e de pleno acordo com as disposições contidas nas <b
                                         >Cláusulas Gerais do Contrato de Locação de Veículo</b>, que integram este contrato, cuja cópia recebeu antes do ato da assinatura deste instrumento e também, com as informações do <b
-                                        >Laudo de Vistoria</b>, que descreve o veículo e o seu estado de conservação no momento em que o mesmo foi entregue ao Proponente/Locatário, formando todos um documento único e indivisível.<p
+                                        >Laudo de Vistoria</b>, que descreve o veículo e o seu estado de conservação no momento em que o mesmo foi entregue ao Proponente/Locatário, forming todos um documento único e indivisível.<p
                                         /></p>
 
                                  <p
                                         class="par4"
-                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
+                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 11pt; font-family: Arial, sans-serif;"
                                     >O acolhimento desta Proposta/Contrato não implica em aceitação da proposta por parte do Locador estando tal aceitação condicionada à assinatura do Locador e à entrega do veículo locado.<p
                                         /></p>
 
+                                 <t t-if="rent">
                                  <p
-                                        class="tit_claus"
-                                        style="margin-bottom:2pt; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >
+                                            class="tit_claus"
+                                            style="margin-bottom:2pt; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >
                                    <b>CLÁUSULA 1ª - DO OBJETO</b>
                                  </p>
                                  <p
-                                        class="claus_1"
-                                        style="margin : 0; padding-top:0; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >Por meio deste contrato, que firmam entre si o LOCADOR e o LOCATÁRIO, regula-se a locação do VEÍCULO: <a
-                                            t-field="o.vehicle_id.model_id"
-                                        />, ano modelo <a
-                                            t-field="o.vehicle_id.model_year"
-                                        />, cor <a
-                                            t-field="o.vehicle_id.vehical_color_id"
-                                        />, com ar condicionado, com placa <a
-                                            t-field="o.vehicle_id.license_plate"
-                                        />, e com o valor de mercado aproximado em <a
-                                            t-field="o.vehicle_id.resale_value"
-                                            t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
-                                        /> (<a t-field="o.resale_value_extenso" />).<p
-                                        /></p>
+                                            class="claus_1"
+                                            style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >Por meio deste contrato, que firmam entre si o LOCADOR e o LOCATÁRIO, regula-se a locação do VEÍCULO: <a
+                                                t-field="rent.vehicle_id.model_id"
+                                            />, ano modelo <a
+                                                t-field="rent.vehicle_id.model_year"
+                                            />, cor <a
+                                                t-field="rent.vehicle_id.vehical_color_id"
+                                            />, com ar condicionado, com placa <a
+                                                t-field="rent.vehicle_id.license_plate"
+                                            />, e com o valor de mercado aproximado em <a
+                                                t-field="rent.vehicle_id.resale_value"
+                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: rent.currency_id}"
+                                            /> (<a
+                                                t-field="rent.resale_value_extenso"
+                                            />).<p /></p>
                                  <p
-                                        class="tit_claus"
-                                        style="margin-bottom:0; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >
+                                            class="tit_claus"
+                                            style="margin-bottom:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >
                                    <b>CLÁUSULA 2ª - DO VALOR DO ALUGUEL</b>
                                  </p>
                                  <p
-                                        class="claus_2"
-                                        style="margin : 0; padding-top:0; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >Pela presente locação, obriga o LOCATÁRIO a pagar o valor semanal de <a
-                                            t-field="o.rent_amt"
-                                            t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
-                                        /> (<a t-field="o.rent_amt_extenso" />). <p
-                                        /></p>
+                                            class="claus_2"
+                                            style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >Pela presente locação, obriga o LOCATÁRIO a pagar o valor semanal de <a
+                                                t-field="rent.rent_amt"
+                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: rent.currency_id}"
+                                            /> (<a
+                                                t-field="rent.rent_amt_extenso"
+                                            />). <p /></p>
                                  <p
-                                        class="tit_claus"
-                                        style="margin-bottom:2pt; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >
-                                   <b>CLÁUSULA 3ª - DA FRANQUIA DE QUILOMETRGEM</b>
+                                            class="tit_claus"
+                                            style="margin-bottom:2pt; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >
+                                   <b>CLÁUSULA 3ª - DA FRANQUIA DE QUILOMETRAGEM</b>
                                  </p>
-                                 <t t-if="not o.rent_product.mileage_control">
-
-                                  <p
-                                            class="claus"
-                                            style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                        >A locação é livre de controle de quilometragem.<p
-                                            /></p>
-
-                                 </t>
-                                 <t t-if="o.rent_product.mileage_control">
-
+                                 <t t-if="not rent.rent_product.mileage_control">
                                    <p
-                                            class="claus"
-                                            style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                        >A quilometragem é controlada e o limite de de circulação semanal é de <a
-                                                t-field="o.rent_product.mileage_allowance.mileage_allowance_km"
-                                            /> kms (<a
-                                                t-field="o.mileage_allowance_extenso"
-                                            /> quilômetros).<p /></p>
-
+                                                class="claus"
+                                                style="text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                            >A locação é livre de controle de quilometragem.<p
+                                                /></p>
+                                 </t>
+                                 <t t-if="rent.rent_product.mileage_control">
+                                   <p
+                                                class="claus"
+                                                style="text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                            >A quilometragem é controlada e o limite de circulação semanal é de <a
+                                                    t-field="rent.rent_product.mileage_allowance.mileage_allowance_km"
+                                                /> kms (<a
+                                                    t-field="rent.mileage_allowance_extenso"
+                                                /> quilômetros).<p /></p>
                                  </t>
                                  <p
-                                        class="tit_claus"
-                                        style="margin-bottom:2pt; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >
+                                            class="tit_claus"
+                                            style="margin-bottom:2pt; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >
                                    <b>CLÁUSULA 4ª - DA GARANTIA E DO PAGAMENTO</b>
                                  </p>
-                                 <t t-if="o.deposit_amt">
-
+                                 <t t-if="rent.deposit_amt">
                                    <p
-                                            class="claus"
-                                            style="margin : 0; padding-top:0; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                        >O cumprimento das obrigações previstas neste contrato, inclusive o pagamento pontual do aluguel, estará garantido através de caução dada em dinheiro, perfazendo o montante de <a
-                                                t-field="o.deposit_amt"
-                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
-                                            /> (<a
-                                                t-field="o.deposit_amt_extenso"
-                                            />), transferido à conta bancária da LOCADORA.<p
-                                            /></p>
-
+                                                class="claus"
+                                                style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                            >O cumprimento das obrigações previstas neste contrato, inclusive o pagamento pontual do aluguel, estará garantido através de caução dada em dinheiro, perfazendo o montante de <a
+                                                    t-field="rent.deposit_amt"
+                                                    t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: rent.currency_id}"
+                                                /> (<a
+                                                    t-field="rent.deposit_amt_extenso"
+                                                />), transferido à conta bancária da LOCADORA.<p
+                                                /></p>
                                  </t>
-                                 <t t-if="not o.deposit_amt">
-
+                                 <t t-if="not rent.deposit_amt">
                                    <p
-                                            class="claus"
-                                            style="margin : 0; padding-top:0; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                        >Este contrato é pactuado sem depósito de garantia e portanto os valores de locação são devidos antecimpadamente.<p
-                                            /></p>
-
+                                                class="claus"
+                                                style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                            >Este contrato é pactuado sem depósito de garantia e portanto os valores de locação são devidos antecipadamente.<p
+                                                /></p>
                                  </t>
                                  <p
-                                        class="tit_claus"
-                                        style="margin-bottom:2pt; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >
+                                            class="tit_claus"
+                                            style="margin-bottom:2pt; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >
                                    <b>CLÁUSULA 5ª - DO LOCAL DE DEVOLUÇÃO</b>
                                  </p>
                                  <p
-                                        class="claus"
-                                        style="margin : 0; padding-top:0; text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    >O Veículo será devolvido ao LOCADOR pelo LOCATÁRIO na Rua Padre Feijó, 369 - Canela, Salvador – BA.<p
-                                        /></p>
+                                            class="claus"
+                                            style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                        >O Veículo será devolvido ao LOCADOR pelo LOCATÁRIO na Rua Padre Feijó, 369 - Canela, Salvador – BA.<p
+                                            /></p>
+                                 </t>
+
+                                 <hr
+                                        style="margin-top: 20px; margin-bottom: 20px; border-top: 1px solid #ccc;"
+                                    />
+
+                                 <div
+                                        class="termos_gerais"
+                                        style="text-align: justify; font-size: 10pt; line-height: 13pt;"
+                                    >
+                                     <h3
+                                            style="text-align: center; font-weight: bold;"
+                                        >TERMOS GERAIS DE LOCAÇÃO — BABUR</h3>
+                                     <p
+                                            style="text-align: center; font-style: italic;"
+                                        >(versão revisada)</p>
+
+                                     <h4>1. PREÂMBULO</h4>
+                                     <p>1. O termo de locação firmado por <b
+                                            >Babur</b>, com sede em Salvador, Bahia (BR), inscrita no CNPJ nº 40.772.248/0001-95 (“Locadora”), será regido por estas Condições Gerais (“Termos Gerais”), em conjunto com as condições comerciais específicas da Proposta/Contrato de Locação (“Contrato”).</p>
+                                     <p
+                                        >2. O Locatário é a pessoa física identificada no Contrato de Locação a quem se destina o veículo automotor (“Veículo”) locado, sendo o único responsável pelo integral cumprimento do Contrato.</p>
+                                     <p
+                                        >3. As partes reconhecem que o Veículo é locado como <b
+                                            >insumo da atividade econômica</b> do Locatário — transporte remunerado privado individual de passageiros por aplicativo (Lei nº 12.587/2012) —, tratando-se de locação de natureza empresarial, e não de relação de consumo. As cláusulas destes Termos Gerais são interpretadas à luz do Código Civil, em especial dos princípios da boa-fé objetiva e da função social do contrato (arts. 421 e 422) e da disciplina dos contratos de adesão (art. 424).</p>
+                                     <p
+                                        >4. O objeto do Contrato é a locação de veículo de propriedade, posse, uso ou gozo da Locadora, por prazo determinado, para uso exclusivo em território nacional e dentro da área de circulação definida pela Locadora. O Veículo será entregue com todos os equipamentos exigidos pelo Código de Trânsito Brasileiro (“CTB”), conforme confirmado e aceito pelo Locatário no ato da retirada e registrado no Termo de Vistoria.</p>
+                                     <p
+                                        >5. A Locadora se reserva o direito de estabelecer relação jurídica somente com pessoa física que, concomitantemente: (i) possua CNH categoria B válida; (ii) esteja previamente cadastrada em aplicativo de transporte; (iii) possua capacidade financeira compatível; (iv) possua documentação em dia; e (v) concorde com os termos de bloqueio.</p>
+                                     <p
+                                        >6. A Locadora terá a faculdade de realizar análise cadastral e de crédito do Locatário.</p>
+                                     <p
+                                        >7. Como condição para celebação, o Locatário concorda com a prestação de caução ou pagamento antecipado do aluguel.</p>
+
+                                     <h4>2. PREÇO, PAGAMENTO E COBRANÇA</h4>
+                                     <p
+                                        >8. O valor total devido pelo Locatário a título de semanalidade corresponderá ao valor de 7 dias de locação, acrescido das obrigações devidas e/ou inadimplidas na semana, incluindo despesas e indenizações.</p>
+                                     <p
+                                        >9. O Locatário obriga-se a efetuar o pagamento no prazo e na forma ajustados neste Contrato.</p>
+                                     <p
+                                        >10. Os pagamentos da caução ou semanalidade serão efetuados antes da retirada do veículo. Na renovação, o pagamento é feito à vista até o 7º dia do novo período.</p>
+                                     <p
+                                        >11. O Locatário é o único responsável pelo pagamento do aluguel e despesas de uso até a efetiva devolução do veículo.</p>
+                                     <p>12. <b
+                                            >Formas de pagamento:</b> Os valores devidos poderão ser pagos por Pix (mediante QR Code ou código copia e cola oficial), reputando-se realizado apenas com a confirmação da liquidação na conta da Locadora.</p>
+                                     <p
+                                        >13. Todos os valores devidos constituem dívidas líquidas e certas para pagamento à vista.</p>
+                                     <p
+                                        >14. O atraso no pagamento ensejará multa moratória de 10%, juros de 1% ao mês e atualização monetária pelo IGP-M/FGV pro rata dies.</p>
+                                     <p
+                                        >15. Fica assegurado à Locadora o direito de protestar títulos e incluir o nome do Locatário nos órgãos de proteção ao crédito (SERASA/SPC).</p>
+
+                                     <h4>3. INÍCIO DA LOCAÇÃO</h4>
+                                     <p
+                                        >17. A locação terá vigência de 7 dias corridos a partir da data agendada para retirada do veículo.</p>
+
+                                     <h4>4. PRORROGAÇÃO DA LOCAÇÃO</h4>
+                                     <p
+                                        >18. A locação será prorrogada automática e sucessivamente por igual período, salvo comunicação em contrário com antecedência de 2 dias úteis.</p>
+
+                                     <h4>5. FIM DA LOCAÇÃO</h4>
+                                     <p
+                                        >21. O contrato poderá ser encerrado por qualquer das partes com aviso prévio de 2 dias úteis, ou automaticamente pela Locadora na ocorrência de inadimplemento, sinistro, uso inadequado ou apreensão do veículo.</p>
+
+                                     <h4>6. PROCEDIMENTOS DE RETIRADA DO VEÍCULO</h4>
+                                     <p
+                                        >23. O Locatário vistoriará completamente o veículo no momento da retirada, certificando-se de seus acessórios e estado de conservação no Termo de Vistoria.</p>
+
+                                     <h4
+                                        >7. FALHA MECÂNICA OU DO SISTEMA OPERACIONAL</h4>
+                                     <p
+                                        >25. O Locatário comunicará imediatamente a Locadora sobre qualquer falha mecânica. É proibido realizar consertos ou intervenções sem autorização prévia da Locadora.</p>
+
+                                     <h4>8. PROCEDIMENTOS DE DEVOLUÇÃO DO VEÍCULO</h4>
+                                     <p
+                                        >29. Ao final da locação, o Locatário devolverá o veículo nas mesmas condições em que o recebeu, ressalvado o desgaste natural de uso, no pátio da Locadora.</p>
+
+                                     <h4>9. DA DISPONIBILIDADE MÍNIMA DO VEÍCULO</h4>
+                                     <p
+                                        >32. A Locadora envidará esforços para manter o Veículo disponível por no mínimo 95% do período de locação.</p>
+
+                                     <h4
+                                        >10. PROCEDIMENTOS DE SUBSTITUIÇÃO DO VEÍCULO</h4>
+                                     <p
+                                        >33. A Locadora poderá determinar a devolução do veículo para substituição por outro da mesma categoria.</p>
+
+                                     <h4>11. OBRIGAÇÕES DA LOCADORA</h4>
+                                     <p
+                                        >35. É responsabilidade da Locadora disponibilizar veículo limpo, em perfeitas condições de funcionamento e segurança com a documentação em dia.</p>
+
+                                     <h4>12. RESPONSABILIDADES DO LOCATÁRIO</h4>
+                                     <p
+                                        >37. É responsabilidade do Locatário zelar pelo veículo, utilizá-lo em conformidade com estes Termos Gerais e utilizá-lo exclusivamente para transporte de passageiros por aplicativo.</p>
+
+                                     <h4>13. INDENIZAÇÕES</h4>
+                                     <p
+                                        >40. O Locatário é o único responsável por indenizar a Locadora e terceiros pelos prejuízos que causar no uso do veículo.</p>
+
+                                     <h4>14. MULTAS DE TRÂNSITO</h4>
+                                     <p
+                                        >45. O Locatário responsabiliza-se por todas as infrações de trânsito cometidas durante o período da locação e autoriza a indicação do condutor infrator perante a autoridade de trânsito.</p>
+
+                                     <h4>15. DESPESAS E CUSTOS OPERACIONAIS</h4>
+                                     <p
+                                        >51. São despesas ressarcíveis pelo Locatário: quilometragem excedente, higienização, chaves, serviços de despachante/advogado, reboque e taxas de órgãos de trânsito.</p>
+
+                                     <h4
+                                        >16. MULTA POR AUSÊNCIA EM MANUTENÇÃO PROGRAMADA</h4>
+                                     <p
+                                        >53. O não comparecimento à convocação de manutenção programada sujeitará o Locatário à multa equivalente a 2 diárias de locação acrescida de 1 diária por dia de atraso.</p>
+
+                                     <h4>17. REEMBOLSO</h4>
+                                     <p
+                                        >55. Terminado o contrato, eventual saldo de caução será restituído em até 30 dias após a apuração de débitos pendentes.</p>
+
+                                     <h4>18. DO BLOQUEIO</h4>
+                                     <p
+                                        >56. O veículo estará sujeito ao bloqueio em caso de inadimplemento, mau uso, uso fora da região permitida ou ausência em manutenção preventiva.</p>
+
+                                     <h4>19. TRATAMENTO DE DADOS PESSOAIS</h4>
+                                     <p
+                                        >57. O tratamento de dados pessoais observará a Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018).</p>
+
+                                     <h4>20. DISPOSIÇÕES GERAIS E FORO</h4>
+                                     <p
+                                        >58. As partes elegem o Foro da Comarca de Salvador/BA para dirimir quaisquer questões relativas ao Contrato.</p>
+                                 </div>
+
                                  <p
                                         class="claus"
-                                        style="text-align: justify; text-indent: 0cm; line-height: 12.95pt; background: transparent; font-size: 12pt; font-family: Arial, sans-serif;"
+                                        style="text-align: justify; font-size: 11pt; font-family: Arial, sans-serif; margin-top: 15px;"
                                     >  <b
                                         >Declara, sob as penas da lei, que as informações constantes deste documento são verdadeiras</b>.</p>
                                  <p
                                         class="claus"
-                                        style="margin-bottom:2pt; text-align: justify; text-indent: 0cm; line-height: 12.95pt; font-size: 12pt; font-family: Arial, sans-serif;"
+                                        style="margin-bottom:2pt; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
                                     >Local e data</p>
                                  <p
                                         class="claus"
-                                        style="margin : 0; padding-top:0; text-align: justify; text-indent: 0cm; line-height: 12.95pt; font-size: 12pt; font-family: Arial, sans-serif;"
-                                    ><a t-field="o.tenant_id.city_id" />, <a
+                                        style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
+                                    ><a
+                                            t-if="tenant and tenant.city_id"
+                                            t-field="tenant.city_id"
+                                        /><a
+                                            t-if="not (tenant and tenant.city_id)"
+                                        >Salvador</a>, <a
                                             t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"
                                         /></p>
                                  <br />
                                  <br />
-                                 <br />
                                </ul>
                              </span>
-                             <table style="width: 100%;">
+                             <table style="width: 100%; margin-top: 20px;">
                              <tbody>
-                               <tr style="height: 23px;">
-                                 <td
-                                            style="width: 45%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 10%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 45%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                               </tr>
                                <tr style="height: 24px;">
                                  <td
-                                            style="width: 45%; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;</td>
+                                            style="width: 45%; border-top: 2px solid black; height: 24px;"
+                                        >Proponente/Locatário:</td>
                                  <td
                                             style="width: 10%; height: 24px;"
                                         ><![CDATA[&nbsp]]>;</td>
                                  <td
-                                            style="width: 45%; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                               </tr>
-                               <tr style="height: 24px;">
-                                 <td
-                                            style="width: 45%; border-top: 3px solid black; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;Proponente/Locatário:</td>
-                                 <td
-                                            style="width: 10%; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 45%; border-top: 3px solid black; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;Locadora:</td>
+                                            style="width: 45%; border-top: 2px solid black; height: 24px;"
+                                        >Locadora:</td>
                                </tr>
                                <tr style="height: 19px;">
-                                 <td
-                                            style="width: 45%; height: 19px;"
-                                        ><![CDATA[&nbsp]]>;<a
-                                                t-field="o.tenant_id"
+                                 <td style="width: 45%; height: 19px;"><a
+                                                t-if="tenant"
+                                                t-field="tenant.name"
                                             /></td>
                                  <td
                                             style="width: 10%; height: 19px;"
                                         ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 45%; height: 19px;"
-                                        ><![CDATA[&nbsp]]>;<a
+                                 <td style="width: 45%; height: 19px;"><a
                                                 t-field="o.company_id"
                                             /></td>
                                </tr>
                                <tr style="height: 19px;">
-                                 <td
-                                            style="width: 45%; height: 19px;"
-                                        ><![CDATA[&nbsp]]>;CPF:<a
-                                                t-field="o.tenant_id.l10n_br_cnpj_cpf"
+                                 <td style="width: 45%; height: 19px;">CPF:<a
+                                                t-if="tenant"
+                                                t-field="tenant.l10n_br_cnpj_cpf"
                                             /></td>
                                  <td
                                             style="width: 10%; height: 19px;"
@@ -325,59 +436,34 @@
                                             style="width: 45%; height: 19px;"
                                         ><![CDATA[&nbsp]]>;</td>
                                </tr>
-                               <tr style="height: 23px;">
-                                 <td
-                                            style="width: 45%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 10%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 45%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;</td>
+                               <tr style="height: 40px;">
+                                 <td style="width: 45%;"><![CDATA[&nbsp]]>;</td>
+                                 <td style="width: 10%;"><![CDATA[&nbsp]]>;</td>
+                                 <td style="width: 45%;"><![CDATA[&nbsp]]>;</td>
                                </tr>
                                <tr style="height: 24px;">
                                  <td
-                                            style="width: 45%; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;</td>
+                                            style="width: 45%; border-top: 2px solid black; height: 24px;"
+                                        >Testemunha 1:</td>
                                  <td
                                             style="width: 10%; height: 24px;"
                                         ><![CDATA[&nbsp]]>;</td>
                                  <td
-                                            style="width: 45%; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                               </tr>
-                               <tr style="height: 24px;">
-                                 <td
-                                            style="width: 45%; border-top: 3px solid black; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;Testemunha 1:</td>
-                                 <td
-                                            style="width: 10%; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 45%; border-top: 3px solid black; height: 24px;"
-                                        ><![CDATA[&nbsp]]>;Testemunha 2:</td>
+                                            style="width: 45%; border-top: 2px solid black; height: 24px;"
+                                        >Testemunha 2:</td>
                                </tr>
                                <tr style="height: 23px;">
-                                 <td
-                                            style="width: 43.7106%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;CPF:</td>
-                                 <td
-                                            style="width: 10.2894%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;</td>
-                                 <td
-                                            style="width: 45%; height: 23px;"
-                                        ><![CDATA[&nbsp]]>;CPF:</td>
+                                 <td style="width: 45%;">CPF:</td>
+                                 <td style="width: 10%;"><![CDATA[&nbsp]]>;</td>
+                                 <td style="width: 45%;">CPF:</td>
                                </tr>
                              </tbody>
                              </table>
-                             <!-- DivTable.com -->
                          </div>
-                    <!--  </t> -->
                     </t>
                  </t>
-             </t>
-          </t>
+              </t>
+           </t>
     </template>
 
     <!-- Fleet Rent Reports -->
@@ -385,6 +471,17 @@
         id="report_fleet_rent_proposal"
         model="fleet.rent"
         string="Proposal/Contract"
+        report_type="qweb-pdf"
+        name="fleet_rent_ext.rent_proposal_pdf"
+        file="fleet_rent_ext.rent_proposal_pdf"
+        paperformat="paperformat_lowmargin"
+    />
+
+    <!-- Agreement Report integration -->
+    <report
+        id="report_fleet_rent_agreement"
+        model="agreement"
+        string="Agreement / Contrato de Locação"
         report_type="qweb-pdf"
         name="fleet_rent_ext.rent_proposal_pdf"
         file="fleet_rent_ext.rent_proposal_pdf"
