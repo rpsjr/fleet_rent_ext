@@ -538,7 +538,18 @@ class FleetRent(models.Model):
             payment_journal = rent.env["account.journal"].search(
                 [("name", "ilike", "inter")], limit=1
             )
-            payment_journal_id = payment_journal.id if payment_journal else 18
+            payment_term = rent.env["account.payment.term"].search(
+                [("name", "=ilike", "D+0 / boleto")], limit=1
+            )
+            payment_term_id = (
+                payment_term.id
+                if payment_term
+                else (
+                    rent.rent_type_id.payment_term.id
+                    if rent.rent_type_id and rent.rent_type_id.payment_term
+                    else False
+                )
+            )
 
             today_str = datetime.now().strftime(DTF) or False
 
@@ -552,6 +563,7 @@ class FleetRent(models.Model):
                     "invoice_date_due": today_str,
                     "payment_mode_id": payment_mode_id,
                     "payment_journal_id": payment_journal_id,
+                    "invoice_payment_term_id": payment_term_id,
                     "fleet_rent_id": rent.id,
                     "is_deposit_inv": True,
                     "invoice_origin": rent.name,
