@@ -541,6 +541,10 @@ class FleetRent(models.Model):
                     # rent.tenant_id.property_account_payable_id.id or False,
                     "invoice_line_ids": [(0, 0, inv_line_values)],
                     "invoice_date": datetime.now().strftime(DTF) or False,
+                    "invoice_date_due": (
+                        datetime.now() + relativedelta(days=30)
+                    ).strftime(DTF)
+                    or False,
                     "fleet_rent_id": rent.id,
                     "is_deposit_return_inv": True,
                     "journal_id": purch_journal and purch_journal.id or False,
