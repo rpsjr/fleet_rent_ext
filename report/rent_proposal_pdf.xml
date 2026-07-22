@@ -253,127 +253,36 @@
                                         style="margin-top: 20px; margin-bottom: 20px; border-top: 1px solid #ccc;"
                                     />
 
-                                 <div
-                                        class="termos_gerais"
-                                        style="text-align: justify; font-size: 10pt; line-height: 13pt;"
-                                    >
-                                     <h3
-                                            style="text-align: center; font-weight: bold;"
-                                        >TERMOS GERAIS DE LOCAÇÃO — BABUR</h3>
-                                     <p
-                                            style="text-align: center; font-style: italic;"
-                                        >(versão revisada)</p>
+                                  <t t-set="agr" t-value="o if o._name == 'agreement' else (rent.agreement_id if rent and rent.agreement_id else False)"/>
+                                  <t t-set="template_agr" t-value="env.ref('fleet_rent_ext.agreement_template_fleet_rent', raise_if_not_found=False)"/>
+                                  <t t-set="target_agr" t-value="agr if (agr and agr.sections) else template_agr"/>
 
-                                     <h4>1. PREÂMBULO</h4>
-                                     <p>1. O termo de locação firmado por <b
-                                            >Babur</b>, com sede em Salvador, Bahia (BR), inscrita no CNPJ nº 40.772.248/0001-95 (“Locadora”), será regido por estas Condições Gerais (“Termos Gerais”), em conjunto com as condições comerciais específicas da Proposta/Contrato de Locação (“Contrato”).</p>
-                                     <p
-                                        >2. O Locatário é a pessoa física identificada no Contrato de Locação a quem se destina o veículo automotor (“Veículo”) locado, sendo o único responsável pelo integral cumprimento do Contrato.</p>
-                                     <p
-                                        >3. As partes reconhecem que o Veículo é locado como <b
-                                            >insumo da atividade econômica</b> do Locatário — transporte remunerado privado individual de passageiros por aplicativo (Lei nº 12.587/2012) —, tratando-se de locação de natureza empresarial, e não de relação de consumo. As cláusulas destes Termos Gerais são interpretadas à luz do Código Civil, em especial dos princípios da boa-fé objetiva e da função social do contrato (arts. 421 e 422) e da disciplina dos contratos de adesão (art. 424).</p>
-                                     <p
-                                        >4. O objeto do Contrato é a locação de veículo de propriedade, posse, uso ou gozo da Locadora, por prazo determinado, para uso exclusivo em território nacional e dentro da área de circulação definida pela Locadora. O Veículo será entregue com todos os equipamentos exigidos pelo Código de Trânsito Brasileiro (“CTB”), conforme confirmado e aceito pelo Locatário no ato da retirada e registrado no Termo de Vistoria.</p>
-                                     <p
-                                        >5. A Locadora se reserva o direito de estabelecer relação jurídica somente com pessoa física que, concomitantemente: (i) possua CNH categoria B válida; (ii) esteja previamente cadastrada em aplicativo de transporte; (iii) possua capacidade financeira compatível; (iv) possua documentação em dia; e (v) concorde com os termos de bloqueio.</p>
-                                     <p
-                                        >6. A Locadora terá a faculdade de realizar análise cadastral e de crédito do Locatário.</p>
-                                     <p
-                                        >7. Como condição para celebação, o Locatário concorda com a prestação de caução ou pagamento antecipado do aluguel.</p>
+                                  <div
+                                         class="termos_gerais"
+                                         style="text-align: justify; font-size: 10pt; line-height: 13pt;"
+                                         t-if="target_agr and target_agr.sections"
+                                     >
+                                      <h3
+                                             style="text-align: center; font-weight: bold;"
+                                         >TERMOS GERAIS DE LOCAÇÃO — <t t-esc="o.company_id.name or 'BABUR'"/></h3>
+                                      <p
+                                             style="text-align: center; font-style: italic;"
+                                         >(versão vinculada ao contrato)</p>
 
-                                     <h4>2. PREÇO, PAGAMENTO E COBRANÇA</h4>
-                                     <p
-                                        >8. O valor total devido pelo Locatário a título de semanalidade corresponderá ao valor de 7 dias de locação, acrescido das obrigações devidas e/ou inadimplidas na semana, incluindo despesas e indenizações.</p>
-                                     <p
-                                        >9. O Locatário obriga-se a efetuar o pagamento no prazo e na forma ajustados neste Contrato.</p>
-                                     <p
-                                        >10. Os pagamentos da caução ou semanalidade serão efetuados antes da retirada do veículo. Na renovação, o pagamento é feito à vista até o 7º dia do novo período.</p>
-                                     <p
-                                        >11. O Locatário é o único responsável pelo pagamento do aluguel e despesas de uso até a efetiva devolução do veículo.</p>
-                                     <p>12. <b
-                                            >Formas de pagamento:</b> Os valores devidos poderão ser pagos por Pix (mediante QR Code ou código copia e cola oficial), reputando-se realizado apenas com a confirmação da liquidação na conta da Locadora.</p>
-                                     <p
-                                        >13. Todos os valores devidos constituem dívidas líquidas e certas para pagamento à vista.</p>
-                                     <p
-                                        >14. O atraso no pagamento ensejará multa moratória de 10%, juros de 1% ao mês e atualização monetária pelo IGP-M/FGV pro rata dies.</p>
-                                     <p
-                                        >15. Fica assegurado à Locadora o direito de protestar títulos e incluir o nome do Locatário nos órgãos de proteção ao crédito (SERASA/SPC).</p>
-
-                                     <h4>3. INÍCIO DA LOCAÇÃO</h4>
-                                     <p
-                                        >17. A locação terá vigência de 7 dias corridos a partir da data agendada para retirada do veículo.</p>
-
-                                     <h4>4. PRORROGAÇÃO DA LOCAÇÃO</h4>
-                                     <p
-                                        >18. A locação será prorrogada automática e sucessivamente por igual período, salvo comunicação em contrário com antecedência de 2 dias úteis.</p>
-
-                                     <h4>5. FIM DA LOCAÇÃO</h4>
-                                     <p
-                                        >21. O contrato poderá ser encerrado por qualquer das partes com aviso prévio de 2 dias úteis, ou automaticamente pela Locadora na ocorrência de inadimplemento, sinistro, uso inadequado ou apreensão do veículo.</p>
-
-                                     <h4>6. PROCEDIMENTOS DE RETIRADA DO VEÍCULO</h4>
-                                     <p
-                                        >23. O Locatário vistoriará completamente o veículo no momento da retirada, certificando-se de seus acessórios e estado de conservação no Termo de Vistoria.</p>
-
-                                     <h4
-                                        >7. FALHA MECÂNICA OU DO SISTEMA OPERACIONAL</h4>
-                                     <p
-                                        >25. O Locatário comunicará imediatamente a Locadora sobre qualquer falha mecânica. É proibido realizar consertos ou intervenções sem autorização prévia da Locadora.</p>
-
-                                     <h4>8. PROCEDIMENTOS DE DEVOLUÇÃO DO VEÍCULO</h4>
-                                     <p
-                                        >29. Ao final da locação, o Locatário devolverá o veículo nas mesmas condições em que o recebeu, ressalvado o desgaste natural de uso, no pátio da Locadora.</p>
-
-                                     <h4>9. DA DISPONIBILIDADE MÍNIMA DO VEÍCULO</h4>
-                                     <p
-                                        >32. A Locadora envidará esforços para manter o Veículo disponível por no mínimo 95% do período de locação.</p>
-
-                                     <h4
-                                        >10. PROCEDIMENTOS DE SUBSTITUIÇÃO DO VEÍCULO</h4>
-                                     <p
-                                        >33. A Locadora poderá determinar a devolução do veículo para substituição por outro da mesma categoria.</p>
-
-                                     <h4>11. OBRIGAÇÕES DA LOCADORA</h4>
-                                     <p
-                                        >35. É responsabilidade da Locadora disponibilizar veículo limpo, em perfeitas condições de funcionamento e segurança com a documentação em dia.</p>
-
-                                     <h4>12. RESPONSABILIDADES DO LOCATÁRIO</h4>
-                                     <p
-                                        >37. É responsabilidade do Locatário zelar pelo veículo, utilizá-lo em conformidade com estes Termos Gerais e utilizá-lo exclusivamente para transporte de passageiros por aplicativo.</p>
-
-                                     <h4>13. INDENIZAÇÕES</h4>
-                                     <p
-                                        >40. O Locatário é o único responsável por indenizar a Locadora e terceiros pelos prejuízos que causar no uso do veículo.</p>
-
-                                     <h4>14. MULTAS DE TRÂNSITO</h4>
-                                     <p
-                                        >45. O Locatário responsabiliza-se por todas as infrações de trânsito cometidas durante o período da locação e autoriza a indicação do condutor infrator perante a autoridade de trânsito.</p>
-
-                                     <h4>15. DESPESAS E CUSTOS OPERACIONAIS</h4>
-                                     <p
-                                        >51. São despesas ressarcíveis pelo Locatário: quilometragem excedente, higienização, chaves, serviços de despachante/advogado, reboque e taxas de órgãos de trânsito.</p>
-
-                                     <h4
-                                        >16. MULTA POR AUSÊNCIA EM MANUTENÇÃO PROGRAMADA</h4>
-                                     <p
-                                        >53. O não comparecimento à convocação de manutenção programada sujeitará o Locatário à multa equivalente a 2 diárias de locação acrescida de 1 diária por dia de atraso.</p>
-
-                                     <h4>17. REEMBOLSO</h4>
-                                     <p
-                                        >55. Terminado o contrato, eventual saldo de caução será restituído em até 30 dias após a apuração de débitos pendentes.</p>
-
-                                     <h4>18. DO BLOQUEIO</h4>
-                                     <p
-                                        >56. O veículo estará sujeito ao bloqueio em caso de inadimplemento, mau uso, uso fora da região permitida ou ausência em manutenção preventiva.</p>
-
-                                     <h4>19. TRATAMENTO DE DADOS PESSOAIS</h4>
-                                     <p
-                                        >57. O tratamento de dados pessoais observará a Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018).</p>
-
-                                     <h4>20. DISPOSIÇÕES GERAIS E FORO</h4>
-                                     <p
-                                        >58. As partes elegem o Foro da Comarca de Salvador/BA para dirimir quaisquer questões relativas ao Contrato.</p>
-                                 </div>
+                                      <t t-foreach="target_agr.sections" t-as="sec">
+                                          <h4 style="margin-top: 12px; margin-bottom: 4px; font-weight: bold;">
+                                              <t t-esc="sec_index + 1"/>. <t t-esc="sec.title or sec.name"/>
+                                          </h4>
+                                          <t t-foreach="sec.clauses" t-as="claus">
+                                              <p style="margin-bottom: 6px; text-align: justify;">
+                                                  <t t-if="len(sec.clauses) &gt; 1">
+                                                      <b><t t-esc="sec_index + 1"/>.<t t-esc="claus_index + 1"/>.</b> 
+                                                  </t>
+                                                  <span t-raw="claus.content"/>
+                                              </p>
+                                          </t>
+                                      </t>
+                                  </div>
 
                                  <p
                                         class="claus"

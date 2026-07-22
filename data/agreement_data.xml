@@ -12,70 +12,309 @@
         <record id="agreement_template_fleet_rent" model="agreement">
             <field name="name">Modelo de Contrato de Locação de Veículo - Babur</field>
             <field name="code">TMPL-LOC-BABUR</field>
-
             <field name="is_template" eval="True" />
             <field name="agreement_type_id" ref="agreement_type_fleet_rent" />
-            <field
-                name="description"
-            >Termos Gerais e Proposta de Locação de Veículos Babur</field>
+            <field name="description">Termos Gerais e Proposta de Locação de Veículos Babur</field>
         </record>
 
-        <!-- Section 1: Preâmbulo -->
+        <!-- Section 1: PREÂMBULO -->
         <record id="section_1_preambulo" model="agreement.section">
-            <field name="name">1. PREÂMBULO</field>
-            <field name="title">1. PREÂMBULO</field>
+            <field name="name">PREÂMBULO</field>
+            <field name="title">PREÂMBULO</field>
             <field name="sequence">1</field>
             <field name="agreement_id" ref="agreement_template_fleet_rent" />
         </record>
         <record id="clause_1_1" model="agreement.clause">
-            <field name="name">1. Disposições Gerais</field>
-            <field name="title">1. Disposições Gerais</field>
+            <field name="name">Condições Gerais e Objeto do Preâmbulo</field>
+            <field name="title">Condições Gerais e Objeto do Preâmbulo</field>
             <field name="sequence">1</field>
             <field name="section_id" ref="section_1_preambulo" />
-            <field
-                name="content"
-            >O termo de locação firmado por Babur ("Locadora") será regido por estas Condições Gerais em conjunto com a Proposta/Contrato de Locação.</field>
+            <field name="content">O termo de locação firmado por Babur, com sede em Salvador, Bahia (BR), inscrita no CNPJ nº 40.772.248/0001-95 (“Locadora”), será regido por estas Condições Gerais (“Termos Gerais”), em conjunto com as condições comerciais específicas da Proposta/Contrato de Locação (“Contrato”).&lt;br/&gt;&lt;br/&gt;O Locatário é a pessoa física identificada no Contrato de Locação a quem se destina o veículo automotor (“Veículo”) locado, sendo o único responsável pelo integral cumprimento do Contrato.&lt;br/&gt;&lt;br/&gt;As partes reconhecem que o Veículo é locado como insumo da atividade econômica do Locatário — transporte remunerado privado individual de passageiros por aplicativo (Lei nº 12.587/2012) —, tratando-se de locação de natureza empresarial, e não de relação de consumo. As cláusulas destes Termos Gerais são interpretadas à luz do Código Civil, em especial dos princípios da boa-fé objetiva e da função social do contrato (arts. 421 e 422) e da disciplina dos contratos de adesão (art. 424).&lt;br/&gt;&lt;br/&gt;O objeto do Contrato é a locação de veículo de propriedade, posse, uso ou gozo da Locadora, por prazo determinado, para uso exclusivo em território nacional e dentro da área de circulação definida pela Locadora. O Veículo será entregue com todos os equipamentos exigidos pelo Código de Trânsito Brasileiro (“CTB”), conforme confirmado e aceito pelo Locatário no ato da retirada e registrado no Termo de Vistoria.&lt;br/&gt;&lt;br/&gt;A Locadora se reserva o direito de estabelecer relação jurídica somente com pessoa física que, concomitantemente: (i) possua CNH categoria B válida; (ii) esteja previamente cadastrada em aplicativo de transporte; (iii) possua capacidade financeira compatível; (iv) possua documentação em dia; e (v) concorde com os termos de bloqueio.&lt;br/&gt;&lt;br/&gt;A Locadora terá a faculdade de realizar análise cadastral e de crédito do Locatário.&lt;br/&gt;&lt;br/&gt;Como condição para celebração, o Locatário concorda com a prestação de caução ou pagamento antecipado do aluguel.</field>
         </record>
 
-        <!-- Section 2: Preço, Pagamento e Cobrança -->
+        <!-- Section 2: PREÇO, PAGAMENTO E COBRANÇA -->
         <record id="section_2_pagamento" model="agreement.section">
-            <field name="name">2. PREÇO, PAGAMENTO E COBRANÇA</field>
-            <field name="title">2. PREÇO, PAGAMENTO E COBRANÇA</field>
+            <field name="name">PREÇO, PAGAMENTO E COBRANÇA</field>
+            <field name="title">PREÇO, PAGAMENTO E COBRANÇA</field>
             <field name="sequence">2</field>
             <field name="agreement_id" ref="agreement_template_fleet_rent" />
         </record>
         <record id="clause_2_1" model="agreement.clause">
-            <field name="name">2.1 Semanalidade e Encargos</field>
-            <field name="title">2.1 Semanalidade e Encargos</field>
+            <field name="name">Regras de Pagamento, Encargos e Cobrança</field>
+            <field name="title">Regras de Pagamento, Encargos e Cobrança</field>
             <field name="sequence">1</field>
             <field name="section_id" ref="section_2_pagamento" />
-            <field
-                name="content"
-            >O valor total devido pelo Locatário corresponde a 7 dias de locação acrescido de obrigações, taxas e despesas incorridas no período.</field>
+            <field name="content">O valor total devido pelo Locatário a título de semanalidade corresponderá ao valor de 7 dias de locação, acrescido das obrigações devidas e/ou inadimplidas na semana, incluindo despesas e indenizações.&lt;br/&gt;&lt;br/&gt;O Locatário obriga-se a efetuar o pagamento no prazo e na forma ajustados neste Contrato.&lt;br/&gt;&lt;br/&gt;Os pagamentos da caução ou semanalidade serão efetuados antes da retirada do veículo. Na renovação, o pagamento é feito à vista até o 7º dia do novo período.&lt;br/&gt;&lt;br/&gt;O Locatário é o único responsável pelo pagamento do aluguel e despesas de uso até a efetiva devolução do veículo.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Formas de pagamento:&lt;/b&gt; Os valores devidos poderão ser pagos por Pix (mediante QR Code ou código copia e cola oficial), reputando-se realizado apenas com a confirmação da liquidação na conta da Locadora.&lt;br/&gt;&lt;br/&gt;Todos os valores devidos constituem dívidas líquidas e certas para pagamento à vista.&lt;br/&gt;&lt;br/&gt;O atraso no pagamento ensejará multa moratória de 10%, juros de 1% ao mês e atualização monetária pelo IGP-M/FGV pro rata dies.&lt;br/&gt;&lt;br/&gt;Fica assegurado à Locadora o direito de protestar títulos e incluir o nome do Locatário nos órgãos de proteção ao crédito (SERASA/SPC).</field>
         </record>
 
-        <!-- Section 3: Início e Prorrogação -->
-        <record id="section_3_vigencia" model="agreement.section">
-            <field name="name">3. VIGÊNCIA E PRORROGAÇÃO</field>
-            <field name="title">3. VIGÊNCIA E PRORROGAÇÃO</field>
+        <!-- Section 3: INÍCIO DA LOCAÇÃO -->
+        <record id="section_3_inicio" model="agreement.section">
+            <field name="name">INÍCIO DA LOCAÇÃO</field>
+            <field name="title">INÍCIO DA LOCAÇÃO</field>
             <field name="sequence">3</field>
             <field name="agreement_id" ref="agreement_template_fleet_rent" />
         </record>
+        <record id="clause_3_1" model="agreement.clause">
+            <field name="name">Vigência Inicial</field>
+            <field name="title">Vigência Inicial</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_3_inicio" />
+            <field name="content">A locação terá vigência de 7 dias corridos a partir da data agendada para retirada do veículo.</field>
+        </record>
 
-        <!-- Section 4: Procedimentos de Devolução e Manutenção -->
-        <record id="section_4_devolucao" model="agreement.section">
-            <field name="name">4. DEVOLUÇÃO E MANUTENÇÃO</field>
-            <field name="title">4. DEVOLUÇÃO E MANUTENÇÃO</field>
+        <!-- Section 4: PRORROGAÇÃO DA LOCAÇÃO -->
+        <record id="section_4_prorrogacao" model="agreement.section">
+            <field name="name">PRORROGAÇÃO DA LOCAÇÃO</field>
+            <field name="title">PRORROGAÇÃO DA LOCAÇÃO</field>
             <field name="sequence">4</field>
             <field name="agreement_id" ref="agreement_template_fleet_rent" />
         </record>
+        <record id="clause_4_1" model="agreement.clause">
+            <field name="name">Prorrogação Automática</field>
+            <field name="title">Prorrogação Automática</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_4_prorrogacao" />
+            <field name="content">A locação será prorrogada automática e sucessivamente por igual período, salvo comunicação em contrário com antecedência de 2 dias úteis.</field>
+        </record>
 
-        <!-- Section 5: Disposições Finais e Foro -->
-        <record id="section_5_disposicoes" model="agreement.section">
-            <field name="name">5. DISPOSIÇÕES FINAIS E FORO</field>
-            <field name="title">5. DISPOSIÇÕES FINAIS E FORO</field>
+        <!-- Section 5: FIM DA LOCAÇÃO -->
+        <record id="section_5_fim" model="agreement.section">
+            <field name="name">FIM DA LOCAÇÃO</field>
+            <field name="title">FIM DA LOCAÇÃO</field>
             <field name="sequence">5</field>
             <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_5_1" model="agreement.clause">
+            <field name="name">Encerramento do Contrato</field>
+            <field name="title">Encerramento do Contrato</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_5_fim" />
+            <field name="content">O contrato poderá ser encerrado por qualquer das partes com aviso prévio de 2 dias úteis, ou automaticamente pela Locadora na ocorrência de inadimplemento, sinistro, uso inadequado ou apreensão do veículo.</field>
+        </record>
+
+        <!-- Section 6: PROCEDIMENTOS DE RETIRADA DO VEÍCULO -->
+        <record id="section_6_retirada" model="agreement.section">
+            <field name="name">PROCEDIMENTOS DE RETIRADA DO VEÍCULO</field>
+            <field name="title">PROCEDIMENTOS DE RETIRADA DO VEÍCULO</field>
+            <field name="sequence">6</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_6_1" model="agreement.clause">
+            <field name="name">Vistoria de Retirada</field>
+            <field name="title">Vistoria de Retirada</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_6_retirada" />
+            <field name="content">O Locatário vistoriará completamente o veículo no momento da retirada, certificando-se de seus acessórios e estado de conservação no Termo de Vistoria.</field>
+        </record>
+
+        <!-- Section 7: FALHA MECÂNICA OU DO SISTEMA OPERACIONAL -->
+        <record id="section_7_falha" model="agreement.section">
+            <field name="name">FALHA MECÂNICA OU DO SISTEMA OPERACIONAL</field>
+            <field name="title">FALHA MECÂNICA OU DO SISTEMA OPERACIONAL</field>
+            <field name="sequence">7</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_7_1" model="agreement.clause">
+            <field name="name">Comunicação de Falhas</field>
+            <field name="title">Comunicação de Falhas</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_7_falha" />
+            <field name="content">O Locatário comunicará imediatamente a Locadora sobre qualquer falha mecânica. É proibido realizar consertos ou intervenções sem autorização prévia da Locadora.</field>
+        </record>
+
+        <!-- Section 8: PROCEDIMENTOS DE DEVOLUÇÃO DO VEÍCULO -->
+        <record id="section_8_devolucao" model="agreement.section">
+            <field name="name">PROCEDIMENTOS DE DEVOLUÇÃO DO VEÍCULO</field>
+            <field name="title">PROCEDIMENTOS DE DEVOLUÇÃO DO VEÍCULO</field>
+            <field name="sequence">8</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_8_1" model="agreement.clause">
+            <field name="name">Condições de Devolução</field>
+            <field name="title">Condições de Devolução</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_8_devolucao" />
+            <field name="content">Ao final da locação, o Locatário devolverá o veículo nas mesmas condições em que o recebeu, ressalvado o desgaste natural de uso, no pátio da Locadora.</field>
+        </record>
+
+        <!-- Section 9: DA DISPONIBILIDADE MÍNIMA DO VEÍCULO -->
+        <record id="section_9_disponibilidade" model="agreement.section">
+            <field name="name">DA DISPONIBILIDADE MÍNIMA DO VEÍCULO</field>
+            <field name="title">DA DISPONIBILIDADE MÍNIMA DO VEÍCULO</field>
+            <field name="sequence">9</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_9_1" model="agreement.clause">
+            <field name="name">Percentual de Disponibilidade</field>
+            <field name="title">Percentual de Disponibilidade</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_9_disponibilidade" />
+            <field name="content">A Locadora envidará esforços para manter o Veículo disponível por no mínimo 95% do período de locação.</field>
+        </record>
+
+        <!-- Section 10: PROCEDIMENTOS DE SUBSTITUIÇÃO DO VEÍCULO -->
+        <record id="section_10_substituicao" model="agreement.section">
+            <field name="name">PROCEDIMENTOS DE SUBSTITUIÇÃO DO VEÍCULO</field>
+            <field name="title">PROCEDIMENTOS DE SUBSTITUIÇÃO DO VEÍCULO</field>
+            <field name="sequence">10</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_10_1" model="agreement.clause">
+            <field name="name">Substituição de Categoria</field>
+            <field name="title">Substituição de Categoria</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_10_substituicao" />
+            <field name="content">A Locadora poderá determinar a devolução do veículo para substituição por outro da mesma categoria.</field>
+        </record>
+
+        <!-- Section 11: OBRIGAÇÕES DA LOCADORA -->
+        <record id="section_11_obrigacoes_locadora" model="agreement.section">
+            <field name="name">OBRIGAÇÕES DA LOCADORA</field>
+            <field name="title">OBRIGAÇÕES DA LOCADORA</field>
+            <field name="sequence">11</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_11_1" model="agreement.clause">
+            <field name="name">Manutenção e Documentação da Frota</field>
+            <field name="title">Manutenção e Documentação da Frota</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_11_obrigacoes_locadora" />
+            <field name="content">É responsabilidade da Locadora disponibilizar veículo limpo, em perfeitas condições de funcionamento e segurança com a documentação em dia.</field>
+        </record>
+
+        <!-- Section 12: RESPONSABILIDADES DO LOCATÁRIO -->
+        <record id="section_12_responsabilidades_locatario" model="agreement.section">
+            <field name="name">RESPONSABILIDADES DO LOCATÁRIO</field>
+            <field name="title">RESPONSABILIDADES DO LOCATÁRIO</field>
+            <field name="sequence">12</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_12_1" model="agreement.clause">
+            <field name="name">Uso Adequado e Zeladoria</field>
+            <field name="title">Uso Adequado e Zeladoria</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_12_responsabilidades_locatario" />
+            <field name="content">É responsabilidade do Locatário zelar pelo veículo, utilizá-lo em conformidade com estes Termos Gerais e utilizá-lo exclusivamente para transporte de passageiros por aplicativo.</field>
+        </record>
+
+        <!-- Section 13: INDENIZAÇÕES -->
+        <record id="section_13_indenizacoes" model="agreement.section">
+            <field name="name">INDENIZAÇÕES</field>
+            <field name="title">INDENIZAÇÕES</field>
+            <field name="sequence">13</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_13_1" model="agreement.clause">
+            <field name="name">Prejuízos e Perdas a Terceiros</field>
+            <field name="title">Prejuízos e Perdas a Terceiros</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_13_indenizacoes" />
+            <field name="content">O Locatário é o único responsável por indenizar a Locadora e terceiros pelos prejuízos que causar no uso do veículo.</field>
+        </record>
+
+        <!-- Section 14: MULTAS DE TRÂNSITO -->
+        <record id="section_14_multas" model="agreement.section">
+            <field name="name">MULTAS DE TRÂNSITO</field>
+            <field name="title">MULTAS DE TRÂNSITO</field>
+            <field name="sequence">14</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_14_1" model="agreement.clause">
+            <field name="name">Infrações de Trânsito</field>
+            <field name="title">Infrações de Trânsito</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_14_multas" />
+            <field name="content">O Locatário responsabiliza-se por todas as infrações de trânsito cometidas durante o período da locação e autoriza a indicação do condutor infrator perante a autoridade de trânsito.</field>
+        </record>
+
+        <!-- Section 15: DESPESAS E CUSTOS OPERACIONAIS -->
+        <record id="section_15_despesas" model="agreement.section">
+            <field name="name">DESPESAS E CUSTOS OPERACIONAIS</field>
+            <field name="title">DESPESAS E CUSTOS OPERACIONAIS</field>
+            <field name="sequence">15</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_15_1" model="agreement.clause">
+            <field name="name">Despesas Ressarcíveis</field>
+            <field name="title">Despesas Ressarcíveis</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_15_despesas" />
+            <field name="content">São despesas ressarcíveis pelo Locatário: quilometragem excedente, higienização, chaves, serviços de despachante/advogado, reboque e taxas de órgãos de trânsito.</field>
+        </record>
+
+        <!-- Section 16: MULTA POR AUSÊNCIA EM MANUTENÇÃO PROGRAMADA -->
+        <record id="section_16_multa_manutencao" model="agreement.section">
+            <field name="name">MULTA POR AUSÊNCIA EM MANUTENÇÃO PROGRAMADA</field>
+            <field name="title">MULTA POR AUSÊNCIA EM MANUTENÇÃO PROGRAMADA</field>
+            <field name="sequence">16</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_16_1" model="agreement.clause">
+            <field name="name">Penalidade por Falta na Convocação</field>
+            <field name="title">Penalidade por Falta na Convocação</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_16_multa_manutencao" />
+            <field name="content">O não comparecimento à convocação de manutenção programada sujeitará o Locatário à multa equivalente a 2 diárias de locação acrescida de 1 diária por dia de atraso.</field>
+        </record>
+
+        <!-- Section 17: REEMBOLSO -->
+        <record id="section_17_reembolso" model="agreement.section">
+            <field name="name">REEMBOLSO</field>
+            <field name="title">REEMBOLSO</field>
+            <field name="sequence">17</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_17_1" model="agreement.clause">
+            <field name="name">Restituição de Caução</field>
+            <field name="title">Restituição de Caução</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_17_reembolso" />
+            <field name="content">Terminado o contrato, eventual saldo de caução será restituído em até 30 dias após a apuração de débitos pendentes.</field>
+        </record>
+
+        <!-- Section 18: DO BLOQUEIO -->
+        <record id="section_18_bloqueio" model="agreement.section">
+            <field name="name">DO BLOQUEIO</field>
+            <field name="title">DO BLOQUEIO</field>
+            <field name="sequence">18</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_18_1" model="agreement.clause">
+            <field name="name">Bloqueio Preventivo e Regras</field>
+            <field name="title">Bloqueio Preventivo e Regras</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_18_bloqueio" />
+            <field name="content">O veículo estará sujeito ao bloqueio em caso de inadimplemento, mau uso, uso fora da região permitida ou ausência em manutenção preventiva.</field>
+        </record>
+
+        <!-- Section 19: TRATAMENTO DE DADOS PESSOAIS -->
+        <record id="section_19_lgpd" model="agreement.section">
+            <field name="name">TRATAMENTO DE DADOS PESSOAIS</field>
+            <field name="title">TRATAMENTO DE DADOS PESSOAIS</field>
+            <field name="sequence">19</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_19_1" model="agreement.clause">
+            <field name="name">Conformidade LGPD</field>
+            <field name="title">Conformidade LGPD</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_19_lgpd" />
+            <field name="content">O tratamento de dados pessoais observará a Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018).</field>
+        </record>
+
+        <!-- Section 20: DISPOSIÇÕES GERAIS E FORO -->
+        <record id="section_20_foro" model="agreement.section">
+            <field name="name">DISPOSIÇÕES GERAIS E FORO</field>
+            <field name="title">DISPOSIÇÕES GERAIS E FORO</field>
+            <field name="sequence">20</field>
+            <field name="agreement_id" ref="agreement_template_fleet_rent" />
+        </record>
+        <record id="clause_20_1" model="agreement.clause">
+            <field name="name">Eleição de Foro</field>
+            <field name="title">Eleição de Foro</field>
+            <field name="sequence">1</field>
+            <field name="section_id" ref="section_20_foro" />
+            <field name="content">As partes elegem o Foro da Comarca de Salvador/BA para dirimir quaisquer questões relativas ao Contrato.</field>
         </record>
 
     </data>
