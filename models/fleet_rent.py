@@ -175,6 +175,9 @@ class FleetRent(models.Model):
             agr_type = self.env.ref(
                 "fleet_rent_ext.fleet_rent_agreement_type", raise_if_not_found=False
             )
+            if not agr_type:
+                agr_type = self.env["agreement.type"].search([], limit=1)
+
             template = self.env.ref(
                 "fleet_rent_ext.fleet_rent_agreement_template", raise_if_not_found=False
             )

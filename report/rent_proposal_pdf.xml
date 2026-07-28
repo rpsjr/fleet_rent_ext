@@ -247,44 +247,52 @@
                                     />
 
                                   <t t-set="agr" t-value="o if o._name == 'agreement' and o.exists() else (rent.agreement_id if rent and rent.agreement_id and rent.agreement_id.exists() else False)"/>
-                                  <t t-set="template_agr" t-value="o.env.ref('fleet_rent_ext.fleet_rent_agreement_template', raise_if_not_found=False)"/>
-                                  <t t-set="template_agr" t-value="template_agr if template_agr and template_agr.exists() else False"/>
-                                  <t t-set="agr_to_use" t-value="agr if agr else template_agr"/>
-                                  <t t-set="sec_list" t-value="(agr_to_use.sections_ids if 'sections_ids' in agr_to_use._fields else (agr_to_use.section_ids if 'section_ids' in agr_to_use._fields else (agr_to_use.sections if 'sections' in agr_to_use._fields else (agr_to_use.clauses_ids if 'clauses_ids' in agr_to_use._fields else (agr_to_use.clauses if 'clauses' in agr_to_use._fields else False))))) if agr_to_use else False"/>
-                                  <t t-if="not sec_list and template_agr">
-                                      <t t-set="sec_list" t-value="(template_agr.sections_ids if 'sections_ids' in template_agr._fields else (template_agr.section_ids if 'section_ids' in template_agr._fields else (template_agr.sections if 'sections' in template_agr._fields else (template_agr.clauses_ids if 'clauses_ids' in template_agr._fields else (template_agr.clauses if 'clauses' in template_agr._fields else False))))) if template_agr else False"/>
-                                  </t>
+                                  <t t-set="template_fallback" t-value="o.env['agreement'].search([('is_template', '=', True)], limit=1) if o and o.exists() else False"/>
+                                  <t t-set="agr_to_use" t-value="agr if agr and (agr.sections_ids or agr.clauses_ids) else (agr if agr else template_fallback)"/>
+                                  <t t-set="sec_list" t-value="agr_to_use.sections_ids if agr_to_use and agr_to_use.sections_ids else False"/>
+                                  <t t-set="direct_claus_list" t-value="agr_to_use.clauses_ids if agr_to_use and not sec_list and agr_to_use.clauses_ids else False"/>
 
                                   <div
                                          class="termos_gerais"
                                          style="text-align: justify; font-size: 10pt; line-height: 13pt;"
-                                         t-if="sec_list"
+                                         t-if="sec_list or direct_claus_list"
                                      >
                                       <h3
                                              style="text-align: center; font-weight: bold;"
                                          >TERMOS GERAIS DE LOCAÇÃO — <t t-esc="o.company_id.name or 'BABUR'"/></h3>
                                       <p
                                              style="text-align: center; font-style: italic;"
-                                         >(versão vinculada ao contrato)</p>
+                                         >(versão vinculada ao contrato<t t-if="agr_to_use and agr_to_use.name">: <t t-esc="agr_to_use.name"/></t>)</p>
 
-                                      <t t-foreach="sec_list" t-as="sec">
-                                          <h4 style="margin-top: 12px; margin-bottom: 4px; font-weight: bold;">
-                                              <t t-esc="sec_index + 1"/>. <t t-esc="sec.title or sec.name"/>
-                                          </h4>
-                                          <t t-set="claus_list" t-value="(sec.clauses_ids if 'clauses_ids' in sec._fields else (sec.clause_ids if 'clause_ids' in sec._fields else (sec.clauses if 'clauses' in sec._fields else False))) if sec else False"/>
-                                          <t t-if="claus_list">
-                                              <t t-foreach="claus_list" t-as="claus">
+                                      <t t-if="sec_list">
+                                          <t t-foreach="sec_list" t-as="sec">
+                                              <h4 style="margin-top: 12px; margin-bottom: 4px; font-weight: bold;">
+                                                  <t t-esc="sec_index + 1"/>. <t t-esc="sec.title or sec.name"/>
+                                              </h4>
+                                              <t t-set="claus_list" t-value="sec.clauses_ids if 'clauses_ids' in sec._fields and sec.clauses_ids else False"/>
+                                              <t t-if="claus_list">
+                                                  <t t-foreach="claus_list" t-as="claus">
+                                                      <p style="margin-bottom: 6px; text-align: justify;">
+                                                          <t t-if="len(claus_list) &gt; 1">
+                                                              <b><t t-esc="sec_index + 1"/>.<t t-esc="claus_index + 1"/>.</b> 
+                                                          </t>
+                                                          <span t-raw="claus.content"/>
+                                                      </p>
+                                                  </t>
+                                              </t>
+                                              <t t-if="not claus_list and 'content' in sec._fields and sec.content">
                                                   <p style="margin-bottom: 6px; text-align: justify;">
-                                                      <t t-if="len(claus_list) &gt; 1">
-                                                          <b><t t-esc="sec_index + 1"/>.<t t-esc="claus_index + 1"/>.</b> 
-                                                      </t>
-                                                      <span t-raw="claus.content"/>
+                                                      <span t-raw="sec.content"/>
                                                   </p>
                                               </t>
                                           </t>
-                                          <t t-if="not claus_list and 'content' in sec._fields and sec.content">
+                                      </t>
+
+                                      <t t-if="not sec_list and direct_claus_list">
+                                          <t t-foreach="direct_claus_list" t-as="claus">
                                               <p style="margin-bottom: 6px; text-align: justify;">
-                                                  <span t-raw="sec.content"/>
+                                                  <b>CLÁUSULA <t t-esc="claus_index + 1"/> — <t t-esc="claus.title or claus.name"/>:</b>
+                                                  <span t-raw="claus.content"/>
                                               </p>
                                           </t>
                                       </t>
