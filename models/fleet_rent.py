@@ -717,7 +717,16 @@ class FleetRent(models.Model):
 
             params = self.env["ir.config_parameter"].sudo()
             fleet_rental_deposit_product_id_id = int(
-                params.get_param("fleet_rent.fleet_rental_deposit_product_id")
+                params.get_param("fleet_rent.fleet_rental_deposit_product_id") or 0
+            )
+            payment_term_param = params.get_param("fleet_rent.fleet_rental_payment_term_id")
+            payment_term = (
+                rent.env["account.payment.term"].browse(int(payment_term_param))
+                if payment_term_param
+                else False
+            )
+            payment_term_id = (
+                payment_term.id if payment_term and payment_term.exists() else False
             )
 
             inv_line_values = {
@@ -729,27 +738,29 @@ class FleetRent(models.Model):
                 "price_unit": rent.deposit_amt or 0.00,
                 "fleet_rent_id": rent.id,
             }
-            invoice_id = rent.env["account.move"].create(
-                {
-                    "type": "out_refund",
-                    "ref": rent.name,
-                    # 'property_id': vehicle and vehicle.id or False,
-                    "partner_id": rent.tenant_id and rent.tenant_id.id or False,
-                    # 'account_id': rent.tenant_id and
-                    # rent.tenant_id.property_account_payable_id.id or False,
-                    "invoice_line_ids": [(0, 0, inv_line_values)],
-                    "invoice_date": datetime.now().strftime(DTF) or False,
-                    "invoice_date_due": (
-                        datetime.now() + relativedelta(days=30)
-                    ).strftime(DTF)
-                    or False,
-                    "fleet_rent_id": rent.id,
-                    "is_deposit_return_inv": True,
-                    "journal_id": purch_journal and purch_journal.id or False,
-                    "invoice_origin": rent.name,
-                    "l10n_br_edoc_policy": "",
-                }
-            )
+            inv_dict = {
+                "type": "out_refund",
+                "ref": rent.name,
+                # 'property_id': vehicle and vehicle.id or False,
+                "partner_id": rent.tenant_id and rent.tenant_id.id or False,
+                # 'account_id': rent.tenant_id and
+                # rent.tenant_id.property_account_payable_id.id or False,
+                "invoice_line_ids": [(0, 0, inv_line_values)],
+                "invoice_date": datetime.now().strftime(DTF) or False,
+                "invoice_date_due": (
+                    datetime.now() + relativedelta(days=30)
+                ).strftime(DTF)
+                or False,
+                "fleet_rent_id": rent.id,
+                "is_deposit_return_inv": True,
+                "journal_id": purch_journal and purch_journal.id or False,
+                "invoice_origin": rent.name,
+                "l10n_br_edoc_policy": "",
+            }
+            if payment_term_id:
+                inv_dict["invoice_payment_term_id"] = payment_term_id
+
+            invoice_id = rent.env["account.move"].create(inv_dict)
 
             rent.write({"invoice_id": invoice_id.id})
         return True
