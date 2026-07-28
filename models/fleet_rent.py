@@ -617,8 +617,28 @@ class FleetRent(models.Model):
 
             params = self.env["ir.config_parameter"].sudo()
             fleet_rental_deposit_product_id_id = int(
-                params.get_param("fleet_rent.fleet_rental_deposit_product_id")
+                params.get_param("fleet_rent.fleet_rental_deposit_product_id") or 0
             )
+            payment_term_param = params.get_param("fleet_rent.fleet_rental_payment_term_id")
+            payment_term = (
+                rent.env["account.payment.term"].browse(int(payment_term_param))
+                if payment_term_param
+                else False
+            )
+            if not payment_term or not payment_term.exists():
+                payment_term = rent.env["account.payment.term"].search(
+                    [("name", "=ilike", "D+0 / boleto")], limit=1
+                )
+            payment_term_id = (
+                payment_term.id
+                if payment_term
+                else (
+                    rent.rent_type_id.payment_term.id
+                    if rent.rent_type_id and rent.rent_type_id.payment_term
+                    else False
+                )
+            )
+
             inv_line_values = {
                 "product_id": fleet_rental_deposit_product_id_id or False,
                 #'name': 'Deposit Receive' or "",
@@ -640,19 +660,6 @@ class FleetRent(models.Model):
                 [("name", "ilike", "inter")], limit=1
             )
             payment_journal_id = payment_journal.id if payment_journal else 18
-
-            payment_term = rent.env["account.payment.term"].search(
-                [("name", "=ilike", "D+0 / boleto")], limit=1
-            )
-            payment_term_id = (
-                payment_term.id
-                if payment_term
-                else (
-                    rent.rent_type_id.payment_term.id
-                    if rent.rent_type_id and rent.rent_type_id.payment_term
-                    else False
-                )
-            )
 
             today_str = datetime.now().strftime(DTF) or False
 

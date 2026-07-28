@@ -35,6 +35,13 @@
                                         placeholder="e.g. rent_amt * 2"
                                     />
                                 </div>
+                                <div class="text-muted content-group mt16">
+                                    <span>Default Payment Term </span>
+                                    <field
+                                        name="fleet_rental_payment_term_id"
+                                        class="text-center oe_inline"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

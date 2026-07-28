@@ -23,5 +23,12 @@ class ResConfigSettings(models.TransientModel):
         help="Formula to calculate the default deposit amount (e.g. 'rent_amt * 2'). Available variables: rent, rent_amt, vehicle_id, rent_type_id, rent_product.",
         config_parameter="fleet_rent.fleet_rental_deposit_formula",
     )
+    fleet_rental_payment_term_id = fields.Many2one(
+        "account.payment.term",
+        string="Default Payment Term",
+        help="Default payment term used for deposit invoices and rentals",
+        config_parameter="fleet_rent.fleet_rental_payment_term_id",
+    )
+
 
 
