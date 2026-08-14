@@ -239,7 +239,21 @@
                                  <p
                                             class="claus"
                                             style="margin : 0; padding-top:0; text-align: justify; font-size: 11pt; font-family: Arial, sans-serif;"
-                                        >O Veículo será devolvido ao LOCADOR pelo LOCATÁRIO na Rua Padre Feijó, 369 - Canela, Salvador – BA.</p>
+                                        >O Veículo será devolvido ao LOCADOR pelo LOCATÁRIO na <a
+                                                t-field="o.company_id.street"
+                                            />, <a
+                                                t-field="o.company_id.l10n_br_number"
+                                            /><t t-if="o.company_id.street2"> - <a
+                                                t-field="o.company_id.street2"
+                                            /></t><t t-if="o.company_id.l10n_br_district"> - <a
+                                                t-field="o.company_id.l10n_br_district"
+                                            /></t>, <a
+                                                t-field="o.company_id.city_id"
+                                            /><t t-if="o.company_id.state_id"> - <a
+                                                t-field="o.company_id.state_id"
+                                            /></t><t t-if="o.company_id.zip">, CEP <a
+                                                t-field="o.company_id.zip"
+                                            /></t>.</p>
                                  </t>
 
                                  <hr
