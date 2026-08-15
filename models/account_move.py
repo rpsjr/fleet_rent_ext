@@ -5,14 +5,6 @@ from odoo import api, models
 _logger = logging.getLogger(__name__)
 
 
-# class my_class(osv.osv):
-#    # in the code when needed :
-#    _logger.error("my variable : %r", my_var)
-#    # Or
-#    msg = "This is my error message : " % my_var
-#    _logger.error(msg)
-
-
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -23,6 +15,16 @@ class AccountMove(models.Model):
         template = self.env.ref(
             "fleet_rent_ext.email_rent_invoice_template", raise_if_not_found=False
         )
+        if not template:
+            _logger.error(
+                "Mail template 'fleet_rent_ext.email_rent_invoice_template' not found."
+            )
+            return
+
+        # Ensure shared template has no lingering attachments
+        if template.attachment_ids:
+            template.attachment_ids = [(5,)]
+
         invoices = self.search(
             [
                 ("payment_journal_id", "=", 18),
@@ -31,30 +33,61 @@ class AccountMove(models.Model):
             ]
         )
 
-        if invoices:
-            for posted_invoice in invoices:
-                boleto_id = None
-                attachment_ids = []
-                if posted_invoice.transaction_ids:
-                    for payment_transction in posted_invoice.transaction_ids:
-                        payment_transction.generate_pdf_boleto()
-                        if payment_transction.pdf_boleto_id:
-                            boleto_id = (
-                                payment_transction.pdf_boleto_id
-                                and payment_transction.pdf_boleto_id.id
-                                or False
-                            )
-                            attachment_ids.append(
-                                (
-                                    4,
-                                    boleto_id,
-                                )
-                            )
+        for posted_invoice in invoices:
+            try:
+                if posted_invoice.state != "posted" or posted_invoice.invoice_sent:
+                    continue
 
-                _logger.error("my posted_invoice.name : %r", posted_invoice.name)
-                _logger.error("my boleto_idx1 : %r", boleto_id)
-                if boleto_id:
-                    template.attachment_ids = attachment_ids
-                template.send_mail(posted_invoice.id, force_send=True)
+                attachment_ids = []
+                valid_transactions = posted_invoice.transaction_ids.filtered(
+                    lambda t: t.state not in ("cancel", "error")
+                )
+                for payment_transction in valid_transactions:
+                    if (
+                        not payment_transction.pdf_boleto_id
+                        and payment_transction.acquirer_reference
+                    ):
+                        try:
+                            payment_transction.generate_pdf_boleto()
+                        except Exception as tx_err:
+                            _logger.warning(
+                                "Could not generate PDF boleto for transaction %s "
+                                "(Invoice %s): %s",
+                                payment_transction.id,
+                                posted_invoice.name,
+                                tx_err,
+                            )
+                    if payment_transction.pdf_boleto_id:
+                        attachment_ids.append(payment_transction.pdf_boleto_id.id)
+
+                email_values = {}
+                if attachment_ids:
+                    email_values["attachment_ids"] = list(set(attachment_ids))
+
+                _logger.info(
+                    "Sending invoice email: %s (ID: %s, Boleto Attachments: %r)",
+                    posted_invoice.name,
+                    posted_invoice.id,
+                    attachment_ids,
+                )
+
+                template.send_mail(
+                    posted_invoice.id,
+                    force_send=True,
+                    email_values=email_values or None,
+                )
                 posted_invoice.write({"invoice_sent": True})
-                template.attachment_ids = [(5,)]
+                self._cr.commit()
+                _logger.info(
+                    "Successfully processed invoice email for %s (ID: %s)",
+                    posted_invoice.name,
+                    posted_invoice.id,
+                )
+            except Exception as exc:
+                self._cr.rollback()
+                _logger.exception(
+                    "Failed to process invoice email for %s (ID: %s): %s",
+                    posted_invoice.name,
+                    posted_invoice.id,
+                    exc,
+                )
