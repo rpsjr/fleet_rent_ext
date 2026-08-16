@@ -73,18 +73,31 @@ class AccountMove(models.Model):
                     attachment_ids,
                 )
 
-                template.send_mail(
+                mail_id = template.send_mail(
                     posted_invoice.id,
                     force_send=True,
+                    raise_exception=True,
                     email_values=email_values or None,
                 )
-                posted_invoice.write({"invoice_sent": True})
-                self._cr.commit()
-                _logger.info(
-                    "Successfully processed invoice email for %s (ID: %s)",
-                    posted_invoice.name,
-                    posted_invoice.id,
-                )
+                mail = self.env["mail.mail"].browse(mail_id)
+                if mail and mail.state == "sent":
+                    posted_invoice.write({"invoice_sent": True})
+                    self._cr.commit()
+                    _logger.info(
+                        "Successfully processed invoice email for %s (ID: %s)",
+                        posted_invoice.name,
+                        posted_invoice.id,
+                    )
+                else:
+                    failure_reason = mail.failure_reason if mail else "No mail record"
+                    _logger.warning(
+                        "Email for invoice %s (ID: %s) was not sent (status: %s, reason: %s)",
+                        posted_invoice.name,
+                        posted_invoice.id,
+                        mail.state if mail else "None",
+                        failure_reason,
+                    )
+                    self._cr.rollback()
             except Exception as exc:
                 self._cr.rollback()
                 _logger.exception(
