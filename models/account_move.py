@@ -62,7 +62,9 @@ class AccountMove(models.Model):
 
                 email_values = {}
                 if attachment_ids:
-                    email_values["attachment_ids"] = list(set(attachment_ids))
+                    email_values["attachment_ids"] = [
+                        (4, aid) for aid in sorted(set(attachment_ids))
+                    ]
 
                 _logger.info(
                     "Sending invoice email: %s (ID: %s, Boleto Attachments: %r)",
