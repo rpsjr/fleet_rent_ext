@@ -58,4 +58,22 @@
 
         </field>
     </record>
+
+    <!-- Inherited vehicle search view with extended search fields -->
+    <record id="fleet_vehicle_view_search_extended" model="ir.ui.view">
+        <field name="name">fleet.vehicle.search.extended</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">['|', '|', '|', '|', ('name', 'ilike', self), ('license_plate', 'ilike', self), ('vin_sn', 'ilike', self), ('tax_id', 'ilike', self), ('fipe_id', 'ilike', self)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="license_plate" string="Placa" />
+                <field name="tax_id" string="Renavam" />
+                <field name="vin_sn" string="Chassi" />
+                <field name="fipe_id" string="Código FIPE" />
+            </xpath>
+        </field>
+    </record>
 </odoo>

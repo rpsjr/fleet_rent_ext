@@ -7,6 +7,7 @@ from datetime import date, datetime
 
 from odoo import _, api, fields, models, tools
 from odoo.exceptions import ValidationError, Warning
+from odoo.osv import expression
 
 # Import the new API class and its custom exception
 from . import apifipe as apifipecons
@@ -130,6 +131,43 @@ class FleetOperations(models.Model):
         string="Vehicle State",
         default="avaliable",
     )
+
+    @api.model
+    def _name_search(
+        self, name="", args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
+        args = list(args or [])
+        if operator == "ilike" and not (name or "").strip():
+            domain = []
+        else:
+            domain_elements = [
+                ("name", operator, name),
+                ("license_plate", operator, name),
+                ("driver_id.name", operator, name),
+                ("vin_sn", operator, name),
+            ]
+            if "tax_id" in self._fields:
+                domain_elements.append(("tax_id", operator, name))
+            if "fipe_id" in self._fields:
+                domain_elements.append(("fipe_id", operator, name))
+            if "license_plate_alt" in self._fields:
+                domain_elements.append(("license_plate_alt", operator, name))
+
+            domain = ["|"] * (len(domain_elements) - 1) + domain_elements
+
+        return self._search(
+            expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid
+        )
+
+    @api.model
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        res = self._name_search(name, args=args, operator=operator, limit=limit)
+        if isinstance(res, (list, tuple)) and res and isinstance(res[0], (list, tuple)):
+            return [
+                (r[0] if not isinstance(r[0], (list, tuple)) else r[0][0], r[1])
+                for r in res
+            ]
+        return self.browse(res).sudo().name_get()
 
 
 # ==============================================================================
