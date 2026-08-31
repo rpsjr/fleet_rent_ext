@@ -530,11 +530,16 @@ class FleetWittenOff(models.Model):
         """Default get method update in state changing record."""
         vehicle_obj = self.env["fleet.vehicle"]
         res = super(FleetWittenOff, self).default_get(fields)
-        if self._context.get("active_ids", False):
+        if (
+            self._context.get("active_ids", False)
+            and self._context.get("active_model") == "fleet.vehicle"
+        ):
             for vehicle in vehicle_obj.browse(self._context["active_ids"]):
+                if not vehicle.exists():
+                    continue
                 if vehicle.state == "write-off":
-                    raise Warning(_("This vehicle is already in " "write-off state!"))
-                elif vehicle.state == "in_progress" or vehicle.state == "complete":
+                    raise Warning(_("This vehicle is already in write-off state!"))
+                elif vehicle.state in ("in_progress", "complete"):
                     raise Warning(
                         _(
                             "You can't write-off this vehicle "
@@ -543,11 +548,11 @@ class FleetWittenOff(models.Model):
                     )
                 elif vehicle.state == "inspection":
                     raise Warning(
-                        _("You can't write-off this " "vehicle which is in Inspection")
+                        _("You can't write-off this vehicle which is in Inspection")
                     )
                 elif vehicle.state == "rent":
                     raise Warning(
-                        _("You can't write-off this " "vehicle which is On Rent.")
+                        _("You can't write-off this vehicle which is On Rent.")
                     )
                 res.update({"contact_no": vehicle.driver_contact_no or ""})
         return res
@@ -1008,18 +1013,16 @@ class VehicleFuelLog(models.Model):
         fleet_obj = self.env["fleet.vehicle"]
         if self._context:
             ctx_keys = self._context.keys()
-            if "active_model" in ctx_keys:
+            if "active_model" in ctx_keys and self._context.get("active_model") == "fleet.vehicle":
                 if "active_id" in ctx_keys:
-                    vehicle_id = self.env[self._context["active_model"]].browse(
-                        self._context["active_id"]
-                    )
-                    if vehicle_id.state != "write-off":
+                    vehicle = fleet_obj.browse(self._context["active_id"])
+                    if vehicle.exists() and vehicle.state != "write-off":
                         res.update({"vehicle_id": self._context["active_id"]})
                     else:
                         res["vehicle_id"] = False
             if "vehicle_id" in ctx_keys:
-                vehicle_id = fleet_obj.browse(self._context["vehicle_id"])
-                if vehicle_id.state != "write-off":
+                vehicle = fleet_obj.browse(self._context["vehicle_id"])
+                if vehicle.exists() and vehicle.state != "write-off":
                     res.update({"vehicle_id": self._context["vehicle_id"]})
         return res
 
@@ -1044,9 +1047,12 @@ class FleetVehicleCost(models.Model):
         """Default get method is set vehilce id."""
         res = super(FleetVehicleCost, self).default_get(fields)
         fleet_obj = self.env["fleet.vehicle"]
-        if self._context.get("active_id", False):
+        if (
+            self._context.get("active_id", False)
+            and self._context.get("active_model") == "fleet.vehicle"
+        ):
             vehicle_id = fleet_obj.browse(self._context["active_id"])
-            if vehicle_id.state == "write-off":
+            if vehicle_id.exists() and vehicle_id.state == "write-off":
                 res["vehicle_id"] = False
         return res
 
@@ -1092,9 +1098,12 @@ class FleetVehicleOdometer(models.Model):
         res = super(FleetVehicleOdometer, self).default_get(fields)
         context = self.env.context
         fleet_obj = self.env["fleet.vehicle"]
-        if self._context.get("active_id"):
+        if (
+            self._context.get("active_id")
+            and self._context.get("active_model") == "fleet.vehicle"
+        ):
             vehicle_id = fleet_obj.browse(context["active_id"])
-            if vehicle_id.state == "write-off":
+            if vehicle_id.exists() and vehicle_id.state == "write-off":
                 res["vehicle_id"] = False
         return res
 

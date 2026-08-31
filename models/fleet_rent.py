@@ -27,6 +27,15 @@ class FleetRent(models.Model):
     _inherit = "fleet.rent"
 
     @api.model
+    def default_get(self, fields_list):
+        res = super(FleetRent, self).default_get(fields_list)
+        if res.get("vehicle_id"):
+            vehicle = self.env["fleet.vehicle"].browse(res["vehicle_id"])
+            if not vehicle.exists():
+                res["vehicle_id"] = False
+        return res
+
+    @api.model
     def _default_rent_type_id(self):
         param = (
             self.env["ir.config_parameter"]
