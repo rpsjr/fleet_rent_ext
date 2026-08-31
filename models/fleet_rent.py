@@ -131,6 +131,37 @@ class FleetRent(models.Model):
         return rents
 
 
+    state = fields.Selection(
+        [
+            ("draft", "Elaboração / Seleção"),
+            ("crlv_shared", "CRLV-e Compartilhado"),
+            ("waiting_signature", "Aguardando Assinatura"),
+            ("contract_signed", "Contrato Assinado"),
+            ("waiting_inspection", "Aguardando Vistoria"),
+            ("inspected", "Vistoria Realizada"),
+            ("driver_registered", "Condutor Registrado"),
+            ("waiting_deposit", "Aguardando Depósito"),
+            ("deposit_received", "Caução Recebida"),
+            ("open", "Locação Iniciada"),
+            ("done", "Encerrada"),
+            ("cancel", "Cancelada"),
+        ],
+        string="Status",
+        default="draft",
+        tracking=True,
+    )
+
+    crlv_shared_date = fields.Datetime("Data Compartilhamento CRLV-e", readonly=True)
+    sent_signature_date = fields.Datetime("Data Envio para Assinatura", readonly=True)
+    contract_signed_date = fields.Datetime("Data Assinatura Contrato", readonly=True)
+    inspection_scheduled_date = fields.Datetime("Data Agendamento Vistoria", readonly=True)
+    inspection_date = fields.Datetime("Data Conclusão da Vistoria", readonly=True)
+    inspection_notes = fields.Text("Observações da Vistoria")
+    driver_reg_date = fields.Datetime("Data Registro do Condutor", readonly=True)
+    driver_reg_protocol = fields.Char("Protocolo Registro do Condutor")
+    deposit_sent_date = fields.Datetime("Data Emissão/Cobrança Caução", readonly=True)
+    deposit_date = fields.Datetime("Data Recebimento Caução", readonly=True)
+
     tenant_id = fields.Many2one(
         "res.partner",
         ondelete="set default",
@@ -258,6 +289,88 @@ class FleetRent(models.Model):
             self.action_create_agreement()
         return self.env.ref("fleet_rent_ext.report_fleet_rent_proposal").report_action(self)
 
+    # --- BPMN WORKFLOW TRANSITIONS (Rent sale.bpmn com Estados de Espera) ---
+    def action_share_crlv(self):
+        """Transition from draft to CRLV-e shared."""
+        for rent in self:
+            rent.write({
+                "state": "crlv_shared",
+                "crlv_shared_date": fields.Datetime.now(),
+            })
+
+    def action_send_for_signature(self):
+        """Transition from CRLV-e shared to waiting signature."""
+        for rent in self:
+            if not rent.agreement_id or not rent.agreement_id.exists():
+                rent.action_create_agreement()
+            rent.write({
+                "state": "waiting_signature",
+                "sent_signature_date": fields.Datetime.now(),
+            })
+
+    def action_confirm_contract_signed(self):
+        """Transition from waiting signature to contract signed."""
+        for rent in self:
+            if not rent.agreement_id or not rent.agreement_id.exists():
+                rent.action_create_agreement()
+            rent.write({
+                "state": "contract_signed",
+                "contract_signed_date": fields.Datetime.now(),
+            })
+
+    def action_sign_contract(self):
+        """Direct action to sign contract."""
+        return self.action_confirm_contract_signed()
+
+    def action_schedule_inspection(self):
+        """Transition from contract signed to waiting inspection."""
+        for rent in self:
+            rent.write({
+                "state": "waiting_inspection",
+                "inspection_scheduled_date": fields.Datetime.now(),
+            })
+            if rent.vehicle_id:
+                rent.vehicle_id.state = "inspection"
+
+    def action_confirm_inspected(self):
+        """Transition from waiting inspection to inspected."""
+        for rent in self:
+            rent.write({
+                "state": "inspected",
+                "inspection_date": fields.Datetime.now(),
+            })
+
+    def action_inspection(self):
+        """Direct action to conclude inspection."""
+        return self.action_confirm_inspected()
+
+    def action_register_driver(self):
+        """Transition from inspected to driver registered."""
+        for rent in self:
+            rent.write({
+                "state": "driver_registered",
+                "driver_reg_date": fields.Datetime.now(),
+            })
+
+    def action_confirm_deposit_paid(self):
+        """Transition from waiting deposit to deposit received."""
+        for rent in self:
+            rent.write({
+                "state": "deposit_received",
+                "deposit_date": fields.Datetime.now(),
+            })
+
+    def action_confirm_deposit(self):
+        """Direct action to confirm deposit."""
+        return self.action_confirm_deposit_paid()
+
+    def action_cancel(self):
+        """Cancel the rental process."""
+        for rent in self:
+            rent.write({"state": "cancel"})
+            if rent.vehicle_id and rent.vehicle_id.state in ("rent", "inspection", "contract"):
+                rent.vehicle_id.state = "avaliable"
+
     deposit_amt_extenso = fields.Text(
         string="Deposit value", compute="_write_deposit_amt"
     )
@@ -364,7 +477,23 @@ class FleetRent(models.Model):
             }
 
             domain = [
-                ("state", "in", ["draft", "open", "pending"]),
+                (
+                    "state",
+                    "in",
+                    [
+                        "draft",
+                        "crlv_shared",
+                        "waiting_signature",
+                        "contract_signed",
+                        "waiting_inspection",
+                        "inspected",
+                        "driver_registered",
+                        "waiting_deposit",
+                        "deposit_received",
+                        "open",
+                        "pending",
+                    ],
+                ),
                 ("vehicle_id", "=", rent.vehicle_id.id),
             ]
             if rent._origin.id:
@@ -680,7 +809,11 @@ class FleetRent(models.Model):
                     "l10n_br_edoc_policy": "",
                 }
             )
-            rent.write({"invoice_id": invoice_id.id})
+            rent.write({
+                "invoice_id": invoice_id.id,
+                "state": "waiting_deposit",
+                "deposit_sent_date": fields.Datetime.now(),
+            })
             return True
 
     def action_deposite_return(self):
@@ -766,7 +899,7 @@ class FleetRent(models.Model):
         return True
 
     def action_rent_confirm(self):
-        # \"\"\"Method to confirm rent status.#\"\"\"
+        # """Method to confirm rent status and start rental."""
         for rent in self:
             rent_vals = {"state": "open"}
             if rent.rent_amt < 1:
@@ -783,7 +916,7 @@ class FleetRent(models.Model):
                 rent.action_create_agreement()
 
     def action_rent_done(self):
-        # \"\"\"Method to Change rent state to done.#\"\"\"
+        # """Method to Change rent state to done."""
         rent_sched_obj = self.env["tenancy.rent.schedule"]
         for rent in self:
             if not rent.rent_schedule_ids:
@@ -804,17 +937,20 @@ class FleetRent(models.Model):
                 rent.vehicle_id.state = "released"
 
     def action_set_to_draft(self):
-        # \"\"\"Method to Change rent state to close.#\"\"\"
+        # """Method to Change rent state back to draft."""
         for rent in self:
             if rent.state == "open" and rent.rent_schedule_ids:
-                raise Warning(
-                    _(
-                        "You can not move rent to draft "
-                        "stage because rent schedule is already created !!"
+                paid_schedules = rent.rent_schedule_ids.filtered(lambda s: s.paid or s.invc_id)
+                if paid_schedules:
+                    raise Warning(
+                        _(
+                            "You cannot move rent to draft "
+                            "stage because rent schedules have already been invoiced or paid !!"
+                        )
                     )
-                )
             rent.state = "draft"
-            rent.vehicle_id.state = "rent"
+            if rent.vehicle_id and rent.vehicle_id.state in ("rent", "inspection", "contract"):
+                rent.vehicle_id.state = "avaliable"
 
 
 class RentType(models.Model):
