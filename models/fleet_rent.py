@@ -139,10 +139,13 @@ class FleetRent(models.Model):
             ("contract_signed", "Contrato Assinado"),
             ("waiting_inspection", "Aguardando Vistoria"),
             ("inspected", "Vistoria Realizada"),
+            ("waiting_senatran", "Aguardando Aceite SENATRAN"),
             ("driver_registered", "Condutor Registrado"),
             ("waiting_deposit", "Aguardando Depósito"),
             ("deposit_received", "Caução Recebida"),
             ("open", "Locação Iniciada"),
+            ("pending", "Pendente"),
+            ("close", "Fechada"),
             ("done", "Encerrada"),
             ("cancel", "Cancelada"),
         ],
@@ -157,7 +160,8 @@ class FleetRent(models.Model):
     inspection_scheduled_date = fields.Datetime("Data Agendamento Vistoria", readonly=True)
     inspection_date = fields.Datetime("Data Conclusão da Vistoria", readonly=True)
     inspection_notes = fields.Text("Observações da Vistoria")
-    driver_reg_date = fields.Datetime("Data Registro do Condutor", readonly=True)
+    senatran_indicated_date = fields.Datetime("Data Indicação no SENATRAN", readonly=True)
+    driver_reg_date = fields.Datetime("Data Aceite/Registro do Condutor", readonly=True)
     driver_reg_protocol = fields.Char("Protocolo Registro do Condutor")
     deposit_sent_date = fields.Datetime("Data Emissão/Cobrança Caução", readonly=True)
     deposit_date = fields.Datetime("Data Recebimento Caução", readonly=True)
@@ -340,17 +344,34 @@ class FleetRent(models.Model):
                 "inspection_date": fields.Datetime.now(),
             })
 
-    def action_inspection(self):
-        """Direct action to conclude inspection."""
-        return self.action_confirm_inspected()
+    def action_indicate_driver_senatran(self):
+        """Transition from inspected to waiting SENATRAN driver acceptance."""
+        for rent in self:
+            rent.write({
+                "state": "waiting_senatran",
+                "senatran_indicated_date": fields.Datetime.now(),
+            })
 
-    def action_register_driver(self):
-        """Transition from inspected to driver registered."""
+    def action_confirm_driver_registered(self):
+        """Transition from waiting SENATRAN to driver registered."""
         for rent in self:
             rent.write({
                 "state": "driver_registered",
                 "driver_reg_date": fields.Datetime.now(),
             })
+
+    def action_register_driver(self):
+        """Direct action to indicate or confirm driver registration."""
+        for rent in self:
+            if rent.state == "inspected":
+                rent.action_indicate_driver_senatran()
+            elif rent.state == "waiting_senatran":
+                rent.action_confirm_driver_registered()
+            else:
+                rent.write({
+                    "state": "driver_registered",
+                    "driver_reg_date": fields.Datetime.now(),
+                })
 
     def action_confirm_deposit_paid(self):
         """Transition from waiting deposit to deposit received."""
@@ -487,6 +508,7 @@ class FleetRent(models.Model):
                         "contract_signed",
                         "waiting_inspection",
                         "inspected",
+                        "waiting_senatran",
                         "driver_registered",
                         "waiting_deposit",
                         "deposit_received",
@@ -939,7 +961,7 @@ class FleetRent(models.Model):
     def action_set_to_draft(self):
         # """Method to Change rent state back to draft."""
         for rent in self:
-            if rent.state == "open" and rent.rent_schedule_ids:
+            if rent.state in ("open", "close") and rent.rent_schedule_ids:
                 paid_schedules = rent.rent_schedule_ids.filtered(lambda s: s.paid or s.invc_id)
                 if paid_schedules:
                     raise Warning(
@@ -991,6 +1013,45 @@ class RentType(models.Model):
     def name_get(self):
         # \"\"\"Name get Method.#\"\"\"
         res = []
+        for rec in self:
+            rec_str = ""
+            if rec.duration:
+                rec_str += ustr(rec.duration)
+            else:
+                rec_str += " " + "Auto-renew"
+            if rec.renttype:
+                rec_str += " " + rec.renttype
+            if rec.payment_term:
+                rec_str += " " + rec.payment_term.name
+            res.append((rec.id, rec_str))
+        return res
+
+    @api.model
+    def name_search(self, name="", args=[], operator="ilike", limit=100):
+        # \"\"\"Name Search Method.#\"\"\"
+        args += [
+            "|",
+            ("duration", operator, name),
+            ("renttype", operator, name),
+            ("payment_term", operator, name),
+        ]
+        cuur_ids = self.search(args, limit=limit)
+        return cuur_ids.name_get()
+
+    @api.onchange("duration", "renttype")
+    def onchange_renttype_name(self):
+        # \"\"\"Onchange Rent Type Name.#\"\"\"
+        full_name = ""
+        for rec in self:
+            if rec.duration:
+                full_name += ustr(rec.duration)
+            else:
+                full_name += " " + "Auto-renew"
+            if rec.renttype:
+                full_name += " " + ustr(rec.renttype)
+            if rec.payment_term:
+                full_name += " " + ustr(rec.payment_term.name)
+            rec.name = full_name
         for rec in self:
             rec_str = ""
             if rec.duration:

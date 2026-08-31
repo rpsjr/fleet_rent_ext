@@ -15,45 +15,6 @@ from .apifipe import FipeApiError
 _logger = logging.getLogger(__name__)
 
 
-class FleetVehicleState(models.Model):
-    """Fleet Vehicle State Model extension."""
-
-    _inherit = "fleet.vehicle.state"
-
-    code = fields.Char(string="Code", size=32, index=True)
-
-    @api.model
-    def _init_state_codes(self):
-        """Idempotently map codes to existing states or create if missing without unique constraint violation."""
-        mapping = {
-            "avaliable": ["Disponível", "Available", "Registered"],
-            "inspection": ["Em Inspeção / Vistoria", "Em Inspeção", "Inspection", "Em vistoria"],
-            "contract": ["Em Contrato", "Contract", "On Contract"],
-            "rent": ["Em Locação", "On Rent", "Rent", "In Use", "Em Uso"],
-            "in_progress": ["Em Manutenção / Serviço", "Em Manutenção", "In Service", "Maintenance"],
-            "complete": ["Concluído", "Completed", "Complete"],
-            "released": ["Liberado", "Released"],
-            "write-off": ["Baixado (Write-Off)", "Baixado", "Write-Off", "Downgraded"],
-        }
-        for code, names in mapping.items():
-            state = self.search([("code", "=", code)], limit=1)
-            if not state:
-                for name in names:
-                    state = self.search([("name", "=ilike", name)], limit=1)
-                    if state:
-                        state.write({"code": code})
-                        break
-                if not state:
-                    try:
-                        self.create({"name": names[0], "code": code})
-                    except Exception:
-                        pass
-
-    def init(self):
-        super(FleetVehicleState, self).init()
-        self._init_state_codes()
-
-
 class FleetOperations(models.Model):
     """Fleet Operations model."""
 
@@ -169,71 +130,6 @@ class FleetOperations(models.Model):
         string="Vehicle State",
         default="avaliable",
     )
-
-    def _get_vehicle_state_by_code(self, code):
-        if not code:
-            return False
-        st = self.env["fleet.vehicle.state"].search([("code", "=", code)], limit=1)
-        if not st:
-            mapping = {
-                "avaliable": ["Disponível", "Available", "Registered"],
-                "inspection": ["Em Inspeção / Vistoria", "Em Inspeção", "Inspection", "Em vistoria"],
-                "contract": ["Em Contrato", "Contract", "On Contract"],
-                "rent": ["Em Locação", "On Rent", "Rent", "In Use", "Em Uso"],
-                "in_progress": ["Em Manutenção / Serviço", "Em Manutenção", "In Service", "Maintenance"],
-                "complete": ["Concluído", "Completed", "Complete"],
-                "released": ["Liberado", "Released"],
-                "write-off": ["Baixado (Write-Off)", "Baixado", "Write-Off", "Downgraded"],
-            }
-            names = mapping.get(code, [])
-            for name in names:
-                st = self.env["fleet.vehicle.state"].search([("name", "=ilike", name)], limit=1)
-                if st:
-                    if not st.code:
-                        try:
-                            st.write({"code": code})
-                        except Exception:
-                            pass
-                    break
-        return st
-
-    @api.onchange("state")
-    def _onchange_state_sync_state_id(self):
-        for rec in self:
-            if rec.state:
-                st = rec._get_vehicle_state_by_code(rec.state)
-                if st:
-                    rec.state_id = st.id
-
-    @api.onchange("state_id")
-    def _onchange_state_id_sync_state(self):
-        for rec in self:
-            if rec.state_id and rec.state_id.code:
-                rec.state = rec.state_id.code
-
-    @api.model
-    def create(self, vals):
-        if isinstance(vals, dict):
-            if vals.get("state") and not vals.get("state_id"):
-                st = self._get_vehicle_state_by_code(vals["state"])
-                if st:
-                    vals["state_id"] = st.id
-            elif vals.get("state_id") and not vals.get("state"):
-                st = self.env["fleet.vehicle.state"].browse(vals["state_id"])
-                if st and st.code:
-                    vals["state"] = st.code
-        return super(FleetOperations, self).create(vals)
-
-    def write(self, vals):
-        if "state" in vals and "state_id" not in vals:
-            st = self._get_vehicle_state_by_code(vals["state"])
-            if st:
-                vals["state_id"] = st.id
-        elif "state_id" in vals and "state" not in vals:
-            st = self.env["fleet.vehicle.state"].browse(vals["state_id"])
-            if st and st.code:
-                vals["state"] = st.code
-        return super(FleetOperations, self).write(vals)
 
 
 # ==============================================================================
@@ -1225,6 +1121,58 @@ class ReportHeading(models.Model):
 
     name = fields.Char(string="Title", size=128, translate=True)
     revision_no = fields.Char(string="Rev. No.", size=64, translate=True)
+    document_no = fields.Char(string="Document No.", size=64, translate=True)
+    image = fields.Binary(
+        string="Image",
+        help="This field holds the image used as image \
+                            for the Report , limited to 1024x1024px.",
+    )
+    image_medium = fields.Binary(
+        compute="_get_image",
+        inverse="_set_image",
+        string="Medium-sized image",
+        help="Medium-sized image of the Report. \
+                                 It is automatically resized as a 128x128px \
+                                image, with aspect ratio preserved, "
+        "only when the image exceeds one of those \
+                                 sizes. Use this field in form views or \
+                                 some kanban views.",
+    )
+    image_small = fields.Binary(
+        compute="_get_image",
+        inverse="_set_image",
+        string="Report image",
+        help="Small-sized image of the Report. \
+                                It is automatically "
+        "resized as a 64x64px image, \
+                                with aspect ratio preserved. "
+        "Use this field anywhere a small \
+                                image is required.",
+    )
+
+
+class ResCompany(models.Model):
+    """Model Res Company."""
+
+    _inherit = "res.company"
+
+    name = fields.Char(
+        related="partner_id.name",
+        string="Company Name",
+        size=128,
+        required=True,
+        store=True,
+        translate=True,
+    )
+
+
+class InsuranceType(models.Model):
+    """Model Insurance Type."""
+
+    _name = "insurance.type"
+    _description = "Vehicle Insurence Type"
+
+    name = fields.Char(string="Name")
     document_no = fields.Char(string="Document No.", size=64, translate=True)
     image = fields.Binary(
         string="Image",

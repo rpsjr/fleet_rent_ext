@@ -90,10 +90,17 @@
                         class="oe_highlight"
                     />
               <button
-                        name="action_register_driver"
-                        string="Registrar Condutor"
+                        name="action_indicate_driver_senatran"
+                        string="Indicar Condutor (SENATRAN)"
                         type="object"
                         states="inspected"
+                        class="oe_highlight"
+                    />
+              <button
+                        name="action_confirm_driver_registered"
+                        string="Confirmar Aceite SENATRAN"
+                        type="object"
+                        states="waiting_senatran"
                         class="oe_highlight"
                     />
               <button
@@ -121,17 +128,17 @@
                         name="action_set_to_draft"
                         string="Retornar a Rascunho"
                         type="object"
-                        states="crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,driver_registered,waiting_deposit,deposit_received,cancel"
+                        states="crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,waiting_senatran,driver_registered,waiting_deposit,deposit_received,cancel"
                     />
               <button
                         name="action_cancel"
                         string="Cancelar"
                         type="object"
-                        states="draft,crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,driver_registered,waiting_deposit,deposit_received"
+                        states="draft,crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,waiting_senatran,driver_registered,waiting_deposit,deposit_received"
                     />
             </xpath>
             <xpath expr="//field[@name='state']" position="attributes">
-                <attribute name="statusbar_visible">draft,waiting_signature,waiting_inspection,driver_registered,waiting_deposit,open,done</attribute>
+                <attribute name="statusbar_visible">draft,waiting_signature,waiting_inspection,waiting_senatran,waiting_deposit,open,done</attribute>
             </xpath>
             <xpath expr="//field[@name='tenant_id']" position="replace">
               <field
@@ -170,6 +177,7 @@
                             <field name="contract_signed_date" />
                             <field name="inspection_scheduled_date" />
                             <field name="inspection_date" />
+                            <field name="senatran_indicated_date" />
                             <field name="driver_reg_date" />
                             <field name="deposit_sent_date" />
                             <field name="deposit_date" />

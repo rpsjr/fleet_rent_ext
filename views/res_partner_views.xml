@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Partner Form View: Smart Button for Fleet Rents -->
     <record id="view_partner_form_fleet_rent" model="ir.ui.view">
         <field name="name">res.partner.form.fleet.rent</field>
         <field name="model">res.partner</field>
@@ -20,39 +19,6 @@
                     />
                 </button>
             </div>
-        </field>
-    </record>
-
-    <!-- Partner Search View: Enable search by phones and CPF/CNPJ -->
-    <record id="view_res_partner_filter_inherit_fleet_rent" model="ir.ui.view">
-        <field name="name">res.partner.select.inherit.fleet.rent</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_res_partner_filter" />
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='name']" position="attributes">
-                <attribute name="filter_domain">['|', '|', '|', '|', '|', ('display_name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self), ('vat', 'ilike', self), ('phone', 'ilike', self), ('mobile', 'ilike', self)]</attribute>
-            </xpath>
-            <xpath expr="//field[@name='phone']" position="attributes">
-                <attribute name="string">Telefones</attribute>
-                <attribute name="filter_domain">['|', ('phone', 'ilike', self), ('mobile', 'ilike', self)]</attribute>
-            </xpath>
-            <xpath expr="//field[@name='phone']" position="after">
-                <field name="mobile" string="Celular" />
-                <field name="vat" string="CPF / CNPJ" filter_domain="['|', ('vat', 'ilike', self), ('l10n_br_cnpj_cpf', 'ilike', self)]" />
-            </xpath>
-        </field>
-    </record>
-
-    <!-- Partner Tree View: Show CPF and Mobile in Search More dialog -->
-    <record id="view_partner_tree_inherit_fleet_rent" model="ir.ui.view">
-        <field name="name">res.partner.tree.inherit.fleet.rent</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_tree" />
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='email']" position="after">
-                <field name="vat" string="CPF / CNPJ" optional="show" />
-                <field name="mobile" string="Celular" optional="show" />
-            </xpath>
         </field>
     </record>
 </odoo>
