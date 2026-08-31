@@ -22,6 +22,37 @@ class FleetVehicleState(models.Model):
 
     code = fields.Char(string="Code", size=32, index=True)
 
+    @api.model
+    def _init_state_codes(self):
+        """Idempotently map codes to existing states or create if missing without unique constraint violation."""
+        mapping = {
+            "avaliable": ["Disponível", "Available", "Registered"],
+            "inspection": ["Em Inspeção / Vistoria", "Em Inspeção", "Inspection", "Em vistoria"],
+            "contract": ["Em Contrato", "Contract", "On Contract"],
+            "rent": ["Em Locação", "On Rent", "Rent", "In Use", "Em Uso"],
+            "in_progress": ["Em Manutenção / Serviço", "Em Manutenção", "In Service", "Maintenance"],
+            "complete": ["Concluído", "Completed", "Complete"],
+            "released": ["Liberado", "Released"],
+            "write-off": ["Baixado (Write-Off)", "Baixado", "Write-Off", "Downgraded"],
+        }
+        for code, names in mapping.items():
+            state = self.search([("code", "=", code)], limit=1)
+            if not state:
+                for name in names:
+                    state = self.search([("name", "=ilike", name)], limit=1)
+                    if state:
+                        state.write({"code": code})
+                        break
+                if not state:
+                    try:
+                        self.create({"name": names[0], "code": code})
+                    except Exception:
+                        pass
+
+    def init(self):
+        super(FleetVehicleState, self).init()
+        self._init_state_codes()
+
 
 class FleetOperations(models.Model):
     """Fleet Operations model."""
@@ -139,13 +170,38 @@ class FleetOperations(models.Model):
         default="avaliable",
     )
 
+    def _get_vehicle_state_by_code(self, code):
+        if not code:
+            return False
+        st = self.env["fleet.vehicle.state"].search([("code", "=", code)], limit=1)
+        if not st:
+            mapping = {
+                "avaliable": ["Disponível", "Available", "Registered"],
+                "inspection": ["Em Inspeção / Vistoria", "Em Inspeção", "Inspection", "Em vistoria"],
+                "contract": ["Em Contrato", "Contract", "On Contract"],
+                "rent": ["Em Locação", "On Rent", "Rent", "In Use", "Em Uso"],
+                "in_progress": ["Em Manutenção / Serviço", "Em Manutenção", "In Service", "Maintenance"],
+                "complete": ["Concluído", "Completed", "Complete"],
+                "released": ["Liberado", "Released"],
+                "write-off": ["Baixado (Write-Off)", "Baixado", "Write-Off", "Downgraded"],
+            }
+            names = mapping.get(code, [])
+            for name in names:
+                st = self.env["fleet.vehicle.state"].search([("name", "=ilike", name)], limit=1)
+                if st:
+                    if not st.code:
+                        try:
+                            st.write({"code": code})
+                        except Exception:
+                            pass
+                    break
+        return st
+
     @api.onchange("state")
     def _onchange_state_sync_state_id(self):
         for rec in self:
             if rec.state:
-                st = self.env["fleet.vehicle.state"].search(
-                    [("code", "=", rec.state)], limit=1
-                )
+                st = rec._get_vehicle_state_by_code(rec.state)
                 if st:
                     rec.state_id = st.id
 
@@ -159,9 +215,7 @@ class FleetOperations(models.Model):
     def create(self, vals):
         if isinstance(vals, dict):
             if vals.get("state") and not vals.get("state_id"):
-                st = self.env["fleet.vehicle.state"].search(
-                    [("code", "=", vals["state"])], limit=1
-                )
+                st = self._get_vehicle_state_by_code(vals["state"])
                 if st:
                     vals["state_id"] = st.id
             elif vals.get("state_id") and not vals.get("state"):
@@ -172,9 +226,7 @@ class FleetOperations(models.Model):
 
     def write(self, vals):
         if "state" in vals and "state_id" not in vals:
-            st = self.env["fleet.vehicle.state"].search(
-                [("code", "=", vals["state"])], limit=1
-            )
+            st = self._get_vehicle_state_by_code(vals["state"])
             if st:
                 vals["state_id"] = st.id
         elif "state_id" in vals and "state" not in vals:
