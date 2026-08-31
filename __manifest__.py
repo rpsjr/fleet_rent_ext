@@ -28,6 +28,7 @@
     # Data
     "data": [
         "data/rent_sequence.xml",
+        "data/vehicle_state_data.xml",
         "report/rent_proposal_pdf.xml",
         "data/mail_data.xml",
         "data/mail_invoice_cron.xml",

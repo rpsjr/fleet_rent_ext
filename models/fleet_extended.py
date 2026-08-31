@@ -15,6 +15,14 @@ from .apifipe import FipeApiError
 _logger = logging.getLogger(__name__)
 
 
+class FleetVehicleState(models.Model):
+    """Fleet Vehicle State Model extension."""
+
+    _inherit = "fleet.vehicle.state"
+
+    code = fields.Char(string="Code", size=32, index=True)
+
+
 class FleetOperations(models.Model):
     """Fleet Operations model."""
 
@@ -130,6 +138,50 @@ class FleetOperations(models.Model):
         string="Vehicle State",
         default="avaliable",
     )
+
+    @api.onchange("state")
+    def _onchange_state_sync_state_id(self):
+        for rec in self:
+            if rec.state:
+                st = self.env["fleet.vehicle.state"].search(
+                    [("code", "=", rec.state)], limit=1
+                )
+                if st:
+                    rec.state_id = st.id
+
+    @api.onchange("state_id")
+    def _onchange_state_id_sync_state(self):
+        for rec in self:
+            if rec.state_id and rec.state_id.code:
+                rec.state = rec.state_id.code
+
+    @api.model
+    def create(self, vals):
+        if isinstance(vals, dict):
+            if vals.get("state") and not vals.get("state_id"):
+                st = self.env["fleet.vehicle.state"].search(
+                    [("code", "=", vals["state"])], limit=1
+                )
+                if st:
+                    vals["state_id"] = st.id
+            elif vals.get("state_id") and not vals.get("state"):
+                st = self.env["fleet.vehicle.state"].browse(vals["state_id"])
+                if st and st.code:
+                    vals["state"] = st.code
+        return super(FleetOperations, self).create(vals)
+
+    def write(self, vals):
+        if "state" in vals and "state_id" not in vals:
+            st = self.env["fleet.vehicle.state"].search(
+                [("code", "=", vals["state"])], limit=1
+            )
+            if st:
+                vals["state_id"] = st.id
+        elif "state_id" in vals and "state" not in vals:
+            st = self.env["fleet.vehicle.state"].browse(vals["state_id"])
+            if st and st.code:
+                vals["state"] = st.code
+        return super(FleetOperations, self).write(vals)
 
 
 # ==============================================================================
