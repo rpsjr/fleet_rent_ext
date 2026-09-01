@@ -58,14 +58,14 @@
                         name="action_share_crlv"
                         string="Compartilhar CRLV-e"
                         type="object"
-                        states="draft"
+                        states="draft,proposal_sent"
                         class="oe_highlight"
                     />
               <button
                         name="action_send_for_signature"
                         string="Enviar p/ Assinatura"
                         type="object"
-                        states="crlv_shared"
+                        states="crlv_shared,proposal_sent"
                         class="oe_highlight"
                     />
               <button
@@ -128,17 +128,17 @@
                         name="action_set_to_draft"
                         string="Retornar a Rascunho"
                         type="object"
-                        states="crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,waiting_senatran,driver_registered,waiting_deposit,deposit_received,cancel"
+                        states="proposal_sent,crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,waiting_senatran,driver_registered,waiting_deposit,deposit_received,cancel"
                     />
               <button
                         name="action_cancel"
                         string="Cancelar"
                         type="object"
-                        states="draft,crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,waiting_senatran,driver_registered,waiting_deposit,deposit_received"
+                        states="draft,proposal_sent,crlv_shared,waiting_signature,contract_signed,waiting_inspection,inspected,waiting_senatran,driver_registered,waiting_deposit,deposit_received"
                     />
             </xpath>
             <xpath expr="//field[@name='state']" position="attributes">
-                <attribute name="statusbar_visible">draft,waiting_signature,waiting_inspection,waiting_senatran,waiting_deposit,open,done</attribute>
+                <attribute name="statusbar_visible">draft,proposal_sent,waiting_signature,waiting_inspection,waiting_senatran,waiting_deposit,open,done</attribute>
             </xpath>
             <xpath expr="//field[@name='tenant_id']" position="replace">
               <field
@@ -172,6 +172,7 @@
                 <page string="Processo de Locação / BPMN" name="bpmn_process">
                     <group>
                         <group string="Etapas do Processo">
+                            <field name="proposal_sent_date" />
                             <field name="crlv_shared_date" />
                             <field name="sent_signature_date" />
                             <field name="contract_signed_date" />

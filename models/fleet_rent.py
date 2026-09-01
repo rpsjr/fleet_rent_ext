@@ -122,16 +122,20 @@ class FleetRent(models.Model):
             if calc_val is not None:
                 rent.deposit_amt = calc_val
 
-    @api.model
-    def create(self, vals):
-        rents = super(FleetRent, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
+        for vals in vals_list:
+            if not vals.get("name") or vals.get("name") == "New" or vals.get("name") == _("New"):
+                vals["name"] = self.env["ir.sequence"].next_by_code("fleet.rent") or "New"
+        rents = super(FleetRent, self).create(vals_list)
         param = (
             self.env["ir.config_parameter"]
             .sudo()
             .get_param("fleet_rent.fleet_rental_deposit_formula")
         )
         if param and str(param).strip():
-            vals_list = vals if isinstance(vals, list) else [vals]
             for rent, v in zip(rents, vals_list):
                 if "deposit_amt" not in v or not v.get("deposit_amt"):
                     calc_val = rent._get_deposit_amt_from_formula()
@@ -139,10 +143,21 @@ class FleetRent(models.Model):
                         rent.deposit_amt = calc_val
         return rents
 
+    def _ensure_rent_number(self):
+        """Ensure rent record has a sequence number and sync agreement name."""
+        for rent in self:
+            if not rent.name or rent.name in ("New", _("New")):
+                seq = self.env["ir.sequence"].next_by_code("fleet.rent") or "New"
+                rent.write({"name": seq})
+            if rent.agreement_id and rent.agreement_id.exists():
+                expected_name = f"Contrato de Locação - {rent.name or rent.tenant_id.name}"
+                if rent.agreement_id.name != expected_name:
+                    rent.agreement_id.write({"name": expected_name})
 
     state = fields.Selection(
         [
             ("draft", "Elaboração / Seleção"),
+            ("proposal_sent", "Proposta Enviada"),
             ("crlv_shared", "CRLV-e Compartilhado"),
             ("waiting_signature", "Aguardando Assinatura"),
             ("contract_signed", "Contrato Assinado"),
@@ -163,6 +178,7 @@ class FleetRent(models.Model):
         tracking=True,
     )
 
+    proposal_sent_date = fields.Datetime("Data Envio da Proposta", readonly=True)
     crlv_shared_date = fields.Datetime("Data Compartilhamento CRLV-e", readonly=True)
     sent_signature_date = fields.Datetime("Data Envio para Assinatura", readonly=True)
     contract_signed_date = fields.Datetime("Data Assinatura Contrato", readonly=True)
@@ -210,11 +226,15 @@ class FleetRent(models.Model):
 
     def action_create_agreement(self):
         """Method to automatically create and link an Agreement document."""
+        self._ensure_rent_number()
         for rent in self:
             if rent.agreement_id:
                 if not rent.agreement_id.exists():
                     rent.agreement_id = False
                 else:
+                    expected_name = f"Contrato de Locação - {rent.name or rent.tenant_id.name}"
+                    if rent.agreement_id.name != expected_name:
+                        rent.agreement_id.write({"name": expected_name})
                     continue
             agr_type = self.env.ref(
                 "fleet_rent_ext.fleet_rent_agreement_type", raise_if_not_found=False
@@ -258,9 +278,50 @@ class FleetRent(models.Model):
             rent.agreement_id = agr.id
         return True
 
+    def get_proposal_tracking_url(self):
+        """Generates tracking 1x1 GIF URL for proposal email."""
+        self.ensure_one()
+        base_url = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("web.base.url", "")
+        )
+        return f"{base_url.rstrip('/')}/fleet_rent/track_proposal/{self.id}/open.gif"
+
+    def action_proposal_sent(self):
+        """Transition to proposal_sent when proposal email is sent."""
+        for rent in self:
+            rent._ensure_rent_number()
+            rent.write({
+                "state": "proposal_sent",
+                "proposal_sent_date": fields.Datetime.now(),
+            })
+            tenant_name = rent.tenant_id.name if rent.tenant_id else ""
+            rent.message_post(
+                body=_("Proposta de locação nº %s enviada por e-mail para %s.")
+                % (rent.name, tenant_name)
+            )
+
+    def _action_on_proposal_email_opened(self):
+        """Called when lessee opens the proposal email."""
+        for rent in self:
+            if rent.state == "proposal_sent":
+                rent.write({
+                    "state": "waiting_signature",
+                    "sent_signature_date": fields.Datetime.now(),
+                })
+                rent.message_post(
+                    body=_(
+                        "E-mail com a proposta de locação nº %s foi aberto pelo locatário. "
+                        "Status alterado para Aguardando Assinatura."
+                    )
+                    % (rent.name or "")
+                )
+
     def action_send_proposal_email(self):
         """Opens mail.compose.message wizard prefilled with rent proposal template."""
         self.ensure_one()
+        self._ensure_rent_number()
         if not self.agreement_id or not self.agreement_id.exists():
             self.action_create_agreement()
 
@@ -281,7 +342,7 @@ class FleetRent(models.Model):
             default_use_template=bool(template),
             default_template_id=template.id if template else False,
             default_composition_mode="comment",
-            custom_layout="mail.mail_notification_light",
+            custom_layout=False,
             force_send=False,
         )
         return {
@@ -298,6 +359,7 @@ class FleetRent(models.Model):
     def action_print_proposal(self):
         """Generates agreement if needed and returns the print action for the proposal report."""
         self.ensure_one()
+        self._ensure_rent_number()
         if not self.agreement_id or not self.agreement_id.exists():
             self.action_create_agreement()
         return self.env.ref("fleet_rent_ext.report_fleet_rent_proposal").report_action(self)
