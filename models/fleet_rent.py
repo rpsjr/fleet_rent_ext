@@ -28,7 +28,14 @@ class FleetRent(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(FleetRent, self).default_get(fields_list)
+        self_model = self
+        if self._context.get("active_model") != "fleet.vehicle":
+            ctx = dict(self._context or {})
+            ctx.pop("active_id", None)
+            ctx.pop("active_ids", None)
+            ctx.pop("default_vehicle_id", None)
+            self_model = self.with_context(ctx)
+        res = super(FleetRent, self_model).default_get(fields_list)
         if res.get("vehicle_id"):
             vehicle = self.env["fleet.vehicle"].browse(res["vehicle_id"])
             if not vehicle.exists():
@@ -129,7 +136,18 @@ class FleetRent(models.Model):
         for vals in vals_list:
             if not vals.get("name") or vals.get("name") == "New" or vals.get("name") == _("New"):
                 vals["name"] = self.env["ir.sequence"].next_by_code("fleet.rent") or "New"
-        rents = super(FleetRent, self).create(vals_list)
+            if vals.get("vehicle_id"):
+                vehicle = self.env["fleet.vehicle"].browse(vals["vehicle_id"])
+                if not vehicle.exists():
+                    vals["vehicle_id"] = False
+        self_model = self
+        if self._context.get("active_model") != "fleet.vehicle":
+            ctx = dict(self._context or {})
+            ctx.pop("active_id", None)
+            ctx.pop("active_ids", None)
+            ctx.pop("default_vehicle_id", None)
+            self_model = self.with_context(ctx)
+        rents = super(FleetRent, self_model).create(vals_list)
         param = (
             self.env["ir.config_parameter"]
             .sudo()
@@ -142,6 +160,52 @@ class FleetRent(models.Model):
                     if calc_val is not None and calc_val > 0:
                         rent.deposit_amt = calc_val
         return rents
+
+    def write(self, vals):
+        if vals.get("vehicle_id"):
+            vehicle = self.env["fleet.vehicle"].browse(vals["vehicle_id"])
+            if not vehicle.exists():
+                vals["vehicle_id"] = False
+        self_model = self
+        if self._context.get("active_model") != "fleet.vehicle":
+            ctx = dict(self._context or {})
+            ctx.pop("active_id", None)
+            ctx.pop("active_ids", None)
+            ctx.pop("default_vehicle_id", None)
+            self_model = self.with_context(ctx)
+        return super(FleetRent, self_model).write(vals)
+
+    def _set_odometer(self):
+        odometer_obj = self.env["fleet.vehicle.odometer"]
+        for rent in self:
+            if rent.vehicle_id and rent.vehicle_id.exists():
+                odometer = odometer_obj.search(
+                    [("vehicle_id", "=", rent.vehicle_id.id)],
+                    limit=1,
+                    order="value desc",
+                )
+                if odometer and rent.odometer < odometer.value:
+                    raise Warning(
+                        _(
+                            "User Error!\nYou can't add odometer less "
+                            "than previous odometer value %s !"
+                        )
+                        % (odometer.value)
+                    )
+                if rent.odometer:
+                    date = fields.Date.context_today(rent)
+                    odometer_obj.with_context(
+                        active_model="fleet.vehicle",
+                        active_id=rent.vehicle_id.id,
+                        active_ids=[rent.vehicle_id.id],
+                        default_vehicle_id=rent.vehicle_id.id,
+                    ).create(
+                        {
+                            "value": rent.odometer,
+                            "date": date,
+                            "vehicle_id": rent.vehicle_id.id,
+                        }
+                    )
 
     def _ensure_rent_number(self):
         """Ensure rent record has a sequence number and sync agreement name."""
@@ -503,10 +567,12 @@ class FleetRent(models.Model):
     def _write_car_value(self):
         # \"\"\"Method to write car_value price in words.#\"\"\"
         for rent in self:
-            if rent.vehicle_id:
+            if rent.vehicle_id and rent.vehicle_id.exists():
                 rent.resale_value_extenso = num2words(
                     rent.vehicle_id.resale_value, lang="pt_BR", to="currency"
                 )
+            else:
+                rent.resale_value_extenso = ""
 
     @api.depends("deposit_amt")
     def _write_deposit_amt(self):

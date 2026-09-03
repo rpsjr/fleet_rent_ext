@@ -593,6 +593,10 @@ class FleetWittenOff(models.Model):
                         _("You can't write-off this vehicle which is On Rent.")
                     )
                 res.update({"contact_no": vehicle.driver_contact_no or ""})
+        elif res.get("vehicle_id"):
+            vehicle = vehicle_obj.browse(res["vehicle_id"])
+            if not vehicle.exists():
+                res["vehicle_id"] = False
         return res
 
     @api.onchange("vehicle_id")
@@ -1062,6 +1066,10 @@ class VehicleFuelLog(models.Model):
                 vehicle = fleet_obj.browse(self._context["vehicle_id"])
                 if vehicle.exists() and vehicle.state != "write-off":
                     res.update({"vehicle_id": self._context["vehicle_id"]})
+        if res.get("vehicle_id"):
+            vehicle = fleet_obj.browse(res["vehicle_id"])
+            if not vehicle.exists() or vehicle.state == "write-off":
+                res["vehicle_id"] = False
         return res
 
     def copy(self, default=None):
@@ -1091,6 +1099,10 @@ class FleetVehicleCost(models.Model):
         ):
             vehicle_id = fleet_obj.browse(self._context["active_id"])
             if vehicle_id.exists() and vehicle_id.state == "write-off":
+                res["vehicle_id"] = False
+        elif res.get("vehicle_id"):
+            vehicle_id = fleet_obj.browse(res["vehicle_id"])
+            if not vehicle_id.exists() or vehicle_id.state == "write-off":
                 res["vehicle_id"] = False
         return res
 
@@ -1142,6 +1154,10 @@ class FleetVehicleOdometer(models.Model):
         ):
             vehicle_id = fleet_obj.browse(context["active_id"])
             if vehicle_id.exists() and vehicle_id.state == "write-off":
+                res["vehicle_id"] = False
+        elif res.get("vehicle_id"):
+            vehicle_id = fleet_obj.browse(res["vehicle_id"])
+            if not vehicle_id.exists() or vehicle_id.state == "write-off":
                 res["vehicle_id"] = False
         return res
 

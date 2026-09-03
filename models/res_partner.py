@@ -22,5 +22,11 @@ class ResPartner(models.Model):
             "res_model": "fleet.rent",
             "view_mode": "tree,form",
             "domain": [("tenant_id", "=", self.id)],
-            "context": {"default_tenant_id": self.id},
+            "context": {
+                "default_tenant_id": self.id,
+                "default_vehicle_id": False,
+                "active_model": "fleet.rent",
+                "active_id": False,
+                "active_ids": [],
+            },
         }
