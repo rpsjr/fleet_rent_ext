@@ -1,6 +1,6 @@
 import logging
 
-from odoo import api, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -106,3 +106,46 @@ class AccountMove(models.Model):
                     posted_invoice.id,
                     exc,
                 )
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    def reconcile(self, writeoff_acc_id=False, writeoff_journal_id=False):
+        res = super(AccountMoveLine, self).reconcile(
+            writeoff_acc_id=writeoff_acc_id,
+            writeoff_journal_id=writeoff_journal_id,
+        )
+        try:
+            deposit_moves = self.mapped("move_id").filtered(
+                lambda m: m.is_deposit_inv
+                and m.fleet_rent_id
+                and m.invoice_payment_state == "paid"
+            )
+            for move in deposit_moves:
+                rent = move.fleet_rent_id.sudo()
+                if rent.state in ("waiting_deposit", "driver_registered"):
+                    rent.action_confirm_deposit_paid()
+                elif not rent.deposit_date:
+                    rent.write({"deposit_date": fields.Datetime.now()})
+                    tenant_label = (
+                        rent.tenant_id.name
+                        if rent.tenant_id
+                        else (rent.name or "")
+                    )
+                    if hasattr(rent, "_schedule_activity_for_internal_followers"):
+                        rent._schedule_activity_for_internal_followers(
+                            summary=_("Caução paga pelo locatário (%s)")
+                            % tenant_label,
+                            note=_(
+                                "<p>O pagamento da fatura caução <b>%s</b> pelo locatário <b>%s</b> "
+                                "na locação <b>%s</b> foi reconciliado.</p>"
+                            )
+                            % (move.name or "", tenant_label, rent.name or ""),
+                        )
+        except Exception as exc:
+            _logger.warning(
+                "Aviso ao atualizar locação após reconciliação de caução: %s",
+                exc,
+            )
+        return res

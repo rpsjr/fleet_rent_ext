@@ -190,6 +190,9 @@
                     </group>
                 </page>
             </xpath>
+            <xpath expr="//div[hasclass('oe_chatter')]/field[@name='message_follower_ids']" position="after">
+                <field name="activity_ids" widget="mail_activity" />
+            </xpath>
         </field>
     </record>
 

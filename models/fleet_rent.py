@@ -24,7 +24,7 @@ class FleetRent(models.Model):
     # \"\"\"Fleet Rent Model.#\"\"\"
 
     _name = "fleet.rent"
-    _inherit = "fleet.rent"
+    _inherit = ["fleet.rent", "mail.activity.mixin"]
 
     @api.model
     def default_get(self, fields_list):
@@ -366,6 +366,97 @@ class FleetRent(models.Model):
                 % (rent.name, tenant_name)
             )
 
+    def _get_internal_follower_users(self):
+        """Retorna os usuários internos (res.users com share=False) que seguem a locação."""
+        self.ensure_one()
+        rent_sudo = self.sudo()
+        partner_ids = set(rent_sudo.message_partner_ids.ids)
+        if rent_sudo.message_follower_ids:
+            partner_ids.update(
+                rent_sudo.message_follower_ids.mapped("partner_id").ids
+            )
+        Users = self.env["res.users"].sudo()
+        internal_users = Users.browse()
+        if partner_ids:
+            internal_users = Users.search(
+                [
+                    ("partner_id", "in", list(partner_ids)),
+                    ("share", "=", False),
+                    ("active", "=", True),
+                ]
+            )
+        if (
+            not internal_users
+            and rent_sudo.create_uid
+            and rent_sudo.create_uid.active
+            and not rent_sudo.create_uid.share
+        ):
+            internal_users = rent_sudo.create_uid
+            if rent_sudo.create_uid.partner_id:
+                rent_sudo.message_subscribe(
+                    partner_ids=[rent_sudo.create_uid.partner_id.id]
+                )
+        return internal_users
+
+    def _schedule_activity_for_internal_followers(
+        self, summary, note=None, activity_type_xmlid="mail.mail_activity_data_todo"
+    ):
+        """Gera atividade (mail.activity) para os usuários internos que seguem a locação (fleet.rent)."""
+        Activity = self.env["mail.activity"].sudo()
+        IrModel = self.env["ir.model"].sudo()
+        res_model = IrModel.search([("model", "=", "fleet.rent")], limit=1)
+        if not res_model:
+            return Activity.browse()
+
+        activity_type = self.env.ref(
+            activity_type_xmlid, raise_if_not_found=False
+        )
+        if not activity_type:
+            activity_type = (
+                self.env["mail.activity.type"].sudo().search([], limit=1)
+            )
+        if not activity_type:
+            return Activity.browse()
+
+        created_activities = Activity.browse()
+        today = fields.Date.context_today(self)
+        for rent in self:
+            internal_users = rent._get_internal_follower_users()
+            for user in internal_users:
+                existing = Activity.search(
+                    [
+                        ("res_model_id", "=", res_model.id),
+                        ("res_id", "=", rent.id),
+                        ("user_id", "=", user.id),
+                        ("summary", "=", summary),
+                    ],
+                    limit=1,
+                )
+                if existing:
+                    created_activities |= existing
+                    continue
+                try:
+                    act = Activity.create(
+                        {
+                            "res_model_id": res_model.id,
+                            "res_id": rent.id,
+                            "activity_type_id": activity_type.id,
+                            "summary": summary,
+                            "note": note or summary,
+                            "user_id": user.id,
+                            "date_deadline": today,
+                        }
+                    )
+                    created_activities |= act
+                except Exception as exc:
+                    _logger.warning(
+                        "Não foi possível gerar mail.activity na locação %s para usuário %s: %s",
+                        rent.name or rent.id,
+                        user.login,
+                        exc,
+                    )
+        return created_activities
+
     def _action_on_proposal_email_opened(self):
         """Called when lessee opens the proposal email."""
         for rent in self:
@@ -380,6 +471,15 @@ class FleetRent(models.Model):
                         "Status alterado para Aguardando Assinatura."
                     )
                     % (rent.name or "")
+                )
+                tenant_label = rent.tenant_id.name if rent.tenant_id else (rent.name or "")
+                rent._schedule_activity_for_internal_followers(
+                    summary=_("Proposta visualizada pelo locatário (%s)") % tenant_label,
+                    note=_(
+                        "<p>O locatário <b>%s</b> abriu o e-mail da proposta de locação <b>%s</b>. "
+                        "A locação aguarda assinatura do contrato.</p>"
+                    )
+                    % (tenant_label, rent.name or ""),
                 )
 
     def action_send_proposal_email(self):
@@ -456,6 +556,15 @@ class FleetRent(models.Model):
                 "state": "contract_signed",
                 "contract_signed_date": fields.Datetime.now(),
             })
+            tenant_label = rent.tenant_id.name if rent.tenant_id else (rent.name or "")
+            rent._schedule_activity_for_internal_followers(
+                summary=_("Contrato assinado pelo locatário (%s)") % tenant_label,
+                note=_(
+                    "<p>O locatário <b>%s</b> concluiu a assinatura do contrato da locação <b>%s</b>. "
+                    "Próxima etapa: agendar/realizar a vistoria de abertura.</p>"
+                )
+                % (tenant_label, rent.name or ""),
+            )
 
     def action_sign_contract(self):
         """Direct action to sign contract."""
@@ -478,6 +587,14 @@ class FleetRent(models.Model):
                 "state": "inspected",
                 "inspection_date": fields.Datetime.now(),
             })
+            tenant_label = rent.tenant_id.name if rent.tenant_id else (rent.name or "")
+            rent._schedule_activity_for_internal_followers(
+                summary=_("Vistoria concluída pelo locatário (%s)") % tenant_label,
+                note=_(
+                    "<p>O locatário <b>%s</b> concluiu a vistoria de abertura da locação <b>%s</b>.</p>"
+                )
+                % (tenant_label, rent.name or ""),
+            )
 
     def action_indicate_driver_senatran(self):
         """Transition from inspected to waiting SENATRAN driver acceptance."""
@@ -490,10 +607,26 @@ class FleetRent(models.Model):
     def action_confirm_driver_registered(self):
         """Transition from waiting SENATRAN to driver registered."""
         for rent in self:
+            next_state = "driver_registered"
+            inv = rent.sudo().invoice_id
+            if inv and inv.exists() and inv.state != "cancel":
+                if getattr(inv, "invoice_payment_state", None) == "paid":
+                    next_state = "deposit_received"
+                elif inv.state == "posted":
+                    next_state = "waiting_deposit"
             rent.write({
-                "state": "driver_registered",
+                "state": next_state,
                 "driver_reg_date": fields.Datetime.now(),
             })
+            tenant_label = rent.tenant_id.name if rent.tenant_id else (rent.name or "")
+            rent._schedule_activity_for_internal_followers(
+                summary=_("Indicação no SENATRAN aceita pelo locatário (%s)") % tenant_label,
+                note=_(
+                    "<p>O locatário <b>%s</b> aceitou a indicação de principal condutor no SENATRAN "
+                    "(Carteira Digital de Trânsito) para a locação <b>%s</b>.</p>"
+                )
+                % (tenant_label, rent.name or ""),
+            )
 
     def action_register_driver(self):
         """Direct action to indicate or confirm driver registration."""
@@ -503,10 +636,7 @@ class FleetRent(models.Model):
             elif rent.state == "waiting_senatran":
                 rent.action_confirm_driver_registered()
             else:
-                rent.write({
-                    "state": "driver_registered",
-                    "driver_reg_date": fields.Datetime.now(),
-                })
+                rent.action_confirm_driver_registered()
 
     def action_confirm_deposit_paid(self):
         """Transition from waiting deposit to deposit received."""
@@ -515,6 +645,15 @@ class FleetRent(models.Model):
                 "state": "deposit_received",
                 "deposit_date": fields.Datetime.now(),
             })
+            tenant_label = rent.tenant_id.name if rent.tenant_id else (rent.name or "")
+            rent._schedule_activity_for_internal_followers(
+                summary=_("Caução paga pelo locatário (%s)") % tenant_label,
+                note=_(
+                    "<p>O pagamento da fatura caução pelo locatário <b>%s</b> na locação <b>%s</b> "
+                    "foi confirmado. A locação está pronta para início.</p>"
+                )
+                % (tenant_label, rent.name or ""),
+            )
 
     def action_confirm_deposit(self):
         """Direct action to confirm deposit."""
@@ -875,10 +1014,224 @@ class FleetRent(models.Model):
                 # cr_rent_btn is used to hide rent schedule button.
                 rent.cr_rent_btn = True
 
-    def action_deposite_receive(self):
-        # \"\"\"Method to open the related payment form view.#\"\"\"
-        for rent in self:
+    def _post_and_send_deposit_invoice(self, invoice):
+        """Lança (action_post) a fatura caução e envia o modelo de e-mail padrão do account.move."""
+        invoice_sudo = invoice.sudo()
+        if invoice_sudo.state == "draft":
+            try:
+                with self.env.cr.savepoint():
+                    invoice_sudo.with_context(skip_boleto_check=True).action_post()
+            except Exception as post_err:
+                _logger.warning(
+                    "Aviso ao lançar fatura caução %s com geração de boleto (%s). "
+                    "Tentando lançar sem bloqueio de boleto.",
+                    invoice_sudo.id,
+                    post_err,
+                )
+                try:
+                    if "boleto_inter_skip_generation" in invoice_sudo._fields:
+                        invoice_sudo.write({"boleto_inter_skip_generation": True})
+                    invoice_sudo.with_context(skip_boleto_check=True).action_post()
+                except Exception as fallback_err:
+                    _logger.error(
+                        "Erro ao lançar fatura caução %s: %s",
+                        invoice_sudo.id,
+                        fallback_err,
+                    )
 
+        if invoice_sudo.state == "posted" and not invoice_sudo.invoice_sent:
+            template = self.env.ref(
+                "account.email_template_edi_invoice", raise_if_not_found=False
+            )
+            if not template:
+                template = self.env.ref(
+                    "fleet_rent_ext.email_rent_invoice_template",
+                    raise_if_not_found=False,
+                )
+            if template:
+                template_sudo = template.sudo()
+                if template_sudo.attachment_ids:
+                    template_sudo.attachment_ids = [(5,)]
+
+                attachment_ids = []
+                if "transaction_ids" in invoice_sudo._fields:
+                    valid_transactions = invoice_sudo.transaction_ids.filtered(
+                        lambda t: t.state not in ("cancel", "error")
+                    )
+                    for tx in valid_transactions:
+                        if not tx.pdf_boleto_id and tx.acquirer_reference:
+                            try:
+                                tx.sudo().generate_pdf_boleto()
+                            except Exception as tx_err:
+                                _logger.warning(
+                                    "Não foi possível gerar PDF do boleto para transação %s (Fatura %s): %s",
+                                    tx.id,
+                                    invoice_sudo.name,
+                                    tx_err,
+                                )
+                        if tx.pdf_boleto_id:
+                            attachment_ids.append(tx.pdf_boleto_id.id)
+
+                email_values = {}
+                if attachment_ids:
+                    email_values["attachment_ids"] = [
+                        (4, aid) for aid in sorted(set(attachment_ids))
+                    ]
+                try:
+                    mail_id = template_sudo.send_mail(
+                        invoice_sudo.id,
+                        force_send=True,
+                        email_values=email_values or None,
+                    )
+                    mail = self.env["mail.mail"].sudo().browse(mail_id)
+                    if not mail or mail.state != "exception":
+                        invoice_sudo.write({"invoice_sent": True})
+                except Exception as mail_err:
+                    _logger.warning(
+                        "Erro ao enviar e-mail padrão da fatura caução %s: %s",
+                        invoice_sudo.name or invoice_sudo.id,
+                        mail_err,
+                    )
+        return invoice_sudo
+
+    def action_generate_and_send_deposit_invoice(self, update_state=False):
+        """Gera, lança (action_post) e envia por e-mail a fatura caução da locação."""
+        AccountMove = self.env["account.move"].sudo()
+        created_or_found = AccountMove.browse()
+        for rent in self:
+            rent_sudo = rent.sudo()
+            if (rent_sudo.deposit_amt or 0.0) < 1:
+                _logger.info(
+                    "Locação %s possui deposit_amt < 1 (%s); fatura caução não gerada.",
+                    rent_sudo.name or rent_sudo.id,
+                    rent_sudo.deposit_amt,
+                )
+                continue
+
+            deposit_inv = AccountMove.search(
+                [
+                    ("fleet_rent_id", "=", rent_sudo.id),
+                    ("type", "=", "out_invoice"),
+                    ("state", "in", ["draft", "posted", "open", "in_payment"]),
+                    ("is_deposit_inv", "=", True),
+                ],
+                order="id desc",
+                limit=1,
+            )
+            if not deposit_inv:
+                params = self.env["ir.config_parameter"].sudo()
+                fleet_rental_deposit_product_id_id = int(
+                    params.get_param("fleet_rent.fleet_rental_deposit_product_id")
+                    or 0
+                )
+                payment_term_param = params.get_param(
+                    "fleet_rent.fleet_rental_payment_term_id"
+                )
+                payment_term = (
+                    self.env["account.payment.term"]
+                    .sudo()
+                    .browse(int(payment_term_param))
+                    if payment_term_param and str(payment_term_param).isdigit()
+                    else False
+                )
+                if not payment_term or not payment_term.exists():
+                    payment_term = (
+                        self.env["account.payment.term"]
+                        .sudo()
+                        .search([("name", "=ilike", "D+0 / boleto")], limit=1)
+                    )
+                payment_term_id = (
+                    payment_term.id
+                    if payment_term
+                    else (
+                        rent_sudo.rent_type_id.payment_term.id
+                        if rent_sudo.rent_type_id
+                        and rent_sudo.rent_type_id.payment_term
+                        else False
+                    )
+                )
+
+                inv_line_values = {
+                    "product_id": fleet_rental_deposit_product_id_id or False,
+                    "quantity": 1,
+                    "price_unit": rent_sudo.deposit_amt or 0.00,
+                    "fleet_rent_id": rent_sudo.id,
+                }
+                if fleet_rental_deposit_product_id_id:
+                    prod = (
+                        self.env["product.product"]
+                        .sudo()
+                        .browse(fleet_rental_deposit_product_id_id)
+                    )
+                    if prod.exists():
+                        inv_line_values["name"] = prod.display_name
+                        acc = (
+                            prod.property_account_income_id
+                            or prod.categ_id.property_account_income_categ_id
+                        )
+                        if acc:
+                            inv_line_values["account_id"] = acc.id
+
+                payment_mode = (
+                    self.env["account.payment.mode"]
+                    .sudo()
+                    .search([("name", "ilike", "inter")], limit=1)
+                    if "account.payment.mode" in self.env
+                    else False
+                )
+                payment_mode_id = payment_mode.id if payment_mode else 1
+
+                payment_journal = (
+                    self.env["account.journal"]
+                    .sudo()
+                    .search([("name", "ilike", "inter")], limit=1)
+                )
+                payment_journal_id = (
+                    payment_journal.id if payment_journal else 18
+                )
+
+                today_date = fields.Date.context_today(rent_sudo)
+                deposit_inv = AccountMove.with_context(
+                    default_type="out_invoice"
+                ).create(
+                    {
+                        "type": "out_invoice",
+                        "ref": rent_sudo.name,
+                        "partner_id": (
+                            rent_sudo.tenant_id.id
+                            if rent_sudo.tenant_id
+                            else False
+                        ),
+                        "invoice_line_ids": [(0, 0, inv_line_values)],
+                        "invoice_date": today_date,
+                        "invoice_date_due": today_date,
+                        "payment_mode_id": payment_mode_id,
+                        "payment_journal_id": payment_journal_id,
+                        "invoice_payment_term_id": payment_term_id,
+                        "fleet_rent_id": rent_sudo.id,
+                        "is_deposit_inv": True,
+                        "invoice_origin": rent_sudo.name,
+                        "l10n_br_edoc_policy": "",
+                    }
+                )
+
+            rent_sudo._post_and_send_deposit_invoice(deposit_inv)
+
+            rent_vals = {
+                "invoice_id": deposit_inv.id,
+            }
+            if not rent_sudo.deposit_sent_date:
+                rent_vals["deposit_sent_date"] = fields.Datetime.now()
+            if update_state or rent_sudo.state == "driver_registered":
+                rent_vals["state"] = "waiting_deposit"
+            rent_sudo.write(rent_vals)
+            created_or_found |= deposit_inv
+
+        return created_or_found
+
+    def action_deposite_receive(self):
+        # \"\"\"Method to generate, post, and send the deposit invoice.#\"\"\"
+        for rent in self:
             if rent.deposit_amt < 1:
                 raise Warning(
                     _(
@@ -886,94 +1239,8 @@ class FleetRent(models.Model):
                         "Please Enter Deposit Amount."
                     )
                 )
-
-            deposit_inv_ids = self.env["account.move"].search(
-                [
-                    ("fleet_rent_id", "=", rent.id),
-                    ("type", "=", "out_invoice"),
-                    ("state", "in", ["draft", "open", "in_payment"]),
-                    ("is_deposit_inv", "=", True),
-                ]
-            )
-            if deposit_inv_ids:
-                raise Warning(
-                    _(
-                        "Deposit invoice is already Pending\n"
-                        "Please proceed that deposit invoice first"
-                    )
-                )
-
-            params = self.env["ir.config_parameter"].sudo()
-            fleet_rental_deposit_product_id_id = int(
-                params.get_param("fleet_rent.fleet_rental_deposit_product_id") or 0
-            )
-            payment_term_param = params.get_param("fleet_rent.fleet_rental_payment_term_id")
-            payment_term = (
-                rent.env["account.payment.term"].browse(int(payment_term_param))
-                if payment_term_param
-                else False
-            )
-            if not payment_term or not payment_term.exists():
-                payment_term = rent.env["account.payment.term"].search(
-                    [("name", "=ilike", "D+0 / boleto")], limit=1
-                )
-            payment_term_id = (
-                payment_term.id
-                if payment_term
-                else (
-                    rent.rent_type_id.payment_term.id
-                    if rent.rent_type_id and rent.rent_type_id.payment_term
-                    else False
-                )
-            )
-
-            inv_line_values = {
-                "product_id": fleet_rental_deposit_product_id_id or False,
-                #'name': 'Deposit Receive' or "",
-                #'origin': rent.name or "",
-                "quantity": 1,
-                # 'account_id': rent.vehicle_id and rent.vehicle_id.expence_acc_id and
-                # rent.vehicle_id.expence_acc_id.id or False,
-                "price_unit": rent.deposit_amt or 0.00,
-                "fleet_rent_id": rent.id,
-            }
-            payment_mode = (
-                rent.env["account.payment.mode"].search([("name", "ilike", "inter")], limit=1)
-                if "account.payment.mode" in rent.env
-                else False
-            )
-            payment_mode_id = payment_mode.id if payment_mode else 1
-
-            payment_journal = rent.env["account.journal"].search(
-                [("name", "ilike", "inter")], limit=1
-            )
-            payment_journal_id = payment_journal.id if payment_journal else 18
-
-            today_str = datetime.now().strftime(DTF) or False
-
-            invoice_id = rent.env["account.move"].create(
-                {
-                    "type": "out_invoice",
-                    "ref": rent.name,
-                    "partner_id": rent.tenant_id and rent.tenant_id.id or False,
-                    "invoice_line_ids": [(0, 0, inv_line_values)],
-                    "invoice_date": today_str,
-                    "invoice_date_due": today_str,
-                    "payment_mode_id": payment_mode_id,
-                    "payment_journal_id": payment_journal_id,
-                    "invoice_payment_term_id": payment_term_id,
-                    "fleet_rent_id": rent.id,
-                    "is_deposit_inv": True,
-                    "invoice_origin": rent.name,
-                    "l10n_br_edoc_policy": "",
-                }
-            )
-            rent.write({
-                "invoice_id": invoice_id.id,
-                "state": "waiting_deposit",
-                "deposit_sent_date": fields.Datetime.now(),
-            })
-            return True
+            rent.action_generate_and_send_deposit_invoice(update_state=True)
+        return True
 
     def action_deposite_return(self):
         # \"\"\"Method to return deposite.#\"\"\"
